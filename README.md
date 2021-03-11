@@ -1,39 +1,54 @@
-# global_cust_lite
+# cust<a name="EN-US_TOPIC_0000001126254525"></a>
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+-   [Introduction](#section1881113251316)
+-   [Directory Structure](#section196561842161316)
+-   [Usage](#section1799421112165)
+-   [Constraints](#section1811111510182)
+-   [Repositories Involved](#section170262901818)
 
-#### 软件架构
-软件架构说明
+## Introduction<a name="section1881113251316"></a>
 
+The customization framework, namely, cust, provides APIs for each service module to obtain the configuration directories at different levels or the configuration file paths.
 
-#### 安装教程
+## Directory Structure<a name="section196561842161316"></a>
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+The directory structure for the customization framework is as follows:
 
-#### 使用说明
+```
+/base/global/
+├── cust_lite              # Code repository for the customization framework
+│   ├── frameworks        # Core code of the customization framework
+│   │   ├── cust_lite    # Customization framework
+│   │   │   ├── src     # Implementation code
+│   │   │   └── test    # Test code
+│   ├── interfaces        # APIs of the customization framework
+│   │   └── innerkits    # APIs of the customization framework for internal subsystems
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## Usage<a name="section1799421112165"></a>
 
-#### 参与贡献
+Call the APIs of the customization framework to obtain the configuration directories at different levels or the configuration file paths.
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+```
+#include <gtest/gtest.h>
+#include "cust_utils.h"
 
+const char *testPathSuffix = "user.xml"; // Set the name of the configuration file.
+char buf[MAX_PATH_LEN];
+char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_LEN); // Obtain the path of the configuration file with the highest priority.
+```
 
-#### 特技
+## Constraints<a name="section1811111510182"></a>
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+**Programming language**: C/C++
+
+## Repositories Involved<a name="section170262901818"></a>
+
+Globalization subsystem
+
+hmf\_global\_resmgr\_lite
+
+hmf\_global\_i18n\_lite
+
+**hmf\_global\_cust\_lite**
+

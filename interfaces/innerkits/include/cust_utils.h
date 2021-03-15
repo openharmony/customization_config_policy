@@ -52,27 +52,27 @@ void FreeCfgFiles(CfgFiles *res);
 // free struct CfgDir allocated by GetCfgDirList()
 void FreeCfgDirList(CfgDir *res);
 
-// get the highest priority config file in Pegasus architecture
-// pathSuffixStr: the relative path of the config file, e.g. "xml/mms_config.xml"
+// get the highest priority config file
+// pathSuffixStr: the relative path of the config file, e.g. "xml/config.xml"
 // type: CUST_TYPE_CONFIG = 0 for common configs, CUST_TYPE_RFU = 1 for future use
 // buf: recommended buffer length is MAX_PATH_LEN
 // return: path of the highest priority config file, return '\0' when such a file is not found
 char *GetOneCfgFile(const char *pathSuffix, int type, char *buf, unsigned int bufLength);
 
-// get config files in Pegasus architecture, ordered by priority from low to high
-// pathSuffixStr: the relative path of the config file, e.g. "xml/mms_config.xml"
+// get config files, ordered by priority from low to high
+// pathSuffixStr: the relative path of the config file, e.g. "xml/config.xml"
 // type: CUST_TYPE_CONFIG = 0 for common configs, CUST_TYPE_RFU = 1 for future use
 // return: paths of config files
 // CAUTION: please use FreeCfgFiles() to avoid memory leak.
 CfgFiles *GetCfgFiles(const char *pathSuffix, int type);
 
-// get config directories in Pegasus architecture, ordered by priority from low to high
+// get config directories, ordered by priority from low to high
 // type: CUST_TYPE_CONFIG = 0 for common configs, CUST_TYPE_RFU = 1 for future use
 // return: paths of config directories
 // CAUTION: please use FreeCfgDirList() to avoid memory leak.
 CfgDir *GetCfgDirListType(int type);
 
-// get config directories in Pegasus architecture, ordered by priority from low to high
+// get config directories, ordered by priority from low to high
 // return: paths of config directories
 // CAUTION: please use FreeCfgDirList() to avoid memory leak.
 CfgDir *GetCfgDirList(void);

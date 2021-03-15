@@ -44,11 +44,11 @@ char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_L
 
 ## Repositories Involved<a name="section170262901818"></a>
 
-Globalization subsystem
+[Globalization subsystem](https://gitee.com/openharmony/docs/blob/master/en/readme/globalization.md)
 
-hmf\_global\_resmgr\_lite
+[global\_resmgr\_lite](https://gitee.com/openharmony/global_resmgr_lite/blob/master/README.md)
 
-hmf\_global\_i18n\_lite
+[global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README.md)
 
-**hmf\_global\_cust\_lite**
+global\_cust\_lite
 

@@ -16,13 +16,13 @@
 
 ```
 /base/global/
-├── cust_lite              # 定制框架代码仓
-│   ├── frameworks        # 定制框架核心代码
-│   │   ├── cust_lite    # 定制框架模块
-│   │   │   ├── src     # 实现代码
-│   │   │   └── test    # 测试代码
-│   ├── interfaces        # 定制框架接口
-│   │   └── innerkits    # 定制框架子系统间接口
+├── cust_lite               # 定制框架代码仓
+│   ├── frameworks          # 定制框架核心代码
+│   │   ├── cust_lite       # 定制框架模块
+│   │   │   ├── src         # 实现代码
+│   │   │   └── test        # 测试代码
+│   ├── interfaces          # 定制框架接口
+│   │   └── innerkits       # 定制框架子系统间接口
 ```
 
 ## 说明<a name="section1799421112165"></a>

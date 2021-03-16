@@ -16,13 +16,13 @@ The directory structure for the customization framework is as follows:
 
 ```
 /base/global/
-├── cust_lite              # Code repository for the customization framework
-│   ├── frameworks        # Core code of the customization framework
-│   │   ├── cust_lite    # Customization framework
-│   │   │   ├── src     # Implementation code
-│   │   │   └── test    # Test code
-│   ├── interfaces        # APIs of the customization framework
-│   │   └── innerkits    # APIs of the customization framework for internal subsystems
+├── cust_lite                 # Code repository for the customization framework
+│   ├── frameworks            # Core code of the customization framework
+│   │   ├── cust_lite         # Customization framework
+│   │   │   ├── src           # Implementation code
+│   │   │   └── test          # Test code
+│   ├── interfaces            # APIs of the customization framework
+│   │   └── innerkits         # APIs of the customization framework for internal subsystems
 ```
 
 ## Usage<a name="section1799421112165"></a>

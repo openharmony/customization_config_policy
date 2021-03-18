@@ -16,13 +16,13 @@
 
 ```
 /base/global/
-├── cust_lite              # 定制框架代码仓
-│   ├── frameworks        # 定制框架核心代码
-│   │   ├── cust_lite    # 定制框架模块
-│   │   │   ├── src     # 实现代码
-│   │   │   └── test    # 测试代码
-│   ├── interfaces        # 定制框架接口
-│   │   └── innerkits    # 定制框架子系统间接口
+├── cust_lite               # 定制框架代码仓
+│   ├── frameworks          # 定制框架核心代码
+│   │   ├── cust_lite       # 定制框架模块
+│   │   │   ├── src         # 实现代码
+│   │   │   └── test        # 测试代码
+│   ├── interfaces          # 定制框架接口
+│   │   └── innerkits       # 定制框架子系统间接口
 ```
 
 ## 说明<a name="section1799421112165"></a>
@@ -44,11 +44,11 @@ char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_L
 
 ## 相关仓<a name="section170262901818"></a>
 
-全球化子系统
+[全球化子系统](https://gitee.com/openharmony/docs/blob/master/zh-cn/readme/%E5%85%A8%E7%90%83%E5%8C%96%E5%AD%90%E7%B3%BB%E7%BB%9F.md)
 
-hmf\_global\_resmgr\_lite
+[global\_resmgr\_lite](https://gitee.com/openharmony/global_resmgr_lite/blob/master/README_zh.md)
 
-hmf\_global\_i18n\_lite
+[global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README_zh.md)
 
-**hmf\_global\_cust\_lite**
+global\_cust\_lite
 

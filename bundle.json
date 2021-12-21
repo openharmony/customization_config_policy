@@ -1,0 +1,58 @@
+{
+    "name": "@ohos/global_cust_lite",
+    "version": "",
+    "description": "提供按预先定义的定制配置层级获取对应定制配置目录和文件路径的能力，使业务开发者不必关心定制配置的来源和多层级间按优先级覆盖叠加的规则",
+    "homePage": "https://gitee.com/openharmony",
+    "license": "Apache V2",
+    "repository": "https://gitee.com/openharmony/global_cust_lite",
+    "domain": "os",
+    "language": "",
+    "publishAs": "code-segment",
+    "private": false,
+    "scripts": {},
+    "tags": [
+        "base"
+    ],
+    "keywords": [
+        "global",
+        "cust",
+        "lite"
+    ],
+    "envs": [],
+    "dirs": [],
+    "author": {
+        "name": "",
+        "email": "",
+        "url": ""
+    },
+    "contributors": [
+        {
+            "name": "",
+            "email": "",
+            "url": ""
+        }
+    ],
+    "segment": {
+        "destPath": "base/global/cust_lite"
+    },
+    "component": {
+        "name": "cust_lite",
+        "subsystem": "global",
+        "syscap": [],
+        "features": [],
+        "adated_system_type": [
+            "small"
+        ],
+        "rom": "",
+        "ram": "",
+        "deps": {
+            "components": [],
+            "third_party": []
+        },
+        "build": {
+            "sub_component": [],
+            "inner_kits": [],
+            "test": []
+        }
+    }
+}

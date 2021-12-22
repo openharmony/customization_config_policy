@@ -10,19 +10,36 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//build/lite/config/component/lite_component.gni")
 
-shared_library("cust") {
-  sources = [ "src/cust_utils.c" ]
+if (defined(ohos_lite)) {
+  import("//build/lite/config/component/lite_component.gni")
+} else {
+  import("//build/ohos.gni")
+}
 
+cust_sources = [ "src/cust_utils.c" ]
+config("cust_config") {
   include_dirs = [
     "//base/global/cust_lite/interfaces/innerkits/include",
     "//third_party/bounds_checking_function/include",
   ]
-
-  deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
 }
 
-lite_component("global_cust_lite") {
-  features = [ ":cust" ]
+if (defined(ohos_lite)) {
+  shared_library("cust") {
+    sources = cust_sources
+    public_configs = [ ":cust_config" ]
+    deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
+  }
+  lite_component("global_cust_lite") {
+    features = [ ":cust" ]
+  }
+} else {
+  ohos_shared_library("cust") {
+    sources = cust_sources
+    public_configs = [ ":cust_config" ]
+    deps = [ "//third_party/bounds_checking_function:libsec_static" ]
+    subsystem_name = "global"
+    part_name = "cust_lite"
+  }
 }

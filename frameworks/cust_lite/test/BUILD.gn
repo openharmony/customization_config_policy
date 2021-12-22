@@ -11,22 +11,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/lite/config/component/lite_component.gni")
-import("//build/lite/config/test.gni")
-
-unittest("CustUtilsTest") {
-  output_extension = "bin"
-
-  sources = [ "unittest/lite/common/cust_utils_test.cpp" ]
-
-  include_dirs = [
-    "unittest/lite/common",
-    "//base/global/cust_lite/interfaces/innerkits/include",
-  ]
-
-  deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust" ]
+if (defined(ohos_lite)) {
+  import("//build/lite/config/component/lite_component.gni")
+  import("//build/lite/config/test.gni")
+} else {
+  import("//build/test.gni")
 }
 
-group("unittest") {
-  deps = [ ":CustUtilsTest" ]
+cust_sources = [ "unittest/lite/common/cust_utils_test.cpp" ]
+cust_include_dirs = [
+  "unittest/lite/common",
+  "//base/global/cust_lite/interfaces/innerkits/include",
+]
+cust_deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust" ]
+
+if (defined(ohos_lite)) {
+  unittest("CustUtilsTest") {
+    output_extension = "bin"
+    sources = cust_sources
+    include_dirs = cust_include_dirs
+    deps = cust_deps
+  }
+  group("unittest") {
+    deps = [ ":CustUtilsTest" ]
+  }
+} else {
+  ohos_unittest("CustUtilsTest") {
+    module_out_path = "cust_lite/CustUtilsTest"
+    sources = cust_sources
+    include_dirs = cust_include_dirs
+    deps = cust_deps
+  }
 }

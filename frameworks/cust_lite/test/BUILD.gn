@@ -41,5 +41,6 @@ if (defined(ohos_lite)) {
     sources = cust_sources
     include_dirs = cust_include_dirs
     deps = cust_deps
+    resource_config_file = "//base/global/cust_lite/test/resource/ohos_test.xml"
   }
 }

@@ -15,7 +15,7 @@
 <configuration ver="2.0">
     <target name="CustUtilsTest">
         <preparer>
-            <option name="shell" value="mount -o remount, rw /"/>
+            <option name="shell" value="mount -o remount,rw /"/>
             <option name="shell" value="mkdir -p /system/res/"/>
             <option name="shell" value="mkdir -p /user/data/ecota/"/>
             <option name="shell" value="touch /system/res/system.xml"/>

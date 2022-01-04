@@ -1,7 +1,7 @@
 {
     "name": "@ohos/global_cust_lite",
     "version": "",
-    "description": "提供按预先定义的定制配置层级获取对应定制配置目录和文件路径的能力，使业务开发者不必关心定制配置的来源和多层级间按优先级覆盖叠加的规则",
+    "description": "The customization framework, namely, cust, provides APIs for each service module to obtain the configuration directories at different levels or the configuration file paths.",
     "homePage": "https://gitee.com/openharmony",
     "license": "Apache V2",
     "repository": "https://gitee.com/openharmony/global_cust_lite",
@@ -40,7 +40,7 @@
         "subsystem": "global",
         "syscap": [],
         "features": [],
-        "adated_system_type": [
+        "adapted_system_type": [
             "small"
         ],
         "rom": "",

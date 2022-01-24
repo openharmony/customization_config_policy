@@ -1,58 +1,46 @@
 {
-    "name": "@ohos/global_cust_lite",
-    "version": "",
-    "description": "The customization framework, namely, cust, provides APIs for each service module to obtain the configuration directories at different levels or the configuration file paths.",
-    "homePage": "https://gitee.com/openharmony",
-    "license": "Apache V2",
-    "repository": "https://gitee.com/openharmony/global_cust_lite",
-    "domain": "os",
-    "language": "",
-    "publishAs": "code-segment",
-    "private": false,
-    "scripts": {},
-    "tags": [
-        "base"
-    ],
-    "keywords": [
-        "global",
-        "cust",
-        "lite"
-    ],
-    "envs": [],
-    "dirs": [],
-    "author": {
-        "name": "",
-        "email": "",
-        "url": ""
+  "name": "@ohos/global_cust_lite",
+  "description": "The customization framework, namely, cust, provides APIs for each service module to obtain the configuration directories at different levels or the configuration file paths.",
+  "version": "3.1",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "base/global/cust_lite"
+  },
+  "dirs": [],
+  "scripts": {},
+  "component": {
+    "name": "cust_lite",
+    "subsystem": "global",
+    "syscap": [],
+    "features": [],
+    "adapted_system_type": [ "standard", "small" ],
+    "rom": "",
+    "ram": "",
+    "deps": {
+      "components": [],
+      "third_party": [
+        "bounds_checking_function"
+      ]
     },
-    "contributors": [
+    "build": {
+      "sub_component": [
+        "//base/global/cust_lite/frameworks/cust_lite:cust"
+     ],
+      "inner_kits": [
         {
-            "name": "",
-            "email": "",
-            "url": ""
+          "header": {
+            "header_base": "//base/global/cust_lite/interfaces/innerkits/include",
+            "header_files": [
+              "cust_utils.h"
+            ]
+          },
+          "name": "//base/global/cust_lite/frameworks/cust_lite:cust"
         }
-    ],
-    "segment": {
-        "destPath": "base/global/cust_lite"
-    },
-    "component": {
-        "name": "cust_lite",
-        "subsystem": "global",
-        "syscap": [],
-        "features": [],
-        "adapted_system_type": [
-            "small"
-        ],
-        "rom": "",
-        "ram": "",
-        "deps": {
-            "components": [],
-            "third_party": []
-        },
-        "build": {
-            "sub_component": [],
-            "inner_kits": [],
-            "test": []
-        }
+      ],
+      "test": [
+        "//base/global/cust_lite/frameworks/cust_lite/test:CustUtilsTest"
+      ]
     }
+  }
 }

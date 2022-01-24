@@ -7,7 +7,7 @@
   "segment": {
     "destPath": "base/global/cust_lite"
   },
-  "dirs": [],
+  "dirs": {},
   "scripts": {},
   "component": {
     "name": "cust_lite",
@@ -26,7 +26,7 @@
     "build": {
       "sub_component": [
         "//base/global/cust_lite/frameworks/cust_lite:cust"
-     ],
+      ],
       "inner_kits": [
         {
           "header": {

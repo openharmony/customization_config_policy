@@ -38,7 +38,7 @@ static constexpr int32_t ARGS_SIZE_ONE = 1;
 static constexpr int32_t ARGS_SIZE_TWO = 2;
 static constexpr int32_t ARR_INDEX_ZERO = 0;
 static constexpr int32_t ARR_INDEX_ONE = 1;
-static constexpr int32_t NAPI_RETURN_ZREO = 0;
+static constexpr int32_t NAPI_RETURN_ZERO = 0;
 static constexpr int32_t NAPI_RETURN_ONE = 1;
 static constexpr HiLogLabel LABEL = { LOG_CORE, 0xD001E00, "CustJs" };
 
@@ -60,30 +60,30 @@ napi_value CustAddon::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
     if (argc == ARGS_SIZE_TWO) {
-        bool matchFlag = MathValueType(env, argv[ARR_INDEX_ONE], napi_function);
+        bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
         NAPI_ASSERT(env, matchFlag, "parameter type error");
         napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
-    return HandleAysncWork(env, asyncContext, "NAPIGetOneCfgFile", NativeGetOneCfgFile, NativeCallbackComplete);
+    return HandleAsyncWork(env, asyncContext, "NAPIGetOneCfgFile", NativeGetOneCfgFile, NativeCallbackComplete);
 }
 
-napi_value CustAddon::NAPIGetCfgFiles(napi_env env, void *data)
+napi_value CustAddon::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
 {
-    GET_PARAMS(env, info, ARGS_SIZE_TWO， ARGS_SIZE_ONE);
+    GET_PARAMS(env, info, ARGS_SIZE_TWO, ARGS_SIZE_ONE);
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
     if (argc == ARGS_SIZE_TWO) {
-        bool matchFlag = MathValueType(env, argv[ARR_INDEX_ONE], napi_function);
+        bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
         NAPI_ASSERT(env, matchFlag, "parameter type error");
         napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
-    return HandleAysncWork(env, asyncContext, "NAPIGetCfgFiles", NativeGetCfgFiles, NativeCallbackComplete);
+    return HandleAsyncWork(env, asyncContext, "NAPIGetCfgFiles", NativeGetCfgFiles, NativeCallbackComplete);
 }
 
 napi_value CustAddon::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
 {
-    GET_PARAMS(env, info, ARGS_SIZE_ONE ARGS_SIZE_ZERO);
+    GET_PARAMS(env, info, ARGS_SIZE_ONE, ARGS_SIZE_ZERO);
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     if (argc == ARGS_SIZE_ONE) {
@@ -91,7 +91,7 @@ napi_value CustAddon::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
         NAPI_ASSERT(env, matchFlag, "parameter type error");
         napi_create_reference(env, argv[ARR_INDEX_ZERO], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
-    return HandleAysncWork(env, asyncContext, "NAPIGetCfgDirList", NativeGetCfgDirList, NativeCallbackComplete);
+    return HandleAsyncWork(env, asyncContext, "NAPIGetCfgDirList", NativeGetCfgDirList, NativeCallbackComplete);
 }
 
 napi_value CustAddon::CreateUndefined(napi_env env)
@@ -106,25 +106,25 @@ std::string CustAddon::GetStringFromNAPI(napi_env env, napi_value value)
     std::string result;
     size_t size = 0;
 
-    if (napi_get_value_string_utf8)(env, value, nullptr, NAPI_RETURN_ZREO, &size) != napi_ok) {
+    if (napi_get_value_string_utf8(env, value, nullptr, NAPI_RETURN_ZERO, &size) != napi_ok) {
         HiLog::Error(LABEL, "can not get string size.");
         return "";
     }
     result.reserve(size + NAPI_RETURN_ONE);
     result.resize(size);
-    if (napi_get_value_string_utf8(env, value, result,data(), (size + NAPI_RETURN_ONE), &size) != napi_ok) {
-         HiLog::Error(LABEL, "can not get string value.");
+    if (napi_get_value_string_utf8(env, value, result.data(), (size + NAPI_RETURN_ONE), &size) != napi_ok) {
+        HiLog::Error(LABEL, "can not get string value.");
         return "";
     }
     return result;
 }
 
-napi_value CustAddon::HandleAysncWork(napi_env env,  CustAsyncContext *context, std::string workName,
-    napi_async_execute_callback execute, napi_async_comlete_callback complete)
+napi_value CustAddon::HandleAsyncWork(napi_env env, CustAsyncContext *context, std::string workName,
+    napi_async_execute_callback execute, napi_async_complete_callback complete)
 {
     napi_value result = nullptr;
     if (context->callbackRef_ == nullptr) {
-        napi_create_promise(env, &context->deferred_, & result);
+        napi_create_promise(env, &context->deferred_, &result);
     } else {
         napi_get_undefined(env, &result);
     }
@@ -136,14 +136,14 @@ napi_value CustAddon::HandleAysncWork(napi_env env,  CustAsyncContext *context, 
     return result;
 }
 
-bool CustAddon::MathValueType(napi_env env, napi_value value, napi_valuetype targetType)
+bool CustAddon::MatchValueType(napi_env env, napi_value value, napi_valuetype targetType)
 {
     napi_valuetype valueType = napi_undefined;
     napi_typeof(env, value, &valueType);
     return valueType == targetType;
 }
 
-napi_value CustAddon::NativeGetOneCfgFile(napi_env env, napi_callback_info info)
+void CustAddon::NativeGetOneCfgFile(napi_env env, void *data)
 {
     if (data == nullptr) {
         HiLog::Error(LABEL, "data is nullptr");
@@ -153,7 +153,7 @@ napi_value CustAddon::NativeGetOneCfgFile(napi_env env, napi_callback_info info)
     char outBuf[MAX_PATH_LEN];
     GetOneCfgFile(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_, outBuf, MAX_PATH_LEN);
     asyncCallbackInfo->pathValue_ = std::string(outBuf);
-    asyncCallbackInfo->createValueFunc_ = [](api_env env, CustAsyncContext& context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext& context) -> napi_value {
         napi_value result;
         napi_status status = napi_create_string_utf8(env, context.pathValue_.c_str(), NAPI_AUTO_LENGTH, &result);
         if (status != napi_ok) {
@@ -164,23 +164,23 @@ napi_value CustAddon::NativeGetOneCfgFile(napi_env env, napi_callback_info info)
     };
 }
 
-napi_value CustAddon::NativeGetCfgFiles(napi_env env, void *data)
+void CustAddon::NativeGetCfgFiles(napi_env env, void *data)
 {
     if (data == nullptr) {
         HiLog::Error(LABEL, "data is nullptr");
         return;
     }
 
-    CustAsyncContext *asyncCallbackInfo = (CustAsyncContext *)data;
     CfgFiles *cfgFiles = nullptr;
+    CustAsyncContext *asyncCallbackInfo = (CustAsyncContext *)data;
     cfgFiles = GetCfgFiles(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_);
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgFiles != nullptr && cfgFiles->paths[i] != nullptr) {
-            asyncCallbackInfo->path_.push_back(cfgFiles->paths[i]);
+            asyncCallbackInfo->paths_.push_back(cfgFiles->paths[i]);
         }
     }
     FreeCfgFiles(cfgFiles);
-    asyncCallbackInfo->createValueFunc_ = [](api_env env, CustAsyncContext& context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext& context) -> napi_value {
         napi_value result = nullptr;
         napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
         if (status != napi_ok) {
@@ -204,7 +204,7 @@ napi_value CustAddon::NativeGetCfgFiles(napi_env env, void *data)
     };
 }
 
-napi_value CustAddon::NativeGetCfgDirList(napi_env env, void *data)
+void CustAddon::NativeGetCfgDirList(napi_env env, void *data)
 {
     if (data == nullptr) {
         HiLog::Error(LABEL, "data is nullptr.");
@@ -216,11 +216,11 @@ napi_value CustAddon::NativeGetCfgDirList(napi_env env, void *data)
     cfgDir = GetCfgDirListType(asyncCallbackInfo->custType_);
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgDir != nullptr && cfgDir->paths[i] != nullptr) {
-            asyncCallbackInfo->path_.push_back(cfgDir->paths[i]);
+            asyncCallbackInfo->paths_.push_back(cfgDir->paths[i]);
         }
     }
     FreeCfgDirList(cfgDir);
-    asyncCallbackInfo->createValueFunc_ = [](api_env env, CustAsyncContext& context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext& context) -> napi_value {
         napi_value result = nullptr;
         napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
         if (status != napi_ok) {
@@ -256,7 +256,7 @@ void CustAddon::NativeCallbackComplete(napi_env env, napi_status status, void *d
     if (asyncContext->createValueFunc_ != nullptr) {
         finalResult = asyncContext->createValueFunc_(env, *asyncContext);
     }
-    
+
     napi_value result[] = { nullptr, nullptr };
     if (asyncContext->success_) {
         napi_get_undefined(env, &result[0]);
@@ -267,7 +267,7 @@ void CustAddon::NativeCallbackComplete(napi_env env, napi_status status, void *d
         napi_create_error(env, nullptr, message, &result[0]);
         napi_get_undefined(env, &result[1]);
     }
-    
+
     if (asyncContext->deferred_ != nullptr) {
         if (asyncContext->success_) {
             napi_resolve_deferred(env, asyncContext->deferred_, result[1]);
@@ -287,7 +287,7 @@ void CustAddon::NativeCallbackComplete(napi_env env, napi_status status, void *d
 
 napi_value CustAddon::ParseRelPath(napi_env env, std::string &param, napi_value args)
 {
-    bool matchFlag = MathValueType(env, args, napi_string);
+    bool matchFlag = MatchValueType(env, args, napi_string);
     NAPI_ASSERT(env, matchFlag, "Wrong argument type, string expected.");
     param = GetStringFromNAPI(env, args);
     napi_value result = nullptr;

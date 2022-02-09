@@ -27,7 +27,7 @@ namespace Global {
 namespace Cust {
 struct CustAsyncContext {
     bool success_ = true;
-    napi_env evn_;
+    napi_env env_;
     napi_async_work work_;
     napi_deferred deferred_;
     napi_ref callbackRef_;
@@ -40,14 +40,14 @@ struct CustAsyncContext {
     std::string pathValue_;
     std::vector<std::string> paths_;
 
-    void SetErrorMsg(const std:: string &msg);
+    void SetErrorMsg(const std::string &msg);
 };
 
 class CustAddon {
 public:
-    static napi_value Init(napi_env env, napi_value exports);
     CustAddon();
     ~CustAddon() = default;
+    static napi_value Init(napi_env env, napi_value exports);
 
 private:
     static napi_value NAPIGetOneCfgFile(napi_env env, napi_callback_info info);
@@ -55,12 +55,12 @@ private:
     static napi_value NAPIGetCfgDirList(napi_env env, napi_callback_info info);
     static napi_value CreateUndefined(napi_env env);
     static std::string GetStringFromNAPI(napi_env env, napi_value value);
-    static napi_value HandleAysncWork(napi_env env,  CustAsyncContext *context, std::string workName,
-        napi_async_execute_callback execute, napi_async_comlete_callback complete);
-    static bool MathValueType(napi_env env, napi_value value, napi_valuetype targetType);
-    static napi_value NativeGetOneCfgFile(napi_env env, void *data);
-    static napi_value NativeGetCfgFiles(napi_env env, void *data);
-    static napi_value NativeGetCfgDirList(napi_env env, void *data);
+    static napi_value HandleAsyncWork(napi_env env,  CustAsyncContext *context, std::string workName,
+        napi_async_execute_callback execute, napi_async_complete_callback complete);
+    static bool MatchValueType(napi_env env, napi_value value, napi_valuetype targetType);
+    static void NativeGetOneCfgFile(napi_env env, void *data);
+    static void NativeGetCfgFiles(napi_env env, void *data);
+    static void NativeGetCfgDirList(napi_env env, void *data);
     static void NativeCallbackComplete(napi_env env, napi_status status, void *data);
     static napi_value ParseRelPath(napi_env env, std::string &param, napi_value args);
 };

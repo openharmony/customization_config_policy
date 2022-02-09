@@ -52,7 +52,7 @@ bool TestGetCfgFile(const char *testPathSuffix)
  */
 HWTEST_F(CustUtilsTest, CustUtilsFuncTest001, TestSize.Level1)
 {
-    const char *testPathSuffix = "none.xml";
+    const char *testPathSuffix = "custxml/none.xml";
     EXPECT_FALSE(TestGetCfgFile(testPathSuffix));
 }
 
@@ -63,7 +63,7 @@ HWTEST_F(CustUtilsTest, CustUtilsFuncTest001, TestSize.Level1)
  */
 HWTEST_F(CustUtilsTest, CustUtilsFuncTest002, TestSize.Level1)
 {
-    const char *testPathSuffix = "system.xml";
+    const char *testPathSuffix = "custxml/system.xml";
     EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
 }
 
@@ -74,7 +74,7 @@ HWTEST_F(CustUtilsTest, CustUtilsFuncTest002, TestSize.Level1)
  */
 HWTEST_F(CustUtilsTest, CustUtilsFuncTest003, TestSize.Level1)
 {
-    const char *testPathSuffix = "user.xml";
+    const char *testPathSuffix = "custxml/user.xml";
     EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
 }
 
@@ -85,7 +85,7 @@ HWTEST_F(CustUtilsTest, CustUtilsFuncTest003, TestSize.Level1)
  */
 HWTEST_F(CustUtilsTest, CustUtilsFuncTest004, TestSize.Level1)
 {
-    const char *testPathSuffix = "both.xml";
+    const char *testPathSuffix = "custxml/both.xml";
     EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
 }
 

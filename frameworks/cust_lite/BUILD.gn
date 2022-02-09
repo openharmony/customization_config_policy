@@ -26,16 +26,16 @@ config("cust_config") {
 }
 
 if (defined(ohos_lite)) {
-  shared_library("cust") {
+  shared_library("cust_util") {
     sources = cust_sources
     public_configs = [ ":cust_config" ]
     deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
   }
   lite_component("global_cust_lite") {
-    features = [ ":cust" ]
+    features = [ ":cust_util" ]
   }
 } else {
-  ohos_shared_library("cust") {
+  ohos_shared_library("cust_util") {
     sources = cust_sources
     public_configs = [ ":cust_config" ]
     deps = [ "//third_party/bounds_checking_function:libsec_static" ]

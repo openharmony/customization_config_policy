@@ -25,7 +25,8 @@
     },
     "build": {
       "sub_component": [
-        "//base/global/cust_lite/frameworks/cust_lite:cust"
+        "//base/global/cust_lite/frameworks/cust_lite:cust_util"
+        "//base/global/cust_lite/interfaces/js/kits:cust"
       ],
       "inner_kits": [
         {

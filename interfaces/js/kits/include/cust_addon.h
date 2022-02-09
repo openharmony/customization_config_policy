@@ -55,7 +55,7 @@ private:
     static napi_value NAPIGetCfgDirList(napi_env env, napi_callback_info info);
     static napi_value CreateUndefined(napi_env env);
     static std::string GetStringFromNAPI(napi_env env, napi_value value);
-    static napi_value HandleAsyncWork(napi_env env,  CustAsyncContext *context, std::string workName,
+    static napi_value HandleAsyncWork(napi_env env, CustAsyncContext *context, std::string workName,
         napi_async_execute_callback execute, napi_async_complete_callback complete);
     static bool MatchValueType(napi_env env, napi_value value, napi_valuetype targetType);
     static void NativeGetOneCfgFile(napi_env env, void *data);

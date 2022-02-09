@@ -87,7 +87,7 @@ napi_value CustAddon::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     if (argc == ARGS_SIZE_ONE) {
-        bool matchFlag = MathValueType(env, argv[ARR_INDEX_ZERO], napi_function);
+        bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ZERO], napi_function);
         NAPI_ASSERT(env, matchFlag, "parameter type error");
         napi_create_reference(env, argv[ARR_INDEX_ZERO], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }

@@ -23,13 +23,13 @@
 namespace OHOS {
 namespace Global {
 namespace Cust {
-#define GET_PARAMS(env, info, maxNum, minNum)    \
-    size_t argc = maxNum;                \
-    napi_value argv[maxNum] = {nullptr}; \
-    napi_value thisVar = nullptr;     \
-    void *data = nullptr;             \
-    napi_get_cb_info(env, info, &argc, argv, &thisVar, &data); \
-    NAPI_ASSERT(env, argc >= minNum, "parameter count error")
+#define GET_PARAMS(env, info, argc, argv, minNum)                  \
+    do {                                                           \
+        napi_value thisVar = nullptr;                              \
+        void *data = nullptr;                                      \
+        napi_get_cb_info(env, info, &argc, argv, &thisVar, &data); \
+        NAPI_ASSERT(env, argc >= minNum, "parameter count error"); \
+    } while (0)
 
 using namespace OHOS::HiviewDFX;
 
@@ -55,7 +55,9 @@ napi_value CustAddon::Init(napi_env env, napi_value exports)
 
 napi_value CustAddon::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
 {
-    GET_PARAMS(env, info, ARGS_SIZE_TWO, ARGS_SIZE_ONE);
+    size_t argc = ARGS_SIZE_TWO;
+    napi_value argv[ARGS_SIZE_TWO] = {nullptr};
+    GET_PARAMS(env, info, argc, argv, ARGS_SIZE_ONE);
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
@@ -69,7 +71,9 @@ napi_value CustAddon::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
 
 napi_value CustAddon::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
 {
-    GET_PARAMS(env, info, ARGS_SIZE_TWO, ARGS_SIZE_ONE);
+    size_t argc = ARGS_SIZE_TWO;
+    napi_value argv[ARGS_SIZE_TWO] = {nullptr};
+    GET_PARAMS(env, info, argc, argv, ARGS_SIZE_ONE);
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
@@ -83,7 +87,9 @@ napi_value CustAddon::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
 
 napi_value CustAddon::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
 {
-    GET_PARAMS(env, info, ARGS_SIZE_ONE, ARGS_SIZE_ZERO);
+    size_t argc = ARGS_SIZE_ONE;
+    napi_value argv[ARGS_SIZE_ONE] = {nullptr};
+    GET_PARAMS(env, info, argc, argv, ARGS_SIZE_ZERO);
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     if (argc == ARGS_SIZE_ONE) {
@@ -153,7 +159,7 @@ void CustAddon::NativeGetOneCfgFile(napi_env env, void *data)
     char outBuf[MAX_PATH_LEN];
     GetOneCfgFile(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_, outBuf, MAX_PATH_LEN);
     asyncCallbackInfo->pathValue_ = std::string(outBuf);
-    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext& context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext &context) -> napi_value {
         napi_value result;
         napi_status status = napi_create_string_utf8(env, context.pathValue_.c_str(), NAPI_AUTO_LENGTH, &result);
         if (status != napi_ok) {
@@ -180,7 +186,7 @@ void CustAddon::NativeGetCfgFiles(napi_env env, void *data)
         }
     }
     FreeCfgFiles(cfgFiles);
-    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext& context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext &context) -> napi_value {
         napi_value result = nullptr;
         napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
         if (status != napi_ok) {
@@ -220,7 +226,7 @@ void CustAddon::NativeGetCfgDirList(napi_env env, void *data)
         }
     }
     FreeCfgDirList(cfgDir);
-    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext& context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext &context) -> napi_value {
         napi_value result = nullptr;
         napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
         if (status != napi_ok) {
@@ -314,8 +320,8 @@ static napi_module g_custModule = {
     .nm_filename = nullptr,
     .nm_register_func = CustInit,
     .nm_modname = "cust",
-    .nm_priv = ((void*)0),
-    .reserved = {0}
+    .nm_priv = ((void *)0),
+    .reserved = { 0 }
 };
 
 extern "C" __attribute__((constructor)) void CustRegister()

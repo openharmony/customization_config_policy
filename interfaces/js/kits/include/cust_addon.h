@@ -27,7 +27,6 @@ namespace Global {
 namespace Cust {
 struct CustAsyncContext {
     bool success_ = true;
-    napi_env env_;
     napi_async_work work_;
     napi_deferred deferred_;
     napi_ref callbackRef_;

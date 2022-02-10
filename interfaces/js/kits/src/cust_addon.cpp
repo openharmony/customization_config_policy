@@ -23,17 +23,8 @@
 namespace OHOS {
 namespace Global {
 namespace Cust {
-#define GET_PARAMS(env, info, argc, argv, minNum)                  \
-    do {                                                           \
-        napi_value thisVar = nullptr;                              \
-        void *data = nullptr;                                      \
-        napi_get_cb_info(env, info, &argc, argv, &thisVar, &data); \
-        NAPI_ASSERT(env, argc >= minNum, "parameter count error"); \
-    } while (0)
-
 using namespace OHOS::HiviewDFX;
 
-static constexpr int32_t ARGS_SIZE_ZERO = 0;
 static constexpr int32_t ARGS_SIZE_ONE = 1;
 static constexpr int32_t ARGS_SIZE_TWO = 2;
 static constexpr int32_t ARR_INDEX_ZERO = 0;
@@ -57,7 +48,10 @@ napi_value CustAddon::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
 {
     size_t argc = ARGS_SIZE_TWO;
     napi_value argv[ARGS_SIZE_TWO] = {nullptr};
-    GET_PARAMS(env, info, argc, argv, ARGS_SIZE_ONE);
+    napi_value thisVar = nullptr;
+    void *data = nullptr;
+    napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
+    NAPI_ASSERT(env, argc >= ARGS_SIZE_ONE, "parameter count error");
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
@@ -73,7 +67,10 @@ napi_value CustAddon::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
 {
     size_t argc = ARGS_SIZE_TWO;
     napi_value argv[ARGS_SIZE_TWO] = {nullptr};
-    GET_PARAMS(env, info, argc, argv, ARGS_SIZE_ONE);
+    napi_value thisVar = nullptr;
+    void *data = nullptr;
+    napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
+    NAPI_ASSERT(env, argc >= ARGS_SIZE_ONE, "parameter count error");
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
@@ -89,7 +86,9 @@ napi_value CustAddon::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
 {
     size_t argc = ARGS_SIZE_ONE;
     napi_value argv[ARGS_SIZE_ONE] = {nullptr};
-    GET_PARAMS(env, info, argc, argv, ARGS_SIZE_ZERO);
+    napi_value thisVar = nullptr;
+    void *data = nullptr;
+    napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
 
     auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
     if (argc == ARGS_SIZE_ONE) {

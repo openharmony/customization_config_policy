@@ -22,8 +22,7 @@
 using namespace testing::ext;
 
 namespace OHOS {
-class CustUtilsTest : public testing::Test {
-};
+class CustUtilsTest : public testing::Test {};
 
 bool TestGetCfgFile(const char *testPathSuffix)
 {

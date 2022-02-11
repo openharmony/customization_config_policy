@@ -25,8 +25,8 @@ namespace Global {
 namespace Cust {
 using namespace OHOS::HiviewDFX;
 
-static constexpr int32_t ARGS_SIZE_ONE = 1;
-static constexpr int32_t ARGS_SIZE_TWO = 2;
+static constexpr size_t ARGS_SIZE_ONE = 1;
+static constexpr size_t ARGS_SIZE_TWO = 2;
 static constexpr int32_t ARR_INDEX_ZERO = 0;
 static constexpr int32_t ARR_INDEX_ONE = 1;
 static constexpr int32_t NAPI_RETURN_ZERO = 0;

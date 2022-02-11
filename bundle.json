@@ -19,8 +19,8 @@
     "ram": "",
     "deps": {
       "components": [
-        "libhilog",
-        "ace_napi"
+        "hiviewdfx_hilog_native",
+        "napi"
       ],
       "third_party": [
         "bounds_checking_function"

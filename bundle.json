@@ -20,7 +20,7 @@
     "deps": {
       "components": [
         "libhilog",
-        "ace_napi",
+        "ace_napi"
       ],
       "third_party": [
         "bounds_checking_function"

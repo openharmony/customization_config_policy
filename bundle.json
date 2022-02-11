@@ -18,7 +18,10 @@
     "rom": "",
     "ram": "",
     "deps": {
-      "components": [],
+      "components": [
+        "libhilog",
+        "ace_napi",
+      ],
       "third_party": [
         "bounds_checking_function"
       ]

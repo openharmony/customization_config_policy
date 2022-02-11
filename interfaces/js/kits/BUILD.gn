@@ -25,11 +25,11 @@ ohos_shared_library("cust") {
 
   sources = [ "src/cust_addon.cpp" ]
 
-  deps = [
-    "//base/global/cust_lite/frameworks/cust_lite:cust_util",
-    "//foundation/ace/napi:ace_napi",
+  deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust_util" ]
+  external_deps = [
+    "hiviewdfx_hilog_native:libhilog",
+    "napi:ace_napi",
   ]
-  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
   relative_install_dir = "module"
   subsystem_name = "global"
   part_name = "cust_lite"

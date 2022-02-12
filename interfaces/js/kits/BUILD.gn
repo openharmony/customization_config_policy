@@ -23,7 +23,7 @@ ohos_shared_library("cust") {
     "//foundation/ace/napi/interfaces/kits",
   ]
 
-  sources = [ "src/cust_addon.cpp" ]
+  sources = [ "src/cust_napi.cpp" ]
 
   deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust_util" ]
   external_deps = [

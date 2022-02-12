@@ -16,18 +16,18 @@
     <target name="CustUtilsTest">
         <preparer>
             <option name="shell" value="mount -o remount,rw /"/>
-            <option name="shell" value="mkdir -p /system/etc/custxml/"/>
-            <option name="shell" value="mkdir -p /sys-prod/etc/custxml/"/>
-            <option name="shell" value="touch /system/etc/custxml/system.xml"/>
-            <option name="shell" value="touch /system/etc/custxml/both.xml"/>
-            <option name="shell" value="touch /sys-prod/etc/custxml/both.xml"/>
-            <option name="shell" value="touch /sys-prod/etc/custxml/user.xml"/>
+            <option name="shell" value="mkdir -p /system/etc/custxmltest/"/>
+            <option name="shell" value="mkdir -p /sys-prod/etc/custxmltest/"/>
+            <option name="shell" value="touch /system/etc/custxmltest/system.xml"/>
+            <option name="shell" value="touch /system/etc/custxmltest/both.xml"/>
+            <option name="shell" value="touch /sys-prod/etc/custxmltest/both.xml"/>
+            <option name="shell" value="touch /sys-prod/etc/custxmltest/user.xml"/>
         </preparer>
         <cleaner>
-            <option name="shell" value="rm -rf /system/etc/custxml/system.xml"/>
-            <option name="shell" value="rm -rf /system/etc/custxml/both.xml"/>
-            <option name="shell" value="rm -rf /sys-prod/etc/custxml/both.xml"/>
-            <option name="shell" value="rm -rf /sys-prod/etc/custxml/user.xml"/>
+            <option name="shell" value="rm -rf /system/etc/custxmltest/system.xml"/>
+            <option name="shell" value="rm -rf /system/etc/custxmltest/both.xml"/>
+            <option name="shell" value="rm -rf /sys-prod/etc/custxmltest/both.xml"/>
+            <option name="shell" value="rm -rf /sys-prod/etc/custxmltest/user.xml"/>
         </cleaner>
     </target>
 </configuration>

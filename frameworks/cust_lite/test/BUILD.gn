@@ -23,7 +23,7 @@ cust_include_dirs = [
   "unittest/lite/common",
   "//base/global/cust_lite/interfaces/innerkits/include",
 ]
-cust_deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust" ]
+cust_deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust_util" ]
 
 if (defined(ohos_lite)) {
   unittest("CustUtilsTest") {

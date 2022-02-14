@@ -22,7 +22,8 @@
 │   │   │   ├── src         # 实现代码
 │   │   │   └── test        # 测试代码
 │   ├── interfaces          # 定制框架接口
-│   │   └── innerkits       # 定制框架子系统间接口
+│   │   ├── innerkits       # 定制框架子系统间接口
+│   │   └── js              # 定制框架JavaScript接口
 ```
 
 ## 说明<a name="section1799421112165"></a>

@@ -22,7 +22,8 @@ The directory structure for the customization framework is as follows:
 │   │   │   ├── src           # Implementation code
 │   │   │   └── test          # Test code
 │   ├── interfaces            # APIs of the customization framework
-│   │   └── innerkits         # APIs of the customization framework for internal subsystems
+│   │   ├── innerkits         # APIs of the customization framework for internal subsystems
+│   │   └── js                # JavaScript APIs
 ```
 
 ## Usage<a name="section1799421112165"></a>

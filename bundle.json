@@ -18,14 +18,17 @@
     "rom": "",
     "ram": "",
     "deps": {
-      "components": [],
+      "components": [
+        "hiviewdfx_hilog_native",
+        "napi"
+      ],
       "third_party": [
         "bounds_checking_function"
       ]
     },
     "build": {
       "sub_component": [
-        "//base/global/cust_lite/frameworks/cust_lite:cust"
+        "//base/global/cust_lite:cust_components"
       ],
       "inner_kits": [
         {
@@ -35,7 +38,7 @@
               "cust_utils.h"
             ]
           },
-          "name": "//base/global/cust_lite/frameworks/cust_lite:cust"
+          "name": "//base/global/cust_lite/frameworks/cust_lite:cust_util"
         }
       ],
       "test": [

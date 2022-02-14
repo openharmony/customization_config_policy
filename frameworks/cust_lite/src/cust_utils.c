@@ -49,7 +49,7 @@ static void GetCfgDirRealPolicyValue(CfgDir *res)
     if (res == NULL) {
         return;
     }
-    res->realPolicyValue = strdup("/system/res:/user/data/ecota");
+    res->realPolicyValue = strdup("/system/etc:/chipset/etc:/sys-prod/etc:/chip-prod/etc");
 }
 
 char *GetOneCfgFile(const char *pathSuffix, int type, char *buf, unsigned int bufLength)

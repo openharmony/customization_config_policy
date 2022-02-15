@@ -15,7 +15,7 @@ group("cust_components") {
   if (os_level == "standard") {
     deps = [
       "//base/global/cust_lite/frameworks/cust_lite:cust_util",
-      "//base/global/cust_lite/interfaces/js/kits:cust",
+      "//base/global/cust_lite/interfaces/js/kits:configpolicy",
     ]
   } else {
     deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust_util" ]

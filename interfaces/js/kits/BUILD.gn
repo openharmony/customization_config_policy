@@ -13,7 +13,7 @@
 
 import("//build/ohos.gni")
 
-ohos_shared_library("cust") {
+ohos_shared_library("configpolicy") {
   include_dirs = [
     "//base/global/cust_lite/interfaces/innerkits/include",
     "//third_party/bounds_checking_function/include",

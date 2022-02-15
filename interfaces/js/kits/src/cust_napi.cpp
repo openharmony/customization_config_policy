@@ -318,7 +318,7 @@ static napi_module g_custModule = {
     .nm_flags = 0,
     .nm_filename = nullptr,
     .nm_register_func = CustInit,
-    .nm_modname = "cust",
+    .nm_modname = "configPolicy",
     .nm_priv = ((void *)0),
     .reserved = { 0 }
 };

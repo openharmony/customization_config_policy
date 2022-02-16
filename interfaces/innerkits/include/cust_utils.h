@@ -37,7 +37,6 @@ struct CfgFiles {
     char *paths[MAX_CFG_POLICY_DIRS_CNT];
 };
 
-
 // Config Directories
 struct CfgDir {
     char *paths[MAX_CFG_POLICY_DIRS_CNT];

@@ -19,7 +19,7 @@
 // max number of directories
 #define MAX_CFG_POLICY_DIRS_CNT 32
 // max length of a filepath
-#define MAX_PATH_LEN 128;
+#define MAX_PATH_LEN 128
 
 #ifdef __cplusplus
 #if __cplusplus
@@ -36,6 +36,7 @@ extern const unsigned int CUST_TYPE_RFU;
 struct CfgFiles {
     char *paths[MAX_CFG_POLICY_DIRS_CNT];
 };
+
 
 // Config Directories
 struct CfgDir {

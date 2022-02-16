@@ -18,6 +18,11 @@
 #include <securec.h>
 #include <unistd.h>
 
+// for common configs
+const unsigned int CUST_TYPE_CONFIG = 0;
+// for future use
+const unsigned int CUST_TYPE_RFU = 1;
+
 void FreeCfgFiles(CfgFiles *res)
 {
     if (res == NULL) {

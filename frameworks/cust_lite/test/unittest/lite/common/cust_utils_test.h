@@ -16,11 +16,11 @@
 #ifndef GLOBAL_CUST_UTILS_TEST_H
 #define GLOBAL_CUST_UTILS_TEST_H
 
-int CustUtilsFuncTest001();
-int CustUtilsFuncTest002();
-int CustUtilsFuncTest003();
-int CustUtilsFuncTest004();
-int CustUtilsFuncTest005();
-int CustUtilsFuncTest006();
+int CustUtilsFuncTest001(void);
+int CustUtilsFuncTest002(void);
+int CustUtilsFuncTest003(void);
+int CustUtilsFuncTest004(void);
+int CustUtilsFuncTest005(void);
+int CustUtilsFuncTest006(void);
 
 #endif

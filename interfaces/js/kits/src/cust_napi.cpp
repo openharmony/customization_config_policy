@@ -176,9 +176,8 @@ void CustNapi::NativeGetCfgFiles(napi_env env, void *data)
         return;
     }
 
-    CfgFiles *cfgFiles = nullptr;
     CustAsyncContext *asyncCallbackInfo = (CustAsyncContext *)data;
-    cfgFiles = GetCfgFiles(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_);
+    CfgFiles *cfgFiles = GetCfgFiles(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_);
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgFiles != nullptr && cfgFiles->paths[i] != nullptr) {
             asyncCallbackInfo->paths_.push_back(cfgFiles->paths[i]);
@@ -216,9 +215,8 @@ void CustNapi::NativeGetCfgDirList(napi_env env, void *data)
         return;
     }
 
-    CfgDir *cfgDir = nullptr;
     CustAsyncContext *asyncCallbackInfo = (CustAsyncContext *)data;
-    cfgDir = GetCfgDirListType(asyncCallbackInfo->custType_);
+    CfgDir *cfgDir = GetCfgDirListType(asyncCallbackInfo->custType_);
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgDir != nullptr && cfgDir->paths[i] != nullptr) {
             asyncCallbackInfo->paths_.push_back(cfgDir->paths[i]);

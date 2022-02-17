@@ -35,6 +35,7 @@ bool TestGetCfgFile(const char *testPathSuffix)
             flag = true;
         }
     }
+    FreeCfgFiles(cfgFiles);
     char buf[MAX_PATH_LEN];
     char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_LEN);
     if (filePath && *filePath != '\0') {
@@ -105,6 +106,7 @@ HWTEST_F(CustUtilsTest, CustUtilsFuncTest005, TestSize.Level1)
             flag = true;
         }
     }
+    FreeCfgDirList(cfgDir);
     EXPECT_TRUE(flag);
 }
 
@@ -125,6 +127,7 @@ HWTEST_F(CustUtilsTest, CustUtilsFuncTest006, TestSize.Level1)
             flag = true;
         }
     }
+    FreeCfgDirList(cfgDir);
     EXPECT_TRUE(flag);
 }
 } // namespace OHOS

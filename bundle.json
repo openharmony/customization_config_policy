@@ -12,7 +12,7 @@
   "component": {
     "name": "cust_lite",
     "subsystem": "global",
-    "syscap": [],
+    "syscap": [ "SystemCapability.Customization.ConfigPolicy" ],
     "features": [],
     "adapted_system_type": [ "standard", "small" ],
     "rom": "",

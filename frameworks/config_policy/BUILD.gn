@@ -20,7 +20,7 @@ if (defined(ohos_lite)) {
 config_policy_sources = [ "src/config_policy_utils.c" ]
 config("config_policy_config") {
   include_dirs = [
-    "//base/global/config_policy/interfaces/innerkits/include",
+    "//base/customization/config_policy/interfaces/innerkits/include",
     "//third_party/bounds_checking_function/include",
   ]
 }

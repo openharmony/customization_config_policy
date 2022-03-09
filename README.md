@@ -1,4 +1,4 @@
-# cust<a name="EN-US_TOPIC_0000001126254525"></a>
+# customization<a name="EN-US_TOPIC_0000001126254525"></a>
 
 -   [Introduction](#section1881113251316)
 -   [Directory Structure](#section196561842161316)
@@ -51,5 +51,5 @@ char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_L
 
 [global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README.md)
 
-**global\_config\_policy**
+**customization\_config\_policy**
 

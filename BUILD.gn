@@ -14,10 +14,10 @@
 group("config_policy_components") {
   if (os_level == "standard") {
     deps = [
-      "//base/global/config_policy/frameworks/config_policy:configpolicy_util",
-      "//base/global/config_policy/interfaces/kits/js:configpolicy",
+      "//base/customization/config_policy/frameworks/config_policy:configpolicy_util",
+      "//base/customization/config_policy/interfaces/kits/js:configpolicy",
     ]
   } else {
-    deps = [ "//base/global/config_policy/frameworks/config_policy:configpolicy_util" ]
+    deps = [ "//base/customization/config_policy/frameworks/config_policy:configpolicy_util" ]
   }
 }

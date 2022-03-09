@@ -1,4 +1,4 @@
-# customization<a name="EN-US_TOPIC_0000001126254525"></a>
+# Config Policy<a name="EN-US_TOPIC_0000001126254525"></a>
 
 -   [Introduction](#section1881113251316)
 -   [Directory Structure](#section196561842161316)
@@ -42,14 +42,3 @@ char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_L
 ## Constraints<a name="section1811111510182"></a>
 
 **Programming language**: C/C++
-
-## Repositories Involved<a name="section170262901818"></a>
-
-[Globalization subsystem](https://gitee.com/openharmony/docs/blob/master/en/readme/globalization.md)
-
-[global\_resmgr\_lite](https://gitee.com/openharmony/global_resmgr_lite/blob/master/README.md)
-
-[global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README.md)
-
-**customization\_config\_policy**
-

@@ -42,14 +42,3 @@ char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_L
 ## 约束<a name="section1811111510182"></a>
 
 **语言限制**：C/C++语言
-
-## 相关仓<a name="section170262901818"></a>
-
-[全球化子系统](https://gitee.com/openharmony/docs/blob/master/zh-cn/readme/%E5%85%A8%E7%90%83%E5%8C%96%E5%AD%90%E7%B3%BB%E7%BB%9F.md)
-
-[global\_resmgr\_lite](https://gitee.com/openharmony/global_resmgr_lite/blob/master/README_zh.md)
-
-[global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README_zh.md)
-
-**customization\_config\_policy**
-

@@ -15,15 +15,15 @@ The customization framework, namely, cust, provides APIs for each service module
 The directory structure for the customization framework is as follows:
 
 ```
-/base/global/
-├── cust_lite                 # Code repository for the customization framework
+/base/customization/
+├── config_policy             # Code repository for the customization framework
 │   ├── frameworks            # Core code of the customization framework
-│   │   ├── cust_lite         # Customization framework
-│   │   │   ├── src           # Implementation code
-│   │   │   └── test          # Test code
+│   │   ├── config_policy     # Customization framework
+│   │   │   └── src           # Implementation code
 │   ├── interfaces            # APIs of the customization framework
 │   │   ├── innerkits         # APIs of the customization framework for internal subsystems
-│   │   └── js                # JavaScript APIs
+│   │   └── kits              # JavaScript APIs
+│   └── test                  # Test code
 ```
 
 ## Usage<a name="section1799421112165"></a>
@@ -32,7 +32,7 @@ Call the APIs of the customization framework to obtain the configuration directo
 
 ```
 #include <gtest/gtest.h>
-#include "cust_utils.h"
+#include "config_policy_utils.h"
 
 const char *testPathSuffix = "user.xml"; // Set the name of the configuration file.
 char buf[MAX_PATH_LEN];
@@ -51,5 +51,5 @@ char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_L
 
 [global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README.md)
 
-**global\_cust\_lite**
+**global\_config\_policy**
 

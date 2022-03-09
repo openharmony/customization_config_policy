@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef GLOBAL_CUST_UTILS_H
-#define GLOBAL_CUST_UTILS_H
+#ifndef CUSTOMIZATION_CONFIG_POLICY_UTILS_H
+#define CUSTOMIZATION_CONFIG_POLICY_UTILS_H
 
 #ifdef __cplusplus
 #if __cplusplus
@@ -78,4 +78,4 @@ CfgDir *GetCfgDirList(void);
 #endif
 #endif // __cplusplus
 
-#endif // GLOBAL_CUST_UTILS_H
+#endif // CUSTOMIZATION_CONFIG_POLICY_UTILS_H

@@ -5,7 +5,7 @@
   "license": "Apache License 2.0",
   "publishAs": "code-segment",
   "segment": {
-    "destPath": "base/global/config_policy"
+    "destPath": "base/customization/config_policy"
   },
   "dirs": {},
   "scripts": {},
@@ -28,21 +28,21 @@
     },
     "build": {
       "sub_component": [
-        "//base/global/config_policy:config_policy_components"
+        "//base/customization/config_policy:config_policy_components"
       ],
       "inner_kits": [
         {
           "header": {
-            "header_base": "//base/global/config_policy/interfaces/innerkits/include",
+            "header_base": "//base/customization/config_policy/interfaces/innerkits/include",
             "header_files": [
               "config_policy_utils.h"
             ]
           },
-          "name": "//base/global/config_policy/frameworks/config_policy:configpolicy_util"
+          "name": "//base/customization/config_policy/frameworks/config_policy:configpolicy_util"
         }
       ],
       "test": [
-        "//base/global/config_policy/test:ConfigPolicyUtilsTest"
+        "//base/customization/config_policy/test/unittest:ConfigPolicyUtilsTest"
       ]
     }
   }

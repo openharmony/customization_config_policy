@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include "cust_utils.h"
+#include "config_policy_utils.h"
 
 #include <securec.h>
 #include <unistd.h>

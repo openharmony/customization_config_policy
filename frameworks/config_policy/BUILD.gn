@@ -17,29 +17,26 @@ if (defined(ohos_lite)) {
   import("//build/ohos.gni")
 }
 
-cust_sources = [ "src/cust_utils.c" ]
-config("cust_config") {
+config_policy_sources = [ "src/config_policy_utils.c" ]
+config("config_policy_config") {
   include_dirs = [
-    "//base/global/cust_lite/interfaces/innerkits/include",
+    "//base/global/config_policy/interfaces/innerkits/include",
     "//third_party/bounds_checking_function/include",
   ]
 }
 
 if (defined(ohos_lite)) {
-  shared_library("cust_util") {
-    sources = cust_sources
-    public_configs = [ ":cust_config" ]
+  shared_library("configpolicy_util") {
+    sources = config_policy_sources
+    public_configs = [ ":config_policy_config" ]
     deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
   }
-  lite_component("global_cust_lite") {
-    features = [ ":cust_util" ]
-  }
 } else {
-  ohos_shared_library("cust_util") {
-    sources = cust_sources
-    public_configs = [ ":cust_config" ]
+  ohos_shared_library("configpolicy_util") {
+    sources = config_policy_sources
+    public_configs = [ ":config_policy_config" ]
     deps = [ "//third_party/bounds_checking_function:libsec_static" ]
-    subsystem_name = "global"
-    part_name = "cust_lite"
+    subsystem_name = "customization"
+    part_name = "config_policy"
   }
 }

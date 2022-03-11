@@ -13,16 +13,16 @@
  * limitations under the License.
  */
 
-#include "cust_napi.h"
+#include "config_policy_napi.h"
 
 #include <vector>
 
 #include "hilog/log.h"
-#include "cust_utils.h"
+#include "config_policy_utils.h"
 
 namespace OHOS {
-namespace Global {
-namespace Cust {
+namespace Customization {
+namespace ConfigPolicy {
 using namespace OHOS::HiviewDFX;
 
 static constexpr size_t ARGS_SIZE_ONE = 1;
@@ -31,20 +31,20 @@ static constexpr int32_t ARR_INDEX_ZERO = 0;
 static constexpr int32_t ARR_INDEX_ONE = 1;
 static constexpr int32_t NAPI_RETURN_ZERO = 0;
 static constexpr int32_t NAPI_RETURN_ONE = 1;
-static constexpr HiLogLabel LABEL = { LOG_CORE, 0xD001E00, "CustJs" };
+static constexpr HiLogLabel LABEL = { LOG_CORE, 0xD001E00, "ConfigPolicyJs" };
 
-napi_value CustNapi::Init(napi_env env, napi_value exports)
+napi_value ConfigPolicyNapi::Init(napi_env env, napi_value exports)
 {
     napi_property_descriptor property[] = {
-        DECLARE_NAPI_FUNCTION("getOneCfgFile", CustNapi::NAPIGetOneCfgFile),
-        DECLARE_NAPI_FUNCTION("getCfgFiles", CustNapi::NAPIGetCfgFiles),
-        DECLARE_NAPI_FUNCTION("getCfgDirList", CustNapi::NAPIGetCfgDirList)
+        DECLARE_NAPI_FUNCTION("getOneCfgFile", ConfigPolicyNapi::NAPIGetOneCfgFile),
+        DECLARE_NAPI_FUNCTION("getCfgFiles", ConfigPolicyNapi::NAPIGetCfgFiles),
+        DECLARE_NAPI_FUNCTION("getCfgDirList", ConfigPolicyNapi::NAPIGetCfgDirList)
     };
     NAPI_CALL(env, napi_define_properties(env, exports, sizeof(property) / sizeof(property[0]), property));
     return exports;
 }
 
-napi_value CustNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
+napi_value ConfigPolicyNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
 {
     size_t argc = ARGS_SIZE_TWO;
     napi_value argv[ARGS_SIZE_TWO] = {nullptr};
@@ -53,7 +53,7 @@ napi_value CustNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
     NAPI_ASSERT(env, argc >= ARGS_SIZE_ONE, "parameter count error");
 
-    auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
+    auto asyncContext = (std::make_unique<ConfigAsyncContext>()).release();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
     if (argc == ARGS_SIZE_TWO) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
@@ -63,7 +63,7 @@ napi_value CustNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
     return HandleAsyncWork(env, asyncContext, "NAPIGetOneCfgFile", NativeGetOneCfgFile, NativeCallbackComplete);
 }
 
-napi_value CustNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
+napi_value ConfigPolicyNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
 {
     size_t argc = ARGS_SIZE_TWO;
     napi_value argv[ARGS_SIZE_TWO] = {nullptr};
@@ -72,7 +72,7 @@ napi_value CustNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
     NAPI_ASSERT(env, argc >= ARGS_SIZE_ONE, "parameter count error");
 
-    auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
+    auto asyncContext = (std::make_unique<ConfigAsyncContext>()).release();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
     if (argc == ARGS_SIZE_TWO) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
@@ -82,7 +82,7 @@ napi_value CustNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
     return HandleAsyncWork(env, asyncContext, "NAPIGetCfgFiles", NativeGetCfgFiles, NativeCallbackComplete);
 }
 
-napi_value CustNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
+napi_value ConfigPolicyNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
 {
     size_t argc = ARGS_SIZE_ONE;
     napi_value argv[ARGS_SIZE_ONE] = {nullptr};
@@ -90,7 +90,7 @@ napi_value CustNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
     void *data = nullptr;
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
 
-    auto asyncContext = (std::make_unique<CustAsyncContext>()).release();
+    auto asyncContext = (std::make_unique<ConfigAsyncContext>()).release();
     if (argc == ARGS_SIZE_ONE) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ZERO], napi_function);
         NAPI_ASSERT(env, matchFlag, "parameter type error");
@@ -99,14 +99,14 @@ napi_value CustNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
     return HandleAsyncWork(env, asyncContext, "NAPIGetCfgDirList", NativeGetCfgDirList, NativeCallbackComplete);
 }
 
-napi_value CustNapi::CreateUndefined(napi_env env)
+napi_value ConfigPolicyNapi::CreateUndefined(napi_env env)
 {
     napi_value result = nullptr;
     napi_get_undefined(env, &result);
     return result;
 }
 
-std::string CustNapi::GetStringFromNAPI(napi_env env, napi_value value)
+std::string ConfigPolicyNapi::GetStringFromNAPI(napi_env env, napi_value value)
 {
     std::string result;
     size_t size = 0;
@@ -124,7 +124,7 @@ std::string CustNapi::GetStringFromNAPI(napi_env env, napi_value value)
     return result;
 }
 
-napi_value CustNapi::HandleAsyncWork(napi_env env, CustAsyncContext *context, std::string workName,
+napi_value ConfigPolicyNapi::HandleAsyncWork(napi_env env, ConfigAsyncContext *context, std::string workName,
     napi_async_execute_callback execute, napi_async_complete_callback complete)
 {
     napi_value result = nullptr;
@@ -141,24 +141,24 @@ napi_value CustNapi::HandleAsyncWork(napi_env env, CustAsyncContext *context, st
     return result;
 }
 
-bool CustNapi::MatchValueType(napi_env env, napi_value value, napi_valuetype targetType)
+bool ConfigPolicyNapi::MatchValueType(napi_env env, napi_value value, napi_valuetype targetType)
 {
     napi_valuetype valueType = napi_undefined;
     napi_typeof(env, value, &valueType);
     return valueType == targetType;
 }
 
-void CustNapi::NativeGetOneCfgFile(napi_env env, void *data)
+void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
 {
     if (data == nullptr) {
         HiLog::Error(LABEL, "data is nullptr");
         return;
     }
-    CustAsyncContext *asyncCallbackInfo = (CustAsyncContext *)data;
+    ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
     char outBuf[MAX_PATH_LEN];
     GetOneCfgFile(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_, outBuf, MAX_PATH_LEN);
     asyncCallbackInfo->pathValue_ = std::string(outBuf);
-    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext &context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result;
         napi_status status = napi_create_string_utf8(env, context.pathValue_.c_str(), NAPI_AUTO_LENGTH, &result);
         if (status != napi_ok) {
@@ -169,14 +169,14 @@ void CustNapi::NativeGetOneCfgFile(napi_env env, void *data)
     };
 }
 
-void CustNapi::NativeGetCfgFiles(napi_env env, void *data)
+void ConfigPolicyNapi::NativeGetCfgFiles(napi_env env, void *data)
 {
     if (data == nullptr) {
         HiLog::Error(LABEL, "data is nullptr");
         return;
     }
 
-    CustAsyncContext *asyncCallbackInfo = (CustAsyncContext *)data;
+    ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
     CfgFiles *cfgFiles = GetCfgFiles(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_);
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgFiles != nullptr && cfgFiles->paths[i] != nullptr) {
@@ -184,7 +184,7 @@ void CustNapi::NativeGetCfgFiles(napi_env env, void *data)
         }
     }
     FreeCfgFiles(cfgFiles);
-    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext &context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result = nullptr;
         napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
         if (status != napi_ok) {
@@ -208,14 +208,14 @@ void CustNapi::NativeGetCfgFiles(napi_env env, void *data)
     };
 }
 
-void CustNapi::NativeGetCfgDirList(napi_env env, void *data)
+void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
 {
     if (data == nullptr) {
         HiLog::Error(LABEL, "data is nullptr.");
         return;
     }
 
-    CustAsyncContext *asyncCallbackInfo = (CustAsyncContext *)data;
+    ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
     CfgDir *cfgDir = GetCfgDirListType(asyncCallbackInfo->custType_);
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgDir != nullptr && cfgDir->paths[i] != nullptr) {
@@ -223,7 +223,7 @@ void CustNapi::NativeGetCfgDirList(napi_env env, void *data)
         }
     }
     FreeCfgDirList(cfgDir);
-    asyncCallbackInfo->createValueFunc_ = [](napi_env env, CustAsyncContext &context) -> napi_value {
+    asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result = nullptr;
         napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
         if (status != napi_ok) {
@@ -247,7 +247,7 @@ void CustNapi::NativeGetCfgDirList(napi_env env, void *data)
     };
 }
 
-void CustNapi::NativeCallbackComplete(napi_env env, napi_status status, void *data)
+void ConfigPolicyNapi::NativeCallbackComplete(napi_env env, napi_status status, void *data)
 {
     if (data == nullptr) {
         HiLog::Error(LABEL, "data is nullptr");
@@ -255,7 +255,7 @@ void CustNapi::NativeCallbackComplete(napi_env env, napi_status status, void *da
     }
 
     napi_value finalResult = nullptr;
-    CustAsyncContext *asyncContext = (CustAsyncContext *)data;
+    ConfigAsyncContext *asyncContext = (ConfigAsyncContext *)data;
     if (asyncContext->createValueFunc_ != nullptr) {
         finalResult = asyncContext->createValueFunc_(env, *asyncContext);
     }
@@ -288,7 +288,7 @@ void CustNapi::NativeCallbackComplete(napi_env env, napi_status status, void *da
     delete asyncContext;
 }
 
-napi_value CustNapi::ParseRelPath(napi_env env, std::string &param, napi_value args)
+napi_value ConfigPolicyNapi::ParseRelPath(napi_env env, std::string &param, napi_value args)
 {
     bool matchFlag = MatchValueType(env, args, napi_string);
     NAPI_ASSERT(env, matchFlag, "Wrong argument type, string expected.");
@@ -299,32 +299,32 @@ napi_value CustNapi::ParseRelPath(napi_env env, std::string &param, napi_value a
     return result;
 }
 
-void CustAsyncContext::SetErrorMsg(const std::string &msg)
+void ConfigAsyncContext::SetErrorMsg(const std::string &msg)
 {
     errMsg_ = msg;
     success_ = false;
     HiLog::Error(LABEL, "%{public}s", msg.c_str());
 }
 
-static napi_value CustInit(napi_env env, napi_value exports)
+static napi_value ConfigPolicyInit(napi_env env, napi_value exports)
 {
-    return CustNapi::Init(env, exports);
+    return ConfigPolicyNapi::Init(env, exports);
 }
 
-static napi_module g_custModule = {
+static napi_module g_configPolicyModule = {
     .nm_version = 1,
     .nm_flags = 0,
     .nm_filename = nullptr,
-    .nm_register_func = CustInit,
+    .nm_register_func = ConfigPolicyInit,
     .nm_modname = "configPolicy",
     .nm_priv = ((void *)0),
     .reserved = { 0 }
 };
 
-extern "C" __attribute__((constructor)) void CustRegister()
+extern "C" __attribute__((constructor)) void ConfigPolicyRegister()
 {
-    napi_module_register(&g_custModule);
+    napi_module_register(&g_configPolicyModule);
 }
-} // namespace Cust
-} // namespace Global
+} // namespace ConfigPolicy
+} // namespace Customization
 } // namespace OHOS

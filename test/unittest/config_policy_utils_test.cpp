@@ -13,16 +13,16 @@
  * limitations under the License.
  */
 
-#include "cust_utils_test.h"
+#include "config_policy_utils_test.h"
 
 #include <gtest/gtest.h>
 
-#include "cust_utils.h"
+#include "config_policy_utils.h"
 
 using namespace testing::ext;
 
 namespace OHOS {
-class CustUtilsTest : public testing::Test {};
+class ConfigPolicyUtilsTest : public testing::Test {};
 
 bool TestGetCfgFile(const char *testPathSuffix)
 {
@@ -46,55 +46,55 @@ bool TestGetCfgFile(const char *testPathSuffix)
 }
 
 /**
- * @tc.name: CustUtilsFuncTest001
+ * @tc.name: CfgPolicyUtilsFuncTest001
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, none file case.
  * @tc.type: FUNC
  */
-HWTEST_F(CustUtilsTest, CustUtilsFuncTest001, TestSize.Level1)
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest001, TestSize.Level1)
 {
     const char *testPathSuffix = "custxmltest/none.xml";
     EXPECT_FALSE(TestGetCfgFile(testPathSuffix));
 }
 
 /**
- * @tc.name: CustUtilsFuncTest002
+ * @tc.name: CfgPolicyUtilsFuncTest002
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, system file case.
  * @tc.type: FUNC
  */
-HWTEST_F(CustUtilsTest, CustUtilsFuncTest002, TestSize.Level1)
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest002, TestSize.Level1)
 {
     const char *testPathSuffix = "custxmltest/system.xml";
     EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
 }
 
 /**
- * @tc.name: CustUtilsFuncTest003
+ * @tc.name: CfgPolicyUtilsFuncTest003
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, user file case.
  * @tc.type: FUNC
  */
-HWTEST_F(CustUtilsTest, CustUtilsFuncTest003, TestSize.Level1)
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest003, TestSize.Level1)
 {
     const char *testPathSuffix = "custxmltest/user.xml";
     EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
 }
 
 /**
- * @tc.name: CustUtilsFuncTest004
+ * @tc.name: CfgPolicyUtilsFuncTest004
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, both files case.
  * @tc.type: FUNC
  */
-HWTEST_F(CustUtilsTest, CustUtilsFuncTest004, TestSize.Level1)
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest004, TestSize.Level1)
 {
     const char *testPathSuffix = "custxmltest/both.xml";
     EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
 }
 
 /**
- * @tc.name: CustUtilsFuncTest005
+ * @tc.name: CfgPolicyUtilsFuncTest005
  * @tc.desc: Test struct CfgDir *GetCfgDirListType(int type) function.
  * @tc.type: FUNC
  */
-HWTEST_F(CustUtilsTest, CustUtilsFuncTest005, TestSize.Level1)
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
 {
     CfgDir *cfgDir = GetCfgDirListType(CUST_TYPE_RFU);
     EXPECT_TRUE(cfgDir != NULL);
@@ -111,11 +111,11 @@ HWTEST_F(CustUtilsTest, CustUtilsFuncTest005, TestSize.Level1)
 }
 
 /**
- * @tc.name: CustUtilsFuncTest006
+ * @tc.name: CfgPolicyUtilsFuncTest006
  * @tc.desc: Test struct CfgDir *GetCfgDirList(void) function.
  * @tc.type: FUNC
  */
-HWTEST_F(CustUtilsTest, CustUtilsFuncTest006, TestSize.Level1)
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest006, TestSize.Level1)
 {
     CfgDir *cfgDir = GetCfgDirList();
     EXPECT_TRUE(cfgDir != NULL);

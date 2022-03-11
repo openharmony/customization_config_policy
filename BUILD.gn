@@ -11,13 +11,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-group("cust_components") {
+group("config_policy_components") {
   if (os_level == "standard") {
     deps = [
-      "//base/global/cust_lite/frameworks/cust_lite:cust_util",
-      "//base/global/cust_lite/interfaces/js/kits:configpolicy",
+      "//base/customization/config_policy/frameworks/config_policy:configpolicy_util",
+      "//base/customization/config_policy/interfaces/kits/js:configpolicy",
     ]
   } else {
-    deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust_util" ]
+    deps = [ "//base/customization/config_policy/frameworks/config_policy:configpolicy_util" ]
   }
 }

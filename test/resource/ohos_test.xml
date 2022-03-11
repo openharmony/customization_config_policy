@@ -13,7 +13,7 @@
      limitations under the License.
 -->
 <configuration ver="2.0">
-    <target name="CustUtilsTest">
+    <target name="ConfigPolicyUtilsTest">
         <preparer>
             <option name="shell" value="mount -o remount,rw /"/>
             <option name="shell" value="mkdir -p /system/etc/custxmltest/"/>

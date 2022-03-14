@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef CUST_NAPI_H
-#define CUST_NAPI_H
+#ifndef CONFIG_POLICY_NAPI_H
+#define CONFIG_POLICY_NAPI_H
 
 #include <string>
 
@@ -23,15 +23,15 @@
 #include "napi/native_api.h"
 
 namespace OHOS {
-namespace Global {
-namespace Cust {
-struct CustAsyncContext {
+namespace Customization {
+namespace ConfigPolicy {
+struct ConfigAsyncContext {
     bool success_ = true;
     napi_async_work work_;
     napi_deferred deferred_;
     napi_ref callbackRef_;
     std::string errMsg_;
-    typedef napi_value (*CreateNapiValue)(napi_env env, CustAsyncContext &context);
+    typedef napi_value (*CreateNapiValue)(napi_env env, ConfigAsyncContext &context);
     CreateNapiValue createValueFunc_;
 
     int32_t custType_ = 0;
@@ -42,10 +42,10 @@ struct CustAsyncContext {
     void SetErrorMsg(const std::string &msg);
 };
 
-class CustNapi {
+class ConfigPolicyNapi {
 public:
-    CustNapi();
-    ~CustNapi() = default;
+    ConfigPolicyNapi();
+    ~ConfigPolicyNapi() = default;
     static napi_value Init(napi_env env, napi_value exports);
 
 private:
@@ -54,7 +54,7 @@ private:
     static napi_value NAPIGetCfgDirList(napi_env env, napi_callback_info info);
     static napi_value CreateUndefined(napi_env env);
     static std::string GetStringFromNAPI(napi_env env, napi_value value);
-    static napi_value HandleAsyncWork(napi_env env, CustAsyncContext *context, std::string workName,
+    static napi_value HandleAsyncWork(napi_env env, ConfigAsyncContext *context, std::string workName,
         napi_async_execute_callback execute, napi_async_complete_callback complete);
     static bool MatchValueType(napi_env env, napi_value value, napi_valuetype targetType);
     static void NativeGetOneCfgFile(napi_env env, void *data);
@@ -63,7 +63,7 @@ private:
     static void NativeCallbackComplete(napi_env env, napi_status status, void *data);
     static napi_value ParseRelPath(napi_env env, std::string &param, napi_value args);
 };
-} // namespace Cust
-} // namespace Global
+} // namespace ConfigPolicy
+} // namespace Customization
 } // namespace OHOS
 #endif

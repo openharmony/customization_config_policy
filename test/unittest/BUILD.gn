@@ -18,29 +18,28 @@ if (defined(ohos_lite)) {
   import("//build/test.gni")
 }
 
-cust_sources = [ "unittest/lite/common/cust_utils_test.cpp" ]
-cust_include_dirs = [
-  "unittest/lite/common",
-  "//base/global/cust_lite/interfaces/innerkits/include",
+config_policy_sources = [ "config_policy_utils_test.cpp" ]
+config_policy_include_dirs = [
+  "//base/customization/config_policy/interfaces/innerkits/include",
 ]
-cust_deps = [ "//base/global/cust_lite/frameworks/cust_lite:cust_util" ]
+config_policy_deps = [ "//base/customization/config_policy/frameworks/config_policy:configpolicy_util" ]
 
 if (defined(ohos_lite)) {
-  unittest("CustUtilsTest") {
+  unittest("ConfigPolicyUtilsTest") {
     output_extension = "bin"
-    sources = cust_sources
-    include_dirs = cust_include_dirs
-    deps = cust_deps
+    sources = config_policy_sources
+    include_dirs = config_policy_include_dirs
+    deps = config_policy_deps
   }
   group("unittest") {
-    deps = [ ":CustUtilsTest" ]
+    deps = [ ":ConfigPolicyUtilsTest" ]
   }
 } else {
-  ohos_unittest("CustUtilsTest") {
-    module_out_path = "cust_lite/CustUtilsTest"
-    sources = cust_sources
-    include_dirs = cust_include_dirs
-    deps = cust_deps
-    resource_config_file = "//base/global/cust_lite/test/resource/ohos_test.xml"
+  ohos_unittest("ConfigPolicyUtilsTest") {
+    module_out_path = "config_policy/ConfigPolicyUtilsTest"
+    sources = config_policy_sources
+    include_dirs = config_policy_include_dirs
+    deps = config_policy_deps
+    resource_config_file = "//base/customization/config_policy/test/resource/ohos_test.xml"
   }
 }

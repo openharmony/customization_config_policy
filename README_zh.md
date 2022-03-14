@@ -1,22 +1,22 @@
-# 定制框架组件介绍
+# 配置策略组件介绍
 
 ## 简介
 
-定制框架组件为各业务模块提供获取各配置层级的配置目录或配置文件路径的接口。
+配置策略组件为各业务模块提供获取各配置层级的配置目录或配置文件路径的接口。
 
 ## 目录
 
-定制框架组件源代码目录结构如下所示：
+配置策略组件源代码目录结构如下所示：
 
 ```
 /base/customization/
-├── config_policy           # 定制框架代码仓
-│   ├── frameworks          # 定制框架核心代码
-│   │   ├── config_policy   # 定制框架模块
+├── config_policy           # 配置策略代码仓
+│   ├── frameworks          # 配置策略核心代码
+│   │   ├── config_policy   # 配置策略模块
 │   │   │   └── src         # 实现代码
-│   ├── interfaces          # 定制框架接口
-│   │   ├── innerkits       # 定制框架子系统间接口
-│   │   └── kits            # 定制框架JavaScript接口
+│   ├── interfaces          # 配置策略接口
+│   │   ├── innerkits       # 子系统间接口
+│   │   └── kits            # 配置策略JavaScript接口
 │   └── test                # 测试代码
 ```
 

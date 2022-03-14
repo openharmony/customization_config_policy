@@ -13,14 +13,14 @@
  * limitations under the License.
  */
 
-#ifndef GLOBAL_CUST_UTILS_TEST_H
-#define GLOBAL_CUST_UTILS_TEST_H
+#ifndef CUSTOMIZATION_CONFIG_POLICY_UTILS_TEST_H
+#define CUSTOMIZATION_CONFIG_POLICY_UTILS_TEST_H
 
-int CustUtilsFuncTest001(void);
-int CustUtilsFuncTest002(void);
-int CustUtilsFuncTest003(void);
-int CustUtilsFuncTest004(void);
-int CustUtilsFuncTest005(void);
-int CustUtilsFuncTest006(void);
+int CfgPolicyUtilsFuncTest001(void);
+int CfgPolicyUtilsFuncTest002(void);
+int CfgPolicyUtilsFuncTest003(void);
+int CfgPolicyUtilsFuncTest004(void);
+int CfgPolicyUtilsFuncTest005(void);
+int CfgPolicyUtilsFuncTest006(void);
 
 #endif

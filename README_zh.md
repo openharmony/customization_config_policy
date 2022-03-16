@@ -4,6 +4,16 @@
 
 配置策略组件为各业务模块提供获取各配置层级的配置目录或配置文件路径的接口。
 
+## 系统架构
+
+**图 1**  配置策略组件架构图 
+
+![](figures/config_policy.png)
+
+配置策略组件架构图说明：
+
+- kits对外提供指定文件的最高优先级文件路径以及指定文件所有层级路径。
+
 ## 目录
 
 配置策略组件源代码目录结构如下所示：
@@ -32,4 +42,11 @@ char buf[MAX_PATH_LEN];
 char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_LEN); //获取最高优先级的配置文件路径
 ```
 
+## 约束
+
 **语言限制**：C/C++语言
+
+## 相关仓
+
+**customization\_config\_policy**
+

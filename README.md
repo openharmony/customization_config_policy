@@ -32,4 +32,11 @@ char buf[MAX_PATH_LEN];
 char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_LEN); // Obtain the path of the configuration file with the highest priority.
 ```
 
+## Constraints
+
 **Programming language**: C/C++
+
+## Repositories Involved
+
+**customization\_config\_policy**
+

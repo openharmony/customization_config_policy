@@ -1,37 +1,41 @@
-# 定制框架组件介绍<a name="ZH-CN_TOPIC_0000001126254525"></a>
+# 配置策略组件介绍
 
--   [简介](#section1881113251316)
--   [目录](#section196561842161316)
--   [说明](#section1799421112165)
--   [约束](#section1811111510182)
--   [相关仓](#section170262901818)
+## 简介
 
-## 简介<a name="section1881113251316"></a>
+配置策略组件为各业务模块提供获取各配置层级的配置目录或配置文件路径的接口。
 
-**定制框架组件**为各业务模块提供获取各配置层级的配置目录或配置文件路径的接口。
+## 系统架构
 
-## 目录<a name="section196561842161316"></a>
+**图 1**  配置策略组件架构图 
 
-定制框架组件源代码目录结构如下所示：
+![](figures/config_policy.png)
+
+配置策略组件架构图说明：
+
+- interfaces对外提供指定文件的最高优先级文件路径以及指定文件所有层级路径。
+- frameworks实现配置层级目录的初始化与文件路径查询。
+
+## 目录
+
+配置策略组件源代码目录结构如下所示：
 
 ```
 /base/customization/
-├── config_policy           # 定制框架代码仓
-│   ├── frameworks          # 定制框架核心代码
-│   │   ├── config_policy   # 定制框架模块
+├── config_policy           # 配置策略代码仓
+│   ├── frameworks          # 配置策略核心代码
+│   │   ├── config_policy   # 配置策略模块
 │   │   │   └── src         # 实现代码
-│   ├── interfaces          # 定制框架接口
-│   │   ├── innerkits       # 定制框架子系统间接口
-│   │   └── kits            # 定制框架JavaScript接口
+│   ├── interfaces          # 配置策略接口
+│   │   ├── innerkits       # 子系统间接口
+│   │   └── kits            # 配置策略JavaScript接口
 │   └── test                # 测试代码
 ```
 
-## 说明<a name="section1799421112165"></a>
+## 说明
 
 调用该组件中的接口获取各配置层级的配置目录或配置文件路径。
 
 ```
-#include <gtest/gtest.h>
 #include "config_policy_utils.h"
 
 const char *testPathSuffix = "user.xml"; //设置配置文件名称
@@ -39,6 +43,11 @@ char buf[MAX_PATH_LEN];
 char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_LEN); //获取最高优先级的配置文件路径
 ```
 
-## 约束<a name="section1811111510182"></a>
+## 约束
 
 **语言限制**：C/C++语言
+
+## 相关仓
+
+**customization\_config\_policy**
+

@@ -210,7 +210,8 @@ void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
     CreateArraysValueFunc(*asyncCallbackInfo);
 }
 
-void ConfigPolicyNapi::CreateArraysValueFunc(ConfigAsyncContext &asyncCallbackInfo) {
+void ConfigPolicyNapi::CreateArraysValueFunc(ConfigAsyncContext &asyncCallbackInfo)
+{
     asyncCallbackInfo.createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result = nullptr;
         napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);

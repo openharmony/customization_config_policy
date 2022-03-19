@@ -34,7 +34,6 @@ struct ConfigAsyncContext {
     typedef napi_value (*CreateNapiValue)(napi_env env, ConfigAsyncContext &context);
     CreateNapiValue createValueFunc_;
 
-    int32_t custType_ = 0;
     std::string relPath_;
     std::string pathValue_;
     std::vector<std::string> paths_;
@@ -62,6 +61,7 @@ private:
     static void NativeGetCfgDirList(napi_env env, void *data);
     static void NativeCallbackComplete(napi_env env, napi_status status, void *data);
     static napi_value ParseRelPath(napi_env env, std::string &param, napi_value args);
+    static void CreateArraysValueFunc(ConfigAsyncContext &context);
 };
 } // namespace ConfigPolicy
 } // namespace Customization

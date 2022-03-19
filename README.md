@@ -29,7 +29,7 @@ Call the APIs of the config policy to obtain the configuration directories at di
 
 const char *testPathSuffix = "user.xml"; // Set the name of the configuration file.
 char buf[MAX_PATH_LEN];
-char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_LEN); // Obtain the path of the configuration file with the highest priority.
+char *filePath = GetOneCfgFile(testPathSuffix, buf, MAX_PATH_LEN); // Obtain the path of the configuration file with the highest priority.
 ```
 
 ## Constraints

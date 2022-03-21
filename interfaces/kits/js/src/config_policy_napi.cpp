@@ -127,6 +127,11 @@ std::string ConfigPolicyNapi::GetStringFromNAPI(napi_env env, napi_value value)
 napi_value ConfigPolicyNapi::HandleAsyncWork(napi_env env, ConfigAsyncContext *context, std::string workName,
     napi_async_execute_callback execute, napi_async_complete_callback complete)
 {
+    if (context == nullptr) {
+        HiLog::Error(LABEL, "context is nullptr");
+        return nullptr;
+    }
+
     napi_value result = nullptr;
     if (context->callbackRef_ == nullptr) {
         napi_create_promise(env, &context->deferred_, &result);
@@ -156,7 +161,7 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
     }
     ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
     char outBuf[MAX_PATH_LEN];
-    GetOneCfgFile(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_, outBuf, MAX_PATH_LEN);
+    GetOneCfgFile(asyncCallbackInfo->relPath_.c_str(), outBuf, MAX_PATH_LEN);
     asyncCallbackInfo->pathValue_ = std::string(outBuf);
     asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result;
@@ -177,35 +182,14 @@ void ConfigPolicyNapi::NativeGetCfgFiles(napi_env env, void *data)
     }
 
     ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
-    CfgFiles *cfgFiles = GetCfgFiles(asyncCallbackInfo->relPath_.c_str(), asyncCallbackInfo->custType_);
+    CfgFiles *cfgFiles = GetCfgFiles(asyncCallbackInfo->relPath_.c_str());
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgFiles != nullptr && cfgFiles->paths[i] != nullptr) {
             asyncCallbackInfo->paths_.push_back(cfgFiles->paths[i]);
         }
     }
     FreeCfgFiles(cfgFiles);
-    asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
-        napi_value result = nullptr;
-        napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
-        if (status != napi_ok) {
-            context.SetErrorMsg("Failed to get cfg files.");
-            return nullptr;
-        }
-        for (size_t i = 0; i < context.paths_.size(); i++) {
-            napi_value element = nullptr;
-            status = napi_create_string_utf8(env, context.paths_[i].c_str(), NAPI_AUTO_LENGTH, &element);
-            if (status != napi_ok) {
-                context.SetErrorMsg("Failed to create string item.");
-                return nullptr;
-            }
-            status = napi_set_element(env, result, i, element);
-            if (status != napi_ok) {
-                context.SetErrorMsg("Failed to set array item.");
-                return nullptr;
-            }
-        }
-        return result;
-    };
+    CreateArraysValueFunc(*asyncCallbackInfo);
 }
 
 void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
@@ -216,14 +200,19 @@ void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
     }
 
     ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
-    CfgDir *cfgDir = GetCfgDirListType(asyncCallbackInfo->custType_);
+    CfgDir *cfgDir = GetCfgDirList();
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgDir != nullptr && cfgDir->paths[i] != nullptr) {
             asyncCallbackInfo->paths_.push_back(cfgDir->paths[i]);
         }
     }
     FreeCfgDirList(cfgDir);
-    asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
+    CreateArraysValueFunc(*asyncCallbackInfo);
+}
+
+void ConfigPolicyNapi::CreateArraysValueFunc(ConfigAsyncContext &asyncCallbackInfo)
+{
+    asyncCallbackInfo.createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result = nullptr;
         napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
         if (status != napi_ok) {

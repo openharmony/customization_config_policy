@@ -26,10 +26,11 @@ class ConfigPolicyUtilsTest : public testing::Test {};
 
 bool TestGetCfgFile(const char *testPathSuffix)
 {
-    CfgFiles *cfgFiles = GetCfgFiles(testPathSuffix, CUST_TYPE_CONFIG);
+    CfgFiles *cfgFiles = GetCfgFiles(testPathSuffix);
     bool flag = false;
+    char *filePath = nullptr;
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
-        char *filePath = cfgFiles->paths[i];
+        filePath = cfgFiles->paths[i];
         if (filePath && *filePath != '\0') {
             std::cout << "filePath: " << filePath << std::endl;
             flag = true;
@@ -37,7 +38,7 @@ bool TestGetCfgFile(const char *testPathSuffix)
     }
     FreeCfgFiles(cfgFiles);
     char buf[MAX_PATH_LEN];
-    char *filePath = GetOneCfgFile(testPathSuffix, CUST_TYPE_CONFIG, buf, MAX_PATH_LEN);
+    filePath = GetOneCfgFile(testPathSuffix, buf, MAX_PATH_LEN);
     if (filePath && *filePath != '\0') {
         std::cout << "one filePath: " << filePath << std::endl;
         flag = flag && true;
@@ -91,31 +92,10 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest004, TestSize.Level1)
 
 /**
  * @tc.name: CfgPolicyUtilsFuncTest005
- * @tc.desc: Test struct CfgDir *GetCfgDirListType(int type) function.
- * @tc.type: FUNC
- */
-HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
-{
-    CfgDir *cfgDir = GetCfgDirListType(CUST_TYPE_RFU);
-    EXPECT_TRUE(cfgDir != NULL);
-    bool flag = false;
-    for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
-        char *filePath = cfgDir->paths[i];
-        if (filePath && *filePath != '\0') {
-            std::cout << "filePath: " << filePath << std::endl;
-            flag = true;
-        }
-    }
-    FreeCfgDirList(cfgDir);
-    EXPECT_TRUE(flag);
-}
-
-/**
- * @tc.name: CfgPolicyUtilsFuncTest006
  * @tc.desc: Test struct CfgDir *GetCfgDirList(void) function.
  * @tc.type: FUNC
  */
-HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest006, TestSize.Level1)
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
 {
     CfgDir *cfgDir = GetCfgDirList();
     EXPECT_TRUE(cfgDir != NULL);

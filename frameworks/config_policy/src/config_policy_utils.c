@@ -52,13 +52,13 @@ static void GetCfgDirRealPolicyValue(CfgDir *res)
     res->realPolicyValue = strdup("/system/etc:/chipset/etc:/sys-prod/etc:/chip-prod/etc");
 }
 
-char *GetOneCfgFile(const char *pathSuffix, int type, char *buf, unsigned int bufLength)
+char *GetOneCfgFile(const char *pathSuffix, char *buf, unsigned int bufLength)
 {
     if (pathSuffix == NULL || buf == NULL || bufLength < MAX_PATH_LEN) {
         return NULL;
     }
     *buf = '\0';
-    CfgDir *dirs = GetCfgDirListType(type);
+    CfgDir *dirs = GetCfgDirList();
     if (dirs == NULL) {
         return NULL;
     }
@@ -79,13 +79,13 @@ char *GetOneCfgFile(const char *pathSuffix, int type, char *buf, unsigned int bu
     return (*buf != '\0') ? buf : NULL;
 }
 
-CfgFiles *GetCfgFiles(const char *pathSuffix, int type)
+CfgFiles *GetCfgFiles(const char *pathSuffix)
 {
     if (pathSuffix == NULL) {
         return NULL;
     }
     char buf[MAX_PATH_LEN];
-    CfgDir *dirs = GetCfgDirListType(type);
+    CfgDir *dirs = GetCfgDirList();
     if (dirs == NULL) {
         return NULL;
     }
@@ -111,7 +111,7 @@ CfgFiles *GetCfgFiles(const char *pathSuffix, int type)
     return files;
 }
 
-CfgDir *GetCfgDirListType(int type)
+CfgDir *GetCfgDirList()
 {
     CfgDir *res = (CfgDir *)(malloc(sizeof(CfgDir)));
     if (res == NULL) {
@@ -134,9 +134,4 @@ CfgDir *GetCfgDirListType(int type)
         next += 1;
     }
     return res;
-}
-
-CfgDir *GetCfgDirList(void)
-{
-    return GetCfgDirListType(CUST_TYPE_CONFIG);
 }

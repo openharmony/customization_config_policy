@@ -21,6 +21,5 @@ int CfgPolicyUtilsFuncTest002(void);
 int CfgPolicyUtilsFuncTest003(void);
 int CfgPolicyUtilsFuncTest004(void);
 int CfgPolicyUtilsFuncTest005(void);
-int CfgPolicyUtilsFuncTest006(void);
 
 #endif

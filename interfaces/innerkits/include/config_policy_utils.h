@@ -46,13 +46,13 @@ void FreeCfgFiles(CfgFiles *res);
 void FreeCfgDirList(CfgDir *res);
 
 // get the highest priority config file
-// pathSuffixStr: the relative path of the config file, e.g. "xml/config.xml"
+// pathSuffixStr: the relative path of the config file, e.g. "etc/xml/config.xml"
 // buf: recommended buffer length is MAX_PATH_LEN
 // return: path of the highest priority config file, return '\0' when such a file is not found
 char *GetOneCfgFile(const char *pathSuffix, char *buf, unsigned int bufLength);
 
 // get config files, ordered by priority from low to high
-// pathSuffixStr: the relative path of the config file, e.g. "xml/config.xml"
+// pathSuffixStr: the relative path of the config file, e.g. "etc/xml/config.xml"
 // return: paths of config files
 // CAUTION: please use FreeCfgFiles() to avoid memory leak.
 CfgFiles *GetCfgFiles(const char *pathSuffix);

@@ -141,7 +141,8 @@ napi_value ConfigPolicyNapi::HandleAsyncWork(napi_env env, ConfigAsyncContext *c
     napi_value resource = CreateUndefined(env);
     napi_value resourceName = nullptr;
     napi_create_string_utf8(env, workName.data(), NAPI_AUTO_LENGTH, &resourceName);
-    napi_create_async_work(env, resource, resourceName, execute, complete, static_cast<void *>(context), &context->work_);
+    napi_create_async_work(env, resource, resourceName, execute, complete, static_cast<void *>(context),
+        &context->work_);
     napi_queue_async_work(env, context->work_);
     return result;
 }

@@ -141,7 +141,8 @@ napi_value ConfigPolicyNapi::HandleAsyncWork(napi_env env, ConfigAsyncContext *c
     napi_value resource = CreateUndefined(env);
     napi_value resourceName = nullptr;
     napi_create_string_utf8(env, workName.data(), NAPI_AUTO_LENGTH, &resourceName);
-    napi_create_async_work(env, resource, resourceName, execute, complete, (void *)context, &context->work_);
+    napi_create_async_work(env, resource, resourceName, execute, complete, static_cast<void *>(context),
+        &context->work_);
     napi_queue_async_work(env, context->work_);
     return result;
 }
@@ -159,7 +160,7 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
         HiLog::Error(LABEL, "data is nullptr");
         return;
     }
-    ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
+    ConfigAsyncContext *asyncCallbackInfo = static_cast<ConfigAsyncContext *>(data);
     char outBuf[MAX_PATH_LEN];
     GetOneCfgFile(asyncCallbackInfo->relPath_.c_str(), outBuf, MAX_PATH_LEN);
     asyncCallbackInfo->pathValue_ = std::string(outBuf);
@@ -181,7 +182,7 @@ void ConfigPolicyNapi::NativeGetCfgFiles(napi_env env, void *data)
         return;
     }
 
-    ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
+    ConfigAsyncContext *asyncCallbackInfo = static_cast<ConfigAsyncContext *>(data);
     CfgFiles *cfgFiles = GetCfgFiles(asyncCallbackInfo->relPath_.c_str());
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgFiles != nullptr && cfgFiles->paths[i] != nullptr) {
@@ -199,7 +200,7 @@ void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
         return;
     }
 
-    ConfigAsyncContext *asyncCallbackInfo = (ConfigAsyncContext *)data;
+    ConfigAsyncContext *asyncCallbackInfo = static_cast<ConfigAsyncContext *>(data);
     CfgDir *cfgDir = GetCfgDirList();
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         if (cfgDir != nullptr && cfgDir->paths[i] != nullptr) {
@@ -244,7 +245,7 @@ void ConfigPolicyNapi::NativeCallbackComplete(napi_env env, napi_status status, 
     }
 
     napi_value finalResult = nullptr;
-    ConfigAsyncContext *asyncContext = (ConfigAsyncContext *)data;
+    ConfigAsyncContext *asyncContext = static_cast<ConfigAsyncContext *>(data);
     if (asyncContext->createValueFunc_ != nullptr) {
         finalResult = asyncContext->createValueFunc_(env, *asyncContext);
     }

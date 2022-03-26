@@ -27,6 +27,7 @@ class ConfigPolicyUtilsTest : public testing::Test {};
 bool TestGetCfgFile(const char *testPathSuffix)
 {
     CfgFiles *cfgFiles = GetCfgFiles(testPathSuffix);
+    EXPECT_TRUE(cfgFiles != NULL);
     bool flag = false;
     char *filePath = nullptr;
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {

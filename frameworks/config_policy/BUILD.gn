@@ -22,11 +22,13 @@ config("config_policy_config") {
   include_dirs = [
     "//base/customization/config_policy/interfaces/innerkits/include",
     "//third_party/bounds_checking_function/include",
+    "//base/startup/init_lite/services/include",
   ]
 }
 
 if (defined(ohos_lite)) {
   shared_library("configpolicy_util") {
+    defines = [ "OHOS_LITE" ]
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
     deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
@@ -35,7 +37,17 @@ if (defined(ohos_lite)) {
   ohos_shared_library("configpolicy_util") {
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
-    deps = [ "//third_party/bounds_checking_function:libsec_static" ]
+    deps = [
+      "etc:customization_etc",
+      "//base/startup/init_lite/services/param:param_client",
+      "//third_party/bounds_checking_function:libsec_static",
+    ]
+    subsystem_name = "customization"
+    part_name = "config_policy"
+  }
+  ohos_static_library("configpolicy_util_for_init_static") {
+    sources = config_policy_sources
+    public_configs = [ ":config_policy_config" ]
     subsystem_name = "customization"
     part_name = "config_policy"
   }

@@ -15,7 +15,7 @@ The directory structure for the config policy is as follows:
 │   │   ├── config_policy     # config policy
 │   │   │   └── src           # Implementation code
 │   ├── interfaces            # APIs of the config policy
-│   │   ├── innerkits         # APIs of the config policy for internal subsystems
+│   │   ├── inner_api         # APIs of the config policy for internal subsystems
 │   │   └── kits              # JavaScript APIs
 │   └── test                  # Test code
 ```

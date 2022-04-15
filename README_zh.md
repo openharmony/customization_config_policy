@@ -26,7 +26,7 @@
 │   │   ├── config_policy   # 配置策略模块
 │   │   │   └── src         # 实现代码
 │   ├── interfaces          # 配置策略接口
-│   │   ├── innerkits       # 子系统间接口
+│   │   ├── inner_api       # 子系统间接口
 │   │   └── kits            # 配置策略JavaScript接口
 │   └── test                # 测试代码
 ```

@@ -20,7 +20,7 @@ if (defined(ohos_lite)) {
 
 config_policy_sources = [ "config_policy_utils_test.cpp" ]
 config_policy_include_dirs = [
-  "//base/customization/config_policy/interfaces/innerkits/include",
+  "//base/customization/config_policy/interfaces/inner_api/include",
 ]
 config_policy_deps = [ "//base/customization/config_policy/frameworks/config_policy:configpolicy_util" ]
 

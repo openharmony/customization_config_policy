@@ -15,12 +15,9 @@ import("//build/ohos.gni")
 
 ohos_shared_library("configpolicy") {
   include_dirs = [
-    "//base/customization/config_policy/interfaces/innerkits/include",
+    "//base/customization/config_policy/interfaces/inner_api/include",
     "//third_party/bounds_checking_function/include",
     "//base/customization/config_policy/interfaces/kits/js/include",
-    "//base/hiviewdfx/interfaces/native/innerkits/include",
-    "//foundation/ace/napi/native_engine",
-    "//foundation/ace/napi/interfaces/kits",
   ]
 
   sources = [ "src/config_policy_napi.cpp" ]

@@ -39,7 +39,7 @@
 #include "config_policy_utils.h"
 
 const char *testPathSuffix = "user.xml"; //设置配置文件名称
-char buf[MAX_PATH_LEN];
+char buf[MAX_PATH_LEN] = {0};
 char *filePath = GetOneCfgFile(testPathSuffix, buf, MAX_PATH_LEN); //获取最高优先级的配置文件路径
 ```
 

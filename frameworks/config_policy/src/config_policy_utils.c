@@ -18,6 +18,11 @@
 #include <securec.h>
 #include <unistd.h>
 
+#include "config_policy_impl.h"
+#ifndef OHOS_LITE
+#include "param/sys_param.h"
+#endif
+
 void FreeCfgFiles(CfgFiles *res)
 {
     if (res == NULL) {
@@ -49,6 +54,14 @@ static void GetCfgDirRealPolicyValue(CfgDir *res)
     if (res == NULL) {
         return;
     }
+#ifndef OHOS_LITE
+    unsigned int len = 0;
+    (void)SystemGetParameter(CUST_KEY_POLICY_LAYER, NULL, &len);
+    if (len > 0 && (res->realPolicyValue = calloc(len, 1))) {
+        (void)SystemGetParameter(CUST_KEY_POLICY_LAYER, res->realPolicyValue, &len);
+        return;
+    }
+#endif
     res->realPolicyValue = strdup("/system:/chipset:/sys_prod:/chip_prod");
 }
 

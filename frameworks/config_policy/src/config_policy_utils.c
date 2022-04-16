@@ -97,7 +97,7 @@ CfgFiles *GetCfgFiles(const char *pathSuffix)
     if (pathSuffix == NULL) {
         return NULL;
     }
-    char buf[MAX_PATH_LEN];
+    char buf[MAX_PATH_LEN] = {0};
     CfgDir *dirs = GetCfgDirList();
     if (dirs == NULL) {
         return NULL;

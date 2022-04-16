@@ -161,7 +161,7 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
         return;
     }
     ConfigAsyncContext *asyncCallbackInfo = static_cast<ConfigAsyncContext *>(data);
-    char outBuf[MAX_PATH_LEN];
+    char outBuf[MAX_PATH_LEN] = {0};
     GetOneCfgFile(asyncCallbackInfo->relPath_.c_str(), outBuf, MAX_PATH_LEN);
     asyncCallbackInfo->pathValue_ = std::string(outBuf);
     asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {

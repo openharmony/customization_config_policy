@@ -15,7 +15,7 @@ The directory structure for the config policy is as follows:
 │   │   ├── config_policy     # config policy
 │   │   │   └── src           # Implementation code
 │   ├── interfaces            # APIs of the config policy
-│   │   ├── innerkits         # APIs of the config policy for internal subsystems
+│   │   ├── inner_api         # APIs of the config policy for internal subsystems
 │   │   └── kits              # JavaScript APIs
 │   └── test                  # Test code
 ```
@@ -28,7 +28,7 @@ Call the APIs of the config policy to obtain the configuration directories at di
 #include "config_policy_utils.h"
 
 const char *testPathSuffix = "user.xml"; // Set the name of the configuration file.
-char buf[MAX_PATH_LEN];
+char buf[MAX_PATH_LEN] = {0};
 char *filePath = GetOneCfgFile(testPathSuffix, buf, MAX_PATH_LEN); // Obtain the path of the configuration file with the highest priority.
 ```
 

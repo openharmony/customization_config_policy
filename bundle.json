@@ -33,7 +33,7 @@
       "inner_kits": [
         {
           "header": {
-            "header_base": "//base/customization/config_policy/interfaces/innerkits/include",
+            "header_base": "//base/customization/config_policy/interfaces/inner_api/include",
             "header_files": [
               "config_policy_utils.h"
             ]

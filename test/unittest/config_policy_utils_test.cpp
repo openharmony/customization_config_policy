@@ -38,7 +38,7 @@ bool TestGetCfgFile(const char *testPathSuffix)
         }
     }
     FreeCfgFiles(cfgFiles);
-    char buf[MAX_PATH_LEN];
+    char buf[MAX_PATH_LEN] = {0};
     filePath = GetOneCfgFile(testPathSuffix, buf, MAX_PATH_LEN);
     if (filePath && *filePath != '\0') {
         std::cout << "one filePath: " << filePath << std::endl;

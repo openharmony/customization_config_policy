@@ -57,9 +57,12 @@ static void GetCfgDirRealPolicyValue(CfgDir *res)
 #ifndef OHOS_LITE
     unsigned int len = 0;
     (void)SystemGetParameter(CUST_KEY_POLICY_LAYER, NULL, &len);
-    if (len > 0 && (res->realPolicyValue = calloc(len, 1))) {
-        (void)SystemGetParameter(CUST_KEY_POLICY_LAYER, res->realPolicyValue, &len);
-        return;
+    if (len > 0) {
+        res->realPolicyValue = (char *)calloc(len, sizeof(char));
+        if (res->realPolicyValue != NULL) {
+            (void)SystemGetParameter(CUST_KEY_POLICY_LAYER, res->realPolicyValue, &len);
+            return;
+        }
     }
 #endif
     res->realPolicyValue = strdup("/system:/chipset:/sys_prod:/chip_prod");

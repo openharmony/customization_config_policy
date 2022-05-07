@@ -20,7 +20,7 @@
 
 #include "config_policy_impl.h"
 #ifndef OHOS_LITE
-#include "param/sys_param.h"
+#include "init_param.h"
 #endif
 
 void FreeCfgFiles(CfgFiles *res)

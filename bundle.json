@@ -20,7 +20,8 @@
     "deps": {
       "components": [
         "hiviewdfx_hilog_native",
-        "napi"
+        "napi",
+        "init"
       ],
       "third_party": [
         "bounds_checking_function"

@@ -22,8 +22,8 @@ extern "C" {
 #endif
 #endif // __cplusplus
 
-#define MAX_CFG_POLICY_DIRS_CNT   32      // max number of directories
-#define MAX_PATH_LEN              128     // max length of a filepath
+#define MAX_CFG_POLICY_DIRS_CNT   32   // max number of directories
+#define MAX_PATH_LEN              128  // max length of a filepath
 
 // follow X(carrier/network/PLMN/...) usage
 // 1. etc/cust/followx_file_list.cfg can be in any layer, except follow x dir
@@ -35,10 +35,11 @@ extern "C" {
 //      >> if follow mode is USER_DEFINE, the next segs is a user defined follow rule
 //      >> the follow_rule_add_path can contains param variant
 // 3. if a relPath has multi follow rules, use the highest priority rule
+// LIMIT: the max size of concatenated all follow rule is PARAM_CONST_VALUE_LEN_MAX(4096)
 // example:
-//    follow_rule,xml/config.xml,10
-//    follow_rule,xml/config1.xml,100,etc/carrier2/${test}
-//    follow_rule,xml/config2.xml,100,etc/carrier/${test-value}
+//    follow_rule,etc/xml/config.xml,10
+//    follow_rule,etc/xml/config1.xml,100,etc/carrier2/${keyname}
+//    follow_rule,etc/xml/config2.xml,100,etc/carrier/${keyname:-value}
 // Follow rule in followx_file_list.cfg, which stored in param variant
 #define FOLLOWX_MODE_DEFAULT      0
 // Not use any follow rule, even exsit followx_file_list.cfg

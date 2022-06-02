@@ -24,7 +24,7 @@ extern "C" {
 
 // these name is used for write data, init may use it
 #define CUST_KEY_POLICY_LAYER "const.cust.config_dir_layer"
-#define CUST_FOLLOW_X_RULES   "const.customization.follow_x_rules"
+#define CUST_FOLLOW_X_RULES   "const.cust.follow_x_rules"
 // opkey info for sim1
 #define CUST_OPKEY0           "persist.telephony.opkey0"
 // opkey info for sim1

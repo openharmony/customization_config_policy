@@ -26,6 +26,14 @@
 #endif
 
 const int MIN_APPEND_LEN = 32;
+// ':' split different x rules, example:":relPath,mode[,extra][:]"
+// ',' split different param for x rules
+// ":-" split for key:-value
+// exampe:"etc/xml/config.xml,10:etc/xml/config1.xml,100,etc/carrier/${key:-value}"
+const char SEP_FOR_X_RULE = ':';
+const char SEP_FOR_X_PARAM = ',';
+const char *SEP_FOR_X_VALUE = ":-";
+
 typedef struct {
     size_t size;   // alloced buffer size of p
     size_t strLen; // strlen(p), less than size
@@ -82,7 +90,7 @@ static char *CustGetSystemParam(const char *name)
 static char *GetOpkeyPath(int type)
 {
     char *result = NULL;
-    const char *opKeyDir = "carrier/";
+    const char *opKeyDir = "etc/carrier/";
     const char *opKeyName = CUST_OPKEY0;
     if (type == FOLLOWX_MODE_SIM_1) {
         opKeyName = CUST_OPKEY0;
@@ -146,8 +154,8 @@ static void FreeSplitedStr(SplitedStr *p)
 // get follow x rule from param variant
 // *mode: read from contains param variant, mode is output param.
 // return: extra path rule.
-// FollowPath Format "relPath,mode,[extra][:]"
-// Example: ":xml/config.xml,10:xml/config1.xml,100,carrier/${key-value}"
+// followPath format ":relPath,mode,[extra][:]"
+// example: ":etc/xml/config.xml,10:etc/xml/config1.xml,100,etc/carrier/${key:-value}"
 static char *GetFollowXRule(const char *relPath, int *mode)
 {
     char *followRule = CustGetSystemParam(CUST_FOLLOW_X_RULES);
@@ -166,18 +174,23 @@ static char *GetFollowXRule(const char *relPath, int *mode)
     char *addPath = NULL;
     char *item = strstr(followRule, search);
     if (item) {
-        item++; // skip delim ':', goto "relPath,mode,[extra][:]"
-        char *endItem = strchr(item, ':');
+        item++; // skip delim ':', goto ":relPath,mode[,extra][:]"
+        char *endItem = strchr(item, SEP_FOR_X_RULE);
+        char *nextItem = endItem + 1;
+        while (endItem && nextItem && *nextItem == '-') {
+            endItem = strchr(nextItem, SEP_FOR_X_RULE);
+            nextItem = endItem + 1;
+        }
         if (endItem) {
             *endItem = '\0';
         }
-        char *modeStr = strchr(item, ',');
+        char *modeStr = strchr(item, SEP_FOR_X_PARAM);
         if (modeStr) {
             modeStr++;
             *mode = atoi(modeStr);
         }
         if (*mode == FOLLOWX_MODE_USER_DEFINE) {
-            addPath = strchr(modeStr, ',');
+            addPath = strchr(modeStr, SEP_FOR_X_PARAM);
             if (addPath) {
                 addPath++; // skip ',' get extra info
             }
@@ -200,6 +213,9 @@ static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, con
         if (followMode == FOLLOWX_MODE_USER_DEFINE && modePathFromCfg && *modePathFromCfg) {
             extraPath = modePathFromCfg;
         }
+    }
+    if (extraPath != NULL && strlen(extraPath) > PARAM_CONST_VALUE_LEN_MAX) {
+        return NULL;
     }
     switch (followMode) {
         case FOLLOWX_MODE_SIM_DEFAULT:
@@ -238,10 +254,10 @@ static char *TrimInplace(char *str, bool moveToStart)
     if (moveToStart && src != str) {
         size_t len = strlen(src) + 1;
         if (memmove_s(str, len, src, len) != EOK) {
-            return str;
+            return NULL;
         }
     }
-    return *res ? res : str;
+    return *res ? res : NULL;
 }
 
 static bool EnsureHolderSpace(StringHolder *holder, size_t leastSize)
@@ -250,7 +266,11 @@ static bool EnsureHolderSpace(StringHolder *holder, size_t leastSize)
         size_t allocSize = Max(leastSize * 2, MIN_APPEND_LEN);
         char *newPtr = (char *)calloc(allocSize, sizeof(char));
         if (newPtr == NULL) {
-            return false;
+            allocSize = leastSize;
+            newPtr = (char *)calloc(allocSize, sizeof(char));
+            if (newPtr == NULL) {
+                return false;
+            }
         }
         if (holder->p != NULL && memcpy_s(newPtr, allocSize, holder->p, holder->strLen) != EOK) {
             FreeIf(newPtr);
@@ -265,9 +285,6 @@ static bool EnsureHolderSpace(StringHolder *holder, size_t leastSize)
 
 static bool AppendStr(StringHolder *holder, const char *s)
 {
-    if (holder == NULL || s == NULL || strlen(s) > MAX_PATH_LEN) {
-        return false;
-    }
     size_t leastSize = holder->strLen + strlen(s) + 1;
     if (!EnsureHolderSpace(holder, leastSize)) {
         return false;
@@ -293,15 +310,15 @@ static char *ExpandStr(char *src, const char *def, QueryFunc queryFunc)
         if (!find) {
             ok = ok && AppendStr(&sh, copyCur);
             break;
-        } else if ((varStart = strchr(find, '{')) && (varEnd = strchr(find, '}')) &&
+        } else if ((varStart = strchr(find, '{')) && (varStart == find + 1) && (varEnd = strchr(find, '}')) &&
             varEnd - varStart > 0) { // Get user defined name
             *find = *varEnd = 0;
             ok = ok && AppendStr(&sh, copyCur);
             char *name = find + 2;
-            char *defVal = strchr(name, '-');
+            char *defVal = strstr(name, SEP_FOR_X_VALUE);
             if (defVal) {
-                *defVal = 0;                             // cut for name end
-                defVal = TrimInplace(defVal + 1, false); // skip '-', get value
+                *defVal = 0;                                                   // cut for name end
+                defVal = TrimInplace(defVal + strlen(SEP_FOR_X_VALUE), false); // skip ":-", get value
             }
             char *value = queryFunc(name);
             if (value || defVal || def) {

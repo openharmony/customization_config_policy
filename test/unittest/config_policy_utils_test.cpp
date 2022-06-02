@@ -163,8 +163,8 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest009, TestSize.Level1)
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest010, TestSize.Level1)
 {
-    const char *extra =
-        "carrier/${persist.telephony.opkey1-46060},carrier/${persist.telephony.opkey0}/${testkey-custxmltest}";
+    const char *extra = "etc/carrier/${persist.telephony.opkey1:-46060},etc/carrier/${persist.telephony.opkey0}/"
+                        "${testkey:-custxmltest}";
     EXPECT_TRUE(TestGetCfgFile("custxmltest/user.xml", FOLLOWX_MODE_USER_DEFINE, extra));
     EXPECT_TRUE(TestGetCfgFile("custxmltest/both.xml", FOLLOWX_MODE_USER_DEFINE, extra));
 }

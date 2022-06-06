@@ -154,7 +154,7 @@ static void FreeSplitedStr(SplitedStr *p)
 // get follow x rule from param variant
 // *mode: read from contains param variant, mode is output param.
 // return: extra path rule.
-// followPath format ":relPath,mode,[extra][:]"
+// followPath format ":relPath,mode[,extra][:]"
 // example: ":etc/xml/config.xml,10:etc/xml/config1.xml,100,etc/carrier/${key:-value}"
 static char *GetFollowXRule(const char *relPath, int *mode)
 {

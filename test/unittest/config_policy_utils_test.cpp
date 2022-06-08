@@ -24,24 +24,24 @@ using namespace testing::ext;
 namespace OHOS {
 class ConfigPolicyUtilsTest : public testing::Test {};
 
-bool TestGetCfgFile(const char *testPathSuffix)
+bool TestGetCfgFile(const char *testPathSuffix, int type, const char *extra)
 {
-    CfgFiles *cfgFiles = GetCfgFiles(testPathSuffix);
+    CfgFiles *cfgFiles = GetCfgFilesEx(testPathSuffix, type, extra);
     EXPECT_TRUE(cfgFiles != NULL);
     bool flag = false;
     char *filePath = nullptr;
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
         filePath = cfgFiles->paths[i];
         if (filePath && *filePath != '\0') {
-            std::cout << "filePath: " << filePath << std::endl;
+            std::cout << "type: " << type << ", filePath: " << filePath << std::endl;
             flag = true;
         }
     }
     FreeCfgFiles(cfgFiles);
     char buf[MAX_PATH_LEN] = {0};
-    filePath = GetOneCfgFile(testPathSuffix, buf, MAX_PATH_LEN);
+    filePath = GetOneCfgFileEx(testPathSuffix, buf, MAX_PATH_LEN, type, extra);
     if (filePath && *filePath != '\0') {
-        std::cout << "one filePath: " << filePath << std::endl;
+        std::cout << "type: " << type << ", one filePath: " << filePath << std::endl;
         flag = flag && true;
     }
     return flag;
@@ -55,7 +55,7 @@ bool TestGetCfgFile(const char *testPathSuffix)
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest001, TestSize.Level1)
 {
     const char *testPathSuffix = "custxmltest/none.xml";
-    EXPECT_FALSE(TestGetCfgFile(testPathSuffix));
+    EXPECT_FALSE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_FOLLOW, NULL));
 }
 
 /**
@@ -66,7 +66,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest001, TestSize.Level1)
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest002, TestSize.Level1)
 {
     const char *testPathSuffix = "custxmltest/system.xml";
-    EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_FOLLOW, NULL));
 }
 
 /**
@@ -77,7 +77,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest002, TestSize.Level1)
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest003, TestSize.Level1)
 {
     const char *testPathSuffix = "custxmltest/user.xml";
-    EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_FOLLOW, NULL));
 }
 
 /**
@@ -88,7 +88,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest003, TestSize.Level1)
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest004, TestSize.Level1)
 {
     const char *testPathSuffix = "custxmltest/both.xml";
-    EXPECT_TRUE(TestGetCfgFile(testPathSuffix));
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_FOLLOW, NULL));
 }
 
 /**
@@ -110,5 +110,62 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
     }
     FreeCfgDirList(cfgDir);
     EXPECT_TRUE(flag);
+}
+
+/**
+ * @tc.name: CfgPolicyUtilsFuncTest006
+ * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow default sim rule.
+ * @tc.type: FUNC
+ */
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest006, TestSize.Level1)
+{
+    const char *testPathSuffix = "custxmltest/user.xml";
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_SIM_DEFAULT, NULL));
+}
+
+/**
+ * @tc.name: CfgPolicyUtilsFuncTest007
+ * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow sim1 rule.
+ * @tc.type: FUNC
+ */
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest007, TestSize.Level1)
+{
+    const char *testPathSuffix = "custxmltest/user.xml";
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_SIM_1, NULL));
+}
+
+/**
+ * @tc.name: CfgPolicyUtilsFuncTest008
+ * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow sim1 rule.
+ * @tc.type: FUNC
+ */
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest008, TestSize.Level1)
+{
+    const char *testPathSuffix = "custxmltest/user.xml";
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_SIM_2, NULL));
+}
+
+/**
+ * @tc.name: CfgPolicyUtilsFuncTest009
+ * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow default x rule rule.
+ * @tc.type: FUNC
+ */
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest009, TestSize.Level1)
+{
+    EXPECT_TRUE(TestGetCfgFile("custxmltest/user.xml", FOLLOWX_MODE_DEFAULT, NULL));
+    EXPECT_TRUE(TestGetCfgFile("custxmltest/both.xml", FOLLOWX_MODE_DEFAULT, NULL));
+}
+
+/**
+ * @tc.name: CfgPolicyUtilsFuncTest010
+ * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow default x rule rule.
+ * @tc.type: FUNC
+ */
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest010, TestSize.Level1)
+{
+    const char *extra = "etc/carrier/${persist.telephony.opkey1:-46060},etc/carrier/${persist.telephony.opkey0}/"
+                        "${testkey:-custxmltest}";
+    EXPECT_TRUE(TestGetCfgFile("custxmltest/user.xml", FOLLOWX_MODE_USER_DEFINE, extra));
+    EXPECT_TRUE(TestGetCfgFile("custxmltest/both.xml", FOLLOWX_MODE_USER_DEFINE, extra));
 }
 } // namespace OHOS

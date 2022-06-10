@@ -25,7 +25,7 @@
 #include "init_param.h"
 #endif
 
-const int MIN_APPEND_LEN = 32;
+const size_t MIN_APPEND_LEN = 32;
 // ':' split different x rules, example:":relPath,mode[,extra][:]"
 // ',' split different param for x rules
 // ":-" split for key:-value
@@ -35,7 +35,7 @@ const char SEP_FOR_X_PARAM = ',';
 const char *SEP_FOR_X_VALUE = ":-";
 
 typedef struct {
-    size_t size;   // alloced buffer size of p
+    size_t size;   // allocated buffer size of p
     size_t strLen; // strlen(p), less than size
     char *p;       // just init to NULL, by malloc
 } StringHolder;
@@ -47,19 +47,19 @@ typedef struct {
 } SplitedStr;
 
 /**
- * query function, the memory is alloced in function
+ * query function, the memory is allocated in function
  * @return value, or NULL if not exist or strlen(value) is 0
  * @NOTICE caller should free the returned value
  */
 typedef char *(*QueryFunc)(const char *key);
 static char *ExpandStr(char *src, const char *def, QueryFunc queryFunc);
 
-static inline int Min(int a, int b)
+static inline size_t Min(size_t a, size_t b)
 {
     return a < b ? a : b;
 }
 
-static inline int Max(int a, int b)
+static inline size_t Max(size_t a, size_t b)
 {
     return a > b ? a : b;
 }

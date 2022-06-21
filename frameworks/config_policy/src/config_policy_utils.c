@@ -25,14 +25,14 @@
 #include "init_param.h"
 #endif
 
-const size_t MIN_APPEND_LEN = 32;
+static const size_t MIN_APPEND_LEN = 32;
 // ':' split different x rules, example:":relPath,mode[,extra][:]"
 // ',' split different param for x rules
 // ":-" split for key:-value
 // exampe:"etc/xml/config.xml,10:etc/xml/config1.xml,100,etc/carrier/${key:-value}"
-const char SEP_FOR_X_RULE = ':';
-const char SEP_FOR_X_PARAM = ',';
-const char *SEP_FOR_X_VALUE = ":-";
+static const char SEP_FOR_X_RULE = ':';
+static const char SEP_FOR_X_PARAM = ',';
+static const char *SEP_FOR_X_VALUE = ":-";
 
 typedef struct {
     size_t size;   // allocated buffer size of p
@@ -124,7 +124,7 @@ static SplitedStr *SplitStr(char *str, char delim)
 {
     int segCount = 1;
     for (char *p = str; *p != '\0'; p++) {
-        *p == delim ? segCount++ : 0;
+        (*p == delim) ? segCount++ : 0;
     }
     SplitedStr *result = (SplitedStr *)calloc(sizeof(SplitedStr) + sizeof(char *) * segCount, 1);
     if (result == NULL) {
@@ -257,7 +257,7 @@ static char *TrimInplace(char *str, bool moveToStart)
             return NULL;
         }
     }
-    return *res ? res : NULL;
+    return (*res != '\0') ? res : NULL;
 }
 
 static bool EnsureHolderSpace(StringHolder *holder, size_t leastSize)
@@ -398,7 +398,7 @@ char *GetOneCfgFileEx(const char *pathSuffix, char *buf, unsigned int bufLength,
             continue;
         }
         // check follow x
-        for (int j = result ? result->segCount : 0; j > 0; j--) {
+        for (int j = (result ? result->segCount : 0); j > 0; j--) {
             if (result->segs[j - 1] &&
                 snprintf_s(buf, bufLength, bufLength - 1, "%s/%s/%s", dirs->paths[i - 1], result->segs[j - 1],
                 pathSuffix) > 0 &&
@@ -407,7 +407,7 @@ char *GetOneCfgFileEx(const char *pathSuffix, char *buf, unsigned int bufLength,
             }
             *buf = '\0';
         }
-        if (*buf) {
+        if (*buf != '\0') {
             break;
         }
         if (snprintf_s(buf, bufLength, bufLength - 1, "%s/%s", dirs->paths[i - 1], pathSuffix) > 0 &&

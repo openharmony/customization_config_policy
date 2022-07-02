@@ -19,6 +19,7 @@
 
 #include "hilog/log.h"
 #include "config_policy_utils.h"
+#include "hisysevent_adapter.h"
 
 namespace OHOS {
 namespace Customization {
@@ -164,6 +165,7 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
     char outBuf[MAX_PATH_LEN] = {0};
     GetOneCfgFile(asyncCallbackInfo->relPath_.c_str(), outBuf, MAX_PATH_LEN);
     asyncCallbackInfo->pathValue_ = std::string(outBuf);
+    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFile", "");
     asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result;
         napi_status status = napi_create_string_utf8(env, context.pathValue_.c_str(), NAPI_AUTO_LENGTH, &result);
@@ -191,6 +193,7 @@ void ConfigPolicyNapi::NativeGetCfgFiles(napi_env env, void *data)
     }
     FreeCfgFiles(cfgFiles);
     CreateArraysValueFunc(*asyncCallbackInfo);
+    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFiles", "");
 }
 
 void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
@@ -209,6 +212,7 @@ void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
     }
     FreeCfgDirList(cfgDir);
     CreateArraysValueFunc(*asyncCallbackInfo);
+    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgDirList", "");
 }
 
 void ConfigPolicyNapi::CreateArraysValueFunc(ConfigAsyncContext &asyncCallbackInfo)

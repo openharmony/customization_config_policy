@@ -18,12 +18,17 @@ ohos_shared_library("configpolicy") {
     "//base/customization/config_policy/interfaces/inner_api/include",
     "//third_party/bounds_checking_function/include",
     "//base/customization/config_policy/interfaces/kits/js/include",
+    "//base/customization/config_policy/frameworks/dfx/hisysevent_adapter",
   ]
 
-  sources = [ "src/config_policy_napi.cpp" ]
+  sources = [
+    "//base/customization/config_policy/frameworks/dfx/hisysevent_adapter/hisysevent_adapter.cpp",
+    "src/config_policy_napi.cpp",
+  ]
 
   deps = [ "//base/customization/config_policy/frameworks/config_policy:configpolicy_util" ]
   external_deps = [
+    "hisysevent_native:libhisysevent",
     "hiviewdfx_hilog_native:libhilog",
     "napi:ace_napi",
   ]

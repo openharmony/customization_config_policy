@@ -15,6 +15,9 @@
     "syscap": [ "SystemCapability.Customization.ConfigPolicy" ],
     "features": [],
     "adapted_system_type": [ "standard", "small" ],
+    "hisysevent_config": [
+      "//base/customization/config_policy/frameworks/dfx/hisysevent.yaml"
+    ],
     "rom": "",
     "ram": "",
     "deps": {

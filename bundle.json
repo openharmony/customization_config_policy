@@ -22,6 +22,8 @@
     "ram": "",
     "deps": {
       "components": [
+        "common",
+        "hisysevent_native",
         "hiviewdfx_hilog_native",
         "napi",
         "init"

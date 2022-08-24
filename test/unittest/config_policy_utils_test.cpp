@@ -51,6 +51,7 @@ bool TestGetCfgFile(const char *testPathSuffix, int type, const char *extra)
  * @tc.name: CfgPolicyUtilsFuncTest001
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, none file case.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest001, TestSize.Level1)
 {
@@ -62,6 +63,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest001, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest002
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, system file case.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest002, TestSize.Level1)
 {
@@ -73,6 +75,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest002, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest003
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, user file case.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest003, TestSize.Level1)
 {
@@ -84,6 +87,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest003, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest004
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, both files case.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest004, TestSize.Level1)
 {
@@ -95,6 +99,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest004, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest005
  * @tc.desc: Test struct CfgDir *GetCfgDirList(void) function.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
 {
@@ -116,6 +121,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest006
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow default sim rule.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest006, TestSize.Level1)
 {
@@ -127,6 +133,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest006, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest007
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow sim1 rule.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest007, TestSize.Level1)
 {
@@ -138,6 +145,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest007, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest008
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow sim1 rule.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest008, TestSize.Level1)
 {
@@ -149,6 +157,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest008, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest009
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow default x rule rule.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest009, TestSize.Level1)
 {
@@ -160,6 +169,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest009, TestSize.Level1)
  * @tc.name: CfgPolicyUtilsFuncTest010
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow default x rule rule.
  * @tc.type: FUNC
+ * @tc.require: Issue Number
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest010, TestSize.Level1)
 {

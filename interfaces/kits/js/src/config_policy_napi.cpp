@@ -53,14 +53,15 @@ napi_value ConfigPolicyNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info 
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
     NAPI_ASSERT(env, argc >= ARGS_SIZE_ONE, "parameter count error");
 
-    auto asyncContext = (std::make_unique<ConfigAsyncContext>()).release();
+    auto asyncContext = std::make_unique<ConfigAsyncContext>();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
     if (argc == ARGS_SIZE_TWO) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
         NAPI_ASSERT(env, matchFlag, "parameter type error");
         napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
-    return HandleAsyncWork(env, asyncContext, "NAPIGetOneCfgFile", NativeGetOneCfgFile, NativeCallbackComplete);
+    return HandleAsyncWork(env, asyncContext.release(), "NAPIGetOneCfgFile", NativeGetOneCfgFile,
+        NativeCallbackComplete);
 }
 
 napi_value ConfigPolicyNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
@@ -72,14 +73,14 @@ napi_value ConfigPolicyNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info in
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
     NAPI_ASSERT(env, argc >= ARGS_SIZE_ONE, "parameter count error");
 
-    auto asyncContext = (std::make_unique<ConfigAsyncContext>()).release();
+    auto asyncContext = std::make_unique<ConfigAsyncContext>();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
     if (argc == ARGS_SIZE_TWO) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
         NAPI_ASSERT(env, matchFlag, "parameter type error");
         napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
-    return HandleAsyncWork(env, asyncContext, "NAPIGetCfgFiles", NativeGetCfgFiles, NativeCallbackComplete);
+    return HandleAsyncWork(env, asyncContext.release(), "NAPIGetCfgFiles", NativeGetCfgFiles, NativeCallbackComplete);
 }
 
 napi_value ConfigPolicyNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
@@ -90,13 +91,14 @@ napi_value ConfigPolicyNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info 
     void *data = nullptr;
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
 
-    auto asyncContext = (std::make_unique<ConfigAsyncContext>()).release();
+    auto asyncContext = std::make_unique<ConfigAsyncContext>();
     if (argc == ARGS_SIZE_ONE) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ZERO], napi_function);
         NAPI_ASSERT(env, matchFlag, "parameter type error");
         napi_create_reference(env, argv[ARR_INDEX_ZERO], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
-    return HandleAsyncWork(env, asyncContext, "NAPIGetCfgDirList", NativeGetCfgDirList, NativeCallbackComplete);
+    return HandleAsyncWork(env, asyncContext.release(), "NAPIGetCfgDirList", NativeGetCfgDirList,
+        NativeCallbackComplete);
 }
 
 napi_value ConfigPolicyNapi::CreateUndefined(napi_env env)

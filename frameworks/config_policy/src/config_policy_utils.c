@@ -189,7 +189,7 @@ static char *GetFollowXRule(const char *relPath, int *mode)
             modeStr++;
             *mode = atoi(modeStr);
         }
-        if (*mode == FOLLOWX_MODE_USER_DEFINE) {
+        if (*mode == FOLLOWX_MODE_USER_DEFINE && modeStr) {
             addPath = strchr(modeStr, SEP_FOR_X_PARAM);
             if (addPath) {
                 addPath++; // skip ',' get extra info
@@ -214,9 +214,7 @@ static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, con
             extraPath = modePathFromCfg;
         }
     }
-    if (extraPath != NULL && strlen(extraPath) > PARAM_CONST_VALUE_LEN_MAX) {
-        return NULL;
-    }
+
     switch (followMode) {
         case FOLLOWX_MODE_SIM_DEFAULT:
             followXPath = GetOpkeyPath(FOLLOWX_MODE_SIM_DEFAULT);
@@ -246,7 +244,7 @@ static char *TrimInplace(char *str, bool moveToStart)
     while (isspace(*src)) {
         src++;
     }
-    for (size_t i = strlen(src) - 1; i >= 0 && isspace(src[i]); i--) {
+    for (int i = strlen(src) - 1; i >= 0 && isspace(src[i]); i--) {
         src[i] = '\0';
     }
 

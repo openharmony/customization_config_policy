@@ -32,6 +32,8 @@ static constexpr int32_t ARR_INDEX_ZERO = 0;
 static constexpr int32_t ARR_INDEX_ONE = 1;
 static constexpr int32_t NAPI_RETURN_ZERO = 0;
 static constexpr int32_t NAPI_RETURN_ONE = 1;
+// Param Error Code
+static constexpr int32_t PARAM_ERROR = 401;
 static constexpr HiLogLabel LABEL = { LOG_CORE, 0xD001E00, "ConfigPolicyJs" };
 
 napi_value ConfigPolicyNapi::Init(napi_env env, napi_value exports)
@@ -52,13 +54,17 @@ napi_value ConfigPolicyNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info 
     napi_value thisVar = nullptr;
     void *data = nullptr;
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
-    NAPI_ASSERT(env, argc >= ARGS_SIZE_ONE, "parameter count error");
+    if (argc < ARGS_SIZE_ONE) {
+        return ThrowNapiError(env, PARAM_ERROR, "Parameter count error");
+    }
 
     auto asyncContext = std::make_unique<ConfigAsyncContext>();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
     if (argc == ARGS_SIZE_TWO) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
-        NAPI_ASSERT(env, matchFlag, "parameter type error");
+        if (!matchFlag) {
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter type error");
+        }
         napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
     return HandleAsyncWork(env, asyncContext.release(), "NAPIGetOneCfgFile", NativeGetOneCfgFile,
@@ -72,13 +78,17 @@ napi_value ConfigPolicyNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info in
     napi_value thisVar = nullptr;
     void *data = nullptr;
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
-    NAPI_ASSERT(env, argc >= ARGS_SIZE_ONE, "parameter count error");
+    if (argc < ARGS_SIZE_ONE) {
+        return ThrowNapiError(env, PARAM_ERROR, "Parameter count error");
+    }
 
     auto asyncContext = std::make_unique<ConfigAsyncContext>();
     ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]);
     if (argc == ARGS_SIZE_TWO) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
-        NAPI_ASSERT(env, matchFlag, "parameter type error");
+        if (!matchFlag) {
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter type error");
+        }
         napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
     return HandleAsyncWork(env, asyncContext.release(), "NAPIGetCfgFiles", NativeGetCfgFiles, NativeCallbackComplete);
@@ -95,7 +105,9 @@ napi_value ConfigPolicyNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info 
     auto asyncContext = std::make_unique<ConfigAsyncContext>();
     if (argc == ARGS_SIZE_ONE) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ZERO], napi_function);
-        NAPI_ASSERT(env, matchFlag, "parameter type error");
+        if (!matchFlag) {
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter type error");
+        }
         napi_create_reference(env, argv[ARR_INDEX_ZERO], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
     return HandleAsyncWork(env, asyncContext.release(), "NAPIGetCfgDirList", NativeGetCfgDirList,
@@ -170,11 +182,7 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
     ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFile", "");
     asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result;
-        napi_status status = napi_create_string_utf8(env, context.pathValue_.c_str(), NAPI_AUTO_LENGTH, &result);
-        if (status != napi_ok) {
-            context.SetErrorMsg("Failed to get one file.");
-            return nullptr;
-        }
+        NAPI_CALL(env, napi_create_string_utf8(env, context.pathValue_.c_str(), NAPI_AUTO_LENGTH, &result));
         return result;
     };
 }
@@ -221,23 +229,11 @@ void ConfigPolicyNapi::CreateArraysValueFunc(ConfigAsyncContext &asyncCallbackIn
 {
     asyncCallbackInfo.createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result = nullptr;
-        napi_status status = napi_create_array_with_length(env, context.paths_.size(), &result);
-        if (status != napi_ok) {
-            context.SetErrorMsg("Failed to get file dir.");
-            return nullptr;
-        }
+        NAPI_CALL(env, napi_create_array_with_length(env, context.paths_.size(), &result));
         for (size_t i = 0; i < context.paths_.size(); i++) {
             napi_value element = nullptr;
-            status = napi_create_string_utf8(env, context.paths_[i].c_str(), NAPI_AUTO_LENGTH, &element);
-            if (status != napi_ok) {
-                context.SetErrorMsg("Failed to create string item.");
-                return nullptr;
-            }
-            status = napi_set_element(env, result, i, element);
-            if (status != napi_ok) {
-                context.SetErrorMsg("Failed to set array item.");
-                return nullptr;
-            }
+            NAPI_CALL(env, napi_create_string_utf8(env, context.paths_[i].c_str(), NAPI_AUTO_LENGTH, &element));
+            NAPI_CALL(env, napi_set_element(env, result, i, element));
         }
         return result;
     };
@@ -257,22 +253,11 @@ void ConfigPolicyNapi::NativeCallbackComplete(napi_env env, napi_status status, 
     }
 
     napi_value result[] = { nullptr, nullptr };
-    if (asyncContext->success_) {
-        napi_get_undefined(env, &result[0]);
-        result[1] = finalResult;
-    } else {
-        napi_value message = nullptr;
-        napi_create_string_utf8(env, asyncContext->errMsg_.c_str(), NAPI_AUTO_LENGTH, &message);
-        napi_create_error(env, nullptr, message, &result[0]);
-        napi_get_undefined(env, &result[1]);
-    }
+    napi_get_undefined(env, &result[0]);
+    result[1] = finalResult;
 
     if (asyncContext->deferred_ != nullptr) {
-        if (asyncContext->success_) {
-            napi_resolve_deferred(env, asyncContext->deferred_, result[1]);
-        } else {
-            napi_reject_deferred(env, asyncContext->deferred_, result[0]);
-        }
+        napi_resolve_deferred(env, asyncContext->deferred_, result[1]);
     } else {
         napi_value callback = nullptr;
         napi_value userRet = nullptr;
@@ -287,19 +272,19 @@ void ConfigPolicyNapi::NativeCallbackComplete(napi_env env, napi_status status, 
 napi_value ConfigPolicyNapi::ParseRelPath(napi_env env, std::string &param, napi_value args)
 {
     bool matchFlag = MatchValueType(env, args, napi_string);
-    NAPI_ASSERT(env, matchFlag, "Wrong argument type, string expected.");
+    if (!matchFlag) {
+        return ThrowNapiError(env, PARAM_ERROR, "Parameter type error");
+    }
     param = GetStringFromNAPI(env, args);
     napi_value result = nullptr;
-    napi_status status = napi_create_int32(env, NAPI_RETURN_ONE, &result);
-    NAPI_ASSERT(env, status == napi_ok, "napi_create_int32 error!");
+    NAPI_CALL(env, napi_create_int32(env, NAPI_RETURN_ONE, &result));
     return result;
 }
 
-void ConfigAsyncContext::SetErrorMsg(const std::string &msg)
+napi_value ConfigPolicyNapi::ThrowNapiError(napi_env env, int32_t errCode, const char* errMessage)
 {
-    errMsg_ = msg;
-    success_ = false;
-    HiLog::Error(LABEL, "%{public}s", msg.c_str());
+    napi_throw_error(env, std::to_string(errCode).c_str(), errMessage);
+    return nullptr;
 }
 
 static napi_value ConfigPolicyInit(napi_env env, napi_value exports)

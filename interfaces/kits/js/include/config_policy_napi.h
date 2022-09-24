@@ -35,7 +35,6 @@ struct ConfigAsyncContext {
     std::string relPath_;
     std::string pathValue_;
     std::vector<std::string> paths_;
-
 };
 
 class ConfigPolicyNapi {

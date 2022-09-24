@@ -281,7 +281,7 @@ napi_value ConfigPolicyNapi::ParseRelPath(napi_env env, std::string &param, napi
     return result;
 }
 
-napi_value ConfigPolicyNapi::ThrowNapiError(napi_env env, int32_t errCode, std::string &errMessage)
+napi_value ConfigPolicyNapi::ThrowNapiError(napi_env env, int32_t errCode, const std::string &errMessage)
 {
     napi_throw_error(env, std::to_string(errCode).c_str(), errMessage.c_str());
     return nullptr;

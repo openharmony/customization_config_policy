@@ -55,7 +55,7 @@ napi_value ConfigPolicyNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info 
     void *data = nullptr;
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
     if (argc < ARGS_SIZE_ONE) {
-        return ThrowNapiError(env, PARAM_ERROR, "Parameter count error");
+        return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The number of parameters is incorrect.");
     }
 
     auto asyncContext = std::make_unique<ConfigAsyncContext>();
@@ -63,7 +63,7 @@ napi_value ConfigPolicyNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info 
     if (argc == ARGS_SIZE_TWO) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
         if (!matchFlag) {
-            return ThrowNapiError(env, PARAM_ERROR, "Parameter type error");
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The second parameter must be Callback.");
         }
         napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
@@ -79,7 +79,7 @@ napi_value ConfigPolicyNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info in
     void *data = nullptr;
     napi_get_cb_info(env, info, &argc, argv, &thisVar, &data);
     if (argc < ARGS_SIZE_ONE) {
-        return ThrowNapiError(env, PARAM_ERROR, "Parameter count error");
+        return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The number of parameters is incorrect.");
     }
 
     auto asyncContext = std::make_unique<ConfigAsyncContext>();
@@ -87,7 +87,7 @@ napi_value ConfigPolicyNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info in
     if (argc == ARGS_SIZE_TWO) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
         if (!matchFlag) {
-            return ThrowNapiError(env, PARAM_ERROR, "Parameter type error");
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The second parameter must be Callback.");
         }
         napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
@@ -106,7 +106,7 @@ napi_value ConfigPolicyNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info 
     if (argc == ARGS_SIZE_ONE) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ZERO], napi_function);
         if (!matchFlag) {
-            return ThrowNapiError(env, PARAM_ERROR, "Parameter type error");
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The first parameter must be Callback.");
         }
         napi_create_reference(env, argv[ARR_INDEX_ZERO], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
@@ -273,7 +273,7 @@ napi_value ConfigPolicyNapi::ParseRelPath(napi_env env, std::string &param, napi
 {
     bool matchFlag = MatchValueType(env, args, napi_string);
     if (!matchFlag) {
-        return ThrowNapiError(env, PARAM_ERROR, "Parameter type error");
+        return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The type of relPath must be string.");
     }
     param = GetStringFromNAPI(env, args);
     napi_value result = nullptr;
@@ -281,9 +281,9 @@ napi_value ConfigPolicyNapi::ParseRelPath(napi_env env, std::string &param, napi
     return result;
 }
 
-napi_value ConfigPolicyNapi::ThrowNapiError(napi_env env, int32_t errCode, const char* errMessage)
+napi_value ConfigPolicyNapi::ThrowNapiError(napi_env env, int32_t errCode, std::string &errMessage)
 {
-    napi_throw_error(env, std::to_string(errCode).c_str(), errMessage);
+    napi_throw_error(env, std::to_string(errCode).c_str(), errMessage.c_str());
     return nullptr;
 }
 

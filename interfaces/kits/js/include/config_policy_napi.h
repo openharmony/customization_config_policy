@@ -59,7 +59,7 @@ private:
     static void NativeCallbackComplete(napi_env env, napi_status status, void *data);
     static napi_value ParseRelPath(napi_env env, std::string &param, napi_value args);
     static void CreateArraysValueFunc(ConfigAsyncContext &context);
-    static napi_value ThrowNapiError(napi_env env, int32_t errCode, const char* errMessage);
+    static napi_value ThrowNapiError(napi_env env, int32_t errCode, std::string &errMessage);
 };
 } // namespace ConfigPolicy
 } // namespace Customization

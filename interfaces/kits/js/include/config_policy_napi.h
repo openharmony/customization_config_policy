@@ -26,19 +26,15 @@ namespace OHOS {
 namespace Customization {
 namespace ConfigPolicy {
 struct ConfigAsyncContext {
-    bool success_ = true;
     napi_async_work work_;
     napi_deferred deferred_;
     napi_ref callbackRef_;
-    std::string errMsg_;
     typedef napi_value (*CreateNapiValue)(napi_env env, ConfigAsyncContext &context);
     CreateNapiValue createValueFunc_;
 
     std::string relPath_;
     std::string pathValue_;
     std::vector<std::string> paths_;
-
-    void SetErrorMsg(const std::string &msg);
 };
 
 class ConfigPolicyNapi {
@@ -62,6 +58,7 @@ private:
     static void NativeCallbackComplete(napi_env env, napi_status status, void *data);
     static napi_value ParseRelPath(napi_env env, std::string &param, napi_value args);
     static void CreateArraysValueFunc(ConfigAsyncContext &context);
+    static napi_value ThrowNapiError(napi_env env, int32_t errCode, const std::string &errMessage);
 };
 } // namespace ConfigPolicy
 } // namespace Customization

@@ -253,7 +253,7 @@ void ConfigPolicyNapi::NativeCallbackComplete(napi_env env, napi_status status, 
     }
 
     napi_value result[] = { nullptr, nullptr };
-    napi_get_undefined(env, &result[0]);
+    napi_get_null(env, &result[0]);
     result[1] = finalResult;
 
     if (asyncContext->deferred_ != nullptr) {

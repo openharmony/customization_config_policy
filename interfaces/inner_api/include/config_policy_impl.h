@@ -26,9 +26,9 @@ extern "C" {
 #define CUST_KEY_POLICY_LAYER "const.cust.config_dir_layer"
 #define CUST_FOLLOW_X_RULES   "const.cust.follow_x_rules"
 // opkey info for sim1
-#define CUST_OPKEY0           "persist.telephony.opkey0"
+#define CUST_OPKEY0           "telephony.sim.opkey0"
 // opkey info for sim1
-#define CUST_OPKEY1           "persist.telephony.opkey1"
+#define CUST_OPKEY1           "telephony.sim.opkey1"
 
 #ifdef __cplusplus
 #if __cplusplus

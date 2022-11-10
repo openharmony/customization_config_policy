@@ -38,9 +38,15 @@
 ```
 #include "config_policy_utils.h"
 
-const char *testPathSuffix = "user.xml"; //设置配置文件名称
+CfgDir *cfgDir = GetCfgDirList(); // 获取配置层级目录列表
+FreeCfgDirList(cfgDir); // 获取完成后需要释放内存
+
+const char *pathSuffix = "etc/xml/user.xml"; // 设置配置文件相对路径及文件名
 char buf[MAX_PATH_LEN] = {0};
-char *filePath = GetOneCfgFile(testPathSuffix, buf, MAX_PATH_LEN); //获取最高优先级的配置文件路径
+CfgFiles *cfgFiles = GetCfgFiles(pathSuffix); // 获取所有配置层级的配置文件路径
+FreeCfgFiles(cfgFiles); // 获取完成后需要释放内存
+
+char *filePath = GetOneCfgFile(pathSuffix, buf, MAX_PATH_LEN); // 获取最高优先级的配置文件路径
 ```
 
 ## 约束

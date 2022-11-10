@@ -31,10 +31,11 @@ class ConfigPolicyUtilsTest : public testing::Test {
         static void SetUpTestCase(void);
 };
 
-void ConfigPolicyUtilsTest::SetUpTestCase(void) {
+void ConfigPolicyUtilsTest::SetUpTestCase(void)
+{
     SystemSetParameter(CUST_OPKEY0, "46060");
     SystemSetParameter(CUST_OPKEY1, "46061");
-    SystemSetParameter(CUST_FOLLOW_X_RULES, 
+    SystemSetParameter(CUST_FOLLOW_X_RULES,
         ":etc/custxmltest/user.xml,10:etc/custxmltest/both.xml,100,etc/carrier/${test:-46061}");
 }
 

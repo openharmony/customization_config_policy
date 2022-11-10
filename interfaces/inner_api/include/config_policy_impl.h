@@ -25,16 +25,12 @@ extern "C" {
 // these name is used for write data, init may use it
 #define CUST_KEY_POLICY_LAYER "const.cust.config_dir_layer"
 #define CUST_FOLLOW_X_RULES   "const.cust.follow_x_rules"
-// opkey info for sim1
-#define CUST_OPKEY0           "telephony.sim.opkey0"
-// opkey info for sim1
-#define CUST_OPKEY1           "telephony.sim.opkey1"
 
 // if fs need path prefix, set ROOT_PREFIX before include current file
 #ifndef ROOT_PREFIX
 #define ROOT_PREFIX ""
 #endif
-#define DEFAULT_LAYER ROOT_PREFIX"/system:"ROOT_PREFIX"/chipset:"ROOT_PREFIX"/sys_prod:"ROOT_PREFIX"/chip_prod"
+#define DEFAULT_LAYER ROOT_PREFIX "/system:" ROOT_PREFIX" /chipset:" ROOT_PREFIX" /sys_prod:" ROOT_PREFIX "/chip_prod"
 
 #ifdef __LITEOS_M__
 #define MINI_CONFIG_POLICY_BUF_SIZE 256

@@ -22,11 +22,11 @@ config_policy_sources = [ "config_policy_utils_test.cpp" ]
 config_policy_include_dirs = [
   "//base/customization/config_policy/interfaces/inner_api/include",
   "//base/startup/init/services/include/param",
-  "//base/telephony/core_service/utils/common/include", 
+  "//base/telephony/core_service/utils/common/include",
 ]
 config_policy_deps = [
   "//base/customization/config_policy/frameworks/config_policy:configpolicy_util",
-  "//base/startup/init/interfaces/innerkits:libbegetutil", 
+  "//base/startup/init/interfaces/innerkits:libbegetutil",
 ]
 
 if (defined(ohos_lite)) {

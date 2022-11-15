@@ -21,7 +21,7 @@
 #include <unistd.h>
 
 #include "config_policy_impl.h"
-#ifndef OHOS_LITE
+#ifndef __LITEOS__
 #include "init_param.h"
 #endif
 
@@ -45,6 +45,23 @@ typedef struct {
     char *orgStr;
     char *segs[1];
 } SplitedStr;
+
+#ifdef __LITEOS_M__
+// The data will be used always, so prealloc to avoid memory fragment
+static char gConfigPolicy[MINI_CONFIG_POLICY_BUF_SIZE] = {0};
+void SetMiniConfigPolicy(const char *policy)
+{
+    if (gConfigPolicy[0] != 0) {
+        return; // now only set once
+    }
+    (void)strcpy_s(gConfigPolicy, sizeof(gConfigPolicy), policy);
+}
+
+__WEAK void TrigSetMiniConfigPolicy()
+{
+    return;
+}
+#endif
 
 /**
  * query function, the memory is allocated in function
@@ -71,6 +88,7 @@ static void FreeIf(void *p)
     }
 }
 
+#ifndef __LITEOS__
 static char *CustGetSystemParam(const char *name)
 {
     char *value = NULL;
@@ -119,6 +137,7 @@ static char *GetOpkeyPath(int type)
     FreeIf(result);
     return NULL;
 }
+#endif // __LITEOS__
 
 static SplitedStr *SplitStr(char *str, char delim)
 {
@@ -151,6 +170,7 @@ static void FreeSplitedStr(SplitedStr *p)
     }
 }
 
+#ifndef __LITEOS__
 // get follow x rule from param variant
 // *mode: read from contains param variant, mode is output param.
 // return: extra path rule.
@@ -237,6 +257,12 @@ static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, con
     SplitedStr *result = expandVal ? SplitStr(expandVal, ',') : NULL;
     return result;
 }
+#else
+static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, const char *extra)
+{
+    return NULL;
+}
+#endif
 
 static char *TrimInplace(char *str, bool moveToStart)
 {
@@ -344,13 +370,22 @@ static void GetCfgDirRealPolicyValue(CfgDir *res)
     if (res == NULL) {
         return;
     }
-#ifndef OHOS_LITE
+#ifdef __LITEOS_M__
+    if (gConfigPolicy[0] == '\0') {
+        TrigSetMiniConfigPolicy();
+    }
+    if (gConfigPolicy[0] != '\0') {
+        res->realPolicyValue = strdup(gConfigPolicy);
+    }
+#elif defined(__LITEOS__)
+    // use default, now do nothing
+#else
     res->realPolicyValue = CustGetSystemParam(CUST_KEY_POLICY_LAYER);
-    if (res->realPolicyValue != NULL) {
+#endif
+    if (res->realPolicyValue != NULL && res->realPolicyValue[0]) {
         return;
     }
-#endif
-    res->realPolicyValue = strdup("/system:/chipset:/sys_prod:/chip_prod");
+    res->realPolicyValue = strdup(DEFAULT_LAYER);
 }
 
 void FreeCfgFiles(CfgFiles *res)

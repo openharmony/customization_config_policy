@@ -17,6 +17,11 @@ if (defined(ohos_lite)) {
   import("//build/ohos.gni")
 }
 
+declare_args() {
+  # if fs has prefix before OH path, set it here
+  config_policy_fs_prefix = ""
+}
+
 config_policy_sources = [ "src/config_policy_utils.c" ]
 config("config_policy_config") {
   include_dirs = [
@@ -26,9 +31,20 @@ config("config_policy_config") {
   ]
 }
 
-if (defined(ohos_lite)) {
+if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
+  static_library("configpolicy_util") {
+    sources = config_policy_sources
+    if (config_policy_fs_prefix != "") {
+      print("cust config_policy_fs_prefix: ${config_policy_fs_prefix}")
+      defines = [ "ROOT_PREFIX=\"${config_policy_fs_prefix}\"" ]
+    }
+    include_dirs = [
+      "//base/customization/config_policy/interfaces/inner_api/include",
+      "//third_party/bounds_checking_function/include",
+    ]
+  }
+} else if (defined(ohos_lite)) {
   shared_library("configpolicy_util") {
-    defines = [ "OHOS_LITE" ]
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
     deps = [ "//third_party/bounds_checking_function:libsec_shared" ]

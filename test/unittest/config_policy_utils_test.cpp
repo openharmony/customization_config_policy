@@ -19,7 +19,6 @@
 
 #include "config_policy_utils.h"
 #include "config_policy_impl.h"
-
 #include "init_param.h"
 #include "telephony_config_c.h"
 

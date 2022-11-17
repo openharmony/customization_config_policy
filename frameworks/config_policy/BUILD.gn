@@ -28,6 +28,7 @@ config("config_policy_config") {
     "//base/customization/config_policy/interfaces/inner_api/include",
     "//third_party/bounds_checking_function/include",
     "//base/startup/init/services/include/param",
+    "//base/telephony/core_service/utils/common/include",
   ]
 }
 

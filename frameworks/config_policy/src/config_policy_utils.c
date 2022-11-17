@@ -24,8 +24,11 @@
 #ifndef __LITEOS__
 #include "init_param.h"
 #endif
+#include "telephony_config_c.h"
 
 static const size_t MIN_APPEND_LEN = 32;
+// set min opkey length
+static const unsigned int MIN_OPKEY_LEN = 3;
 // ':' split different x rules, example:":relPath,mode[,extra][:]"
 // ',' split different param for x rules
 // ":-" split for key:-value
@@ -116,9 +119,9 @@ static char *GetOpkeyPath(int type)
         opKeyName = CUST_OPKEY1;
     } else {
         unsigned int len = 0;
-        if (SystemGetParameter(CUST_OPKEY0, NULL, &len) == 0 && len > 0) {
+        if (SystemGetParameter(CUST_OPKEY0, NULL, &len) == 0 && len > MIN_OPKEY_LEN) {
             opKeyName = CUST_OPKEY0;
-        } else if (SystemGetParameter(CUST_OPKEY1, NULL, &len) == 0 && len > 0) {
+        } else if (SystemGetParameter(CUST_OPKEY1, NULL, &len) == 0 && len > MIN_OPKEY_LEN) {
             opKeyName = CUST_OPKEY1;
         }
     }
@@ -197,7 +200,7 @@ static char *GetFollowXRule(const char *relPath, int *mode)
         item++; // skip delim ':', goto ":relPath,mode[,extra][:]"
         char *endItem = strchr(item, SEP_FOR_X_RULE);
         char *nextItem = endItem + 1;
-        while (endItem && nextItem && *nextItem == '-') {
+        while (endItem && *nextItem == '-') {
             endItem = strchr(nextItem, SEP_FOR_X_RULE);
             nextItem = endItem + 1;
         }

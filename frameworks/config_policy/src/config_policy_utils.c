@@ -23,8 +23,8 @@
 #include "config_policy_impl.h"
 #ifndef __LITEOS__
 #include "init_param.h"
-#endif
 #include "telephony_config_c.h"
+#endif
 
 static const size_t MIN_APPEND_LEN = 32;
 // set min opkey length

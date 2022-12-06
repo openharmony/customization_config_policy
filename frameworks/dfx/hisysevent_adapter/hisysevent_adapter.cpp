@@ -22,17 +22,17 @@ namespace Customization {
 namespace ConfigPolicy {
 using namespace OHOS::HiviewDFX;
 static constexpr HiLogLabel LABEL = { LOG_CORE, 0xD001E00, "ReportConfigPolicyEvent" };
-const std::string DOMAIN_STR = std::string(HiSysEvent::Domain::CUSTOMIZATION_CONFIG);
 
 void ReportConfigPolicyEvent(ReportType reportType, const std::string &apiName, const std::string &msgInfo)
 {
     int ret;
     if (reportType == ReportType::CONFIG_POLICY_FAILED) {
-        ret = HiSysEvent::Write(DOMAIN_STR, "CONFIG_POLICY_FAILED", HiSysEvent::EventType::FAULT, "APINAME", apiName,
-            "MSG", msgInfo);
+        ret = HiSysEventWrite(HiSysEvent::Domain::CUSTOMIZATION_CONFIG, "CONFIG_POLICY_FAILED",
+            HiSysEvent::EventType::FAULT, "APINAME", apiName, "MSG", msgInfo);
     } else {
         ret =
-            HiSysEvent::Write(DOMAIN_STR, "CONFIG_POLICY_EVENT", HiSysEvent::EventType::STATISTIC, "APINAME", apiName);
+            HiSysEventWrite(HiSysEvent::Domain::CUSTOMIZATION_CONFIG, "CONFIG_POLICY_EVENT",
+                HiSysEvent::EventType::STATISTIC, "APINAME", apiName);
     }
 
     if (ret != 0) {

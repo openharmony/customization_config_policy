@@ -56,7 +56,7 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
     public_configs = [ ":config_policy_config" ]
     deps = [
       "etc:customization_etc",
-      "//third_party/bounds_checking_function:libsec_static",
+      "//third_party/bounds_checking_function:libsec_shared",
     ]
     external_deps = [ "init:libbegetutil" ]
 

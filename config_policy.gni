@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Huawei Device Co., Ltd.
+# Copyright (c) 2023 Huawei Device Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -11,15 +11,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//base/customization/config_policy/config_policy.gni")
+declare_args() {
+  # if fs has prefix before OH path, set it here
+  config_policy_fs_prefix = ""
 
-group("config_policy_components") {
-  if (os_level == "standard" && support_config_policy_napi) {
-    deps = [
-      "//base/customization/config_policy/frameworks/config_policy:configpolicy_util",
-      "//base/customization/config_policy/interfaces/kits/js:configpolicy",
-    ]
-  } else {
-    deps = [ "//base/customization/config_policy/frameworks/config_policy:configpolicy_util" ]
-  }
+  # Whether support napi so
+  support_config_policy_napi = true
 }

@@ -191,6 +191,7 @@ static char *GetFollowXRule(const char *relPath, int *mode)
     char *search = (char *)calloc(bufSize, sizeof(char));
     if (search == NULL || sprintf_s(search, bufSize, ":%s,", relPath) == -1) {
         FreeIf(search);
+        FreeIf(followRule);
         return NULL;
     }
 

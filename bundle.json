@@ -1,7 +1,7 @@
 {
-  "name": "@ohos/customization_config_policy",
+  "name": "@ohos/config_policy",
   "description": "The customization framework, namely, cust, provides APIs for each service module to obtain the configuration directories at different levels or the configuration file paths.",
-  "version": "3.1",
+  "version": 3.2,
   "license": "Apache License 2.0",
   "publishAs": "code-segment",
   "segment": {
@@ -18,8 +18,8 @@
     "hisysevent_config": [
       "//base/customization/config_policy/frameworks/dfx/hisysevent.yaml"
     ],
-    "rom": "",
-    "ram": "",
+    "rom": "100KB",
+    "ram": "50KB",
     "deps": {
       "components": [
         "common",

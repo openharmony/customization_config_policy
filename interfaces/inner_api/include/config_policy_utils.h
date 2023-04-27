@@ -79,13 +79,13 @@ void FreeCfgDirList(CfgDir *res);
 // buf: recommended buffer length is MAX_PATH_LEN
 // followMode: 0/1/10/11/12/100, see FOLLOWX_MODE_*
 // extra: User defined follow rule, get follow_rule_add_path
-// return: path of the highest priority config file, return '\0' when such a file is not found
+// return: path of the highest priority config file, return NULL when such a file is not found
 char *GetOneCfgFileEx(const char *pathSuffix, char *buf, unsigned int bufLength, int followMode, const char *extra);
 
 // get the highest priority config file
 // pathSuffixStr: the relative path of the config file, e.g. "etc/xml/config.xml"
 // buf: recommended buffer length is MAX_PATH_LEN
-// return: path of the highest priority config file, return '\0' when such a file is not found
+// return: path of the highest priority config file, return NULL when such a file is not found
 char *GetOneCfgFile(const char *pathSuffix, char *buf, unsigned int bufLength);
 
 // get config files, ordered by priority from low to high

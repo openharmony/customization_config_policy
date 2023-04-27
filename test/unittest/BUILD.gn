@@ -11,6 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("../../config_policy.gni")
 if (defined(ohos_lite)) {
   import("//build/lite/config/component/lite_component.gni")
   import("//build/lite/config/test.gni")
@@ -20,14 +21,11 @@ if (defined(ohos_lite)) {
 
 config_policy_sources = [ "config_policy_utils_test.cpp" ]
 config_policy_include_dirs = [
-  "//base/customization/config_policy/interfaces/inner_api/include",
-  "//base/startup/init/services/include/param",
-  "//base/telephony/core_service/utils/common/include",
+  "../../interfaces/inner_api/include",
+  "$STARTUP_INIT_ROOT_DIR/services/include/param",
+  "$TEL_CORESERVICE_ROOT_DIR/utils/common/include",
 ]
-config_policy_deps = [
-  "//base/customization/config_policy/frameworks/config_policy:configpolicy_util",
-  "//base/startup/init/interfaces/innerkits:libbegetutil",
-]
+config_policy_deps = [ "../../frameworks/config_policy:configpolicy_util" ]
 
 if (defined(ohos_lite)) {
   unittest("ConfigPolicyUtilsTest") {
@@ -45,7 +43,7 @@ if (defined(ohos_lite)) {
     sources = config_policy_sources
     include_dirs = config_policy_include_dirs
     deps = config_policy_deps
-    resource_config_file =
-        "//base/customization/config_policy/test/resource/ohos_test.xml"
+    external_deps = [ "init:libbegetutil" ]
+    resource_config_file = "../../test/resource/ohos_test.xml"
   }
 }

@@ -15,18 +15,18 @@ import("//build/ohos.gni")
 
 ohos_shared_library("configpolicy") {
   include_dirs = [
-    "//base/customization/config_policy/interfaces/inner_api/include",
+    "include",
+    "../../../interfaces/inner_api/include",
     "//third_party/bounds_checking_function/include",
-    "//base/customization/config_policy/interfaces/kits/js/include",
-    "//base/customization/config_policy/frameworks/dfx/hisysevent_adapter",
+    "../../../frameworks/dfx/hisysevent_adapter",
   ]
 
   sources = [
-    "//base/customization/config_policy/frameworks/dfx/hisysevent_adapter/hisysevent_adapter.cpp",
+    "../../../frameworks/dfx/hisysevent_adapter/hisysevent_adapter.cpp",
     "src/config_policy_napi.cpp",
   ]
 
-  deps = [ "//base/customization/config_policy/frameworks/config_policy:configpolicy_util" ]
+  deps = [ "../../../frameworks/config_policy:configpolicy_util" ]
   external_deps = [
     "hisysevent_native:libhisysevent",
     "hiviewdfx_hilog_native:libhilog",

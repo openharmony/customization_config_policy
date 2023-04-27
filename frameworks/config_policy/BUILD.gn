@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//base/customization/config_policy/config_policy.gni")
+import("../../config_policy.gni")
 if (defined(ohos_lite)) {
   import("//build/lite/config/component/lite_component.gni")
 } else {
@@ -21,10 +21,10 @@ if (defined(ohos_lite)) {
 config_policy_sources = [ "src/config_policy_utils.c" ]
 config("config_policy_config") {
   include_dirs = [
-    "//base/customization/config_policy/interfaces/inner_api/include",
+    "../../interfaces/inner_api/include",
     "//third_party/bounds_checking_function/include",
-    "//base/startup/init/services/include/param",
-    "//base/telephony/core_service/utils/common/include",
+    "$STARTUP_INIT_ROOT_DIR/services/include/param",
+    "$TEL_CORESERVICE_ROOT_DIR/utils/common/include",
   ]
 }
 
@@ -36,7 +36,7 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
       defines = [ "ROOT_PREFIX=\"${config_policy_fs_prefix}\"" ]
     }
     include_dirs = [
-      "//base/customization/config_policy/interfaces/inner_api/include",
+      "../../interfaces/inner_api/include",
       "//third_party/bounds_checking_function/include",
     ]
   }

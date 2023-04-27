@@ -1,7 +1,7 @@
 {
   "name": "@ohos/config_policy",
   "description": "The customization framework, namely, cust, provides APIs for each service module to obtain the configuration directories at different levels or the configuration file paths.",
-  "version": "3.2",
+  "version": 3.2,
   "license": "Apache License 2.0",
   "publishAs": "code-segment",
   "segment": {

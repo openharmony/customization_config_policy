@@ -56,7 +56,10 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
     ]
     external_deps = [ "init:libbegetutil" ]
 
-    innerapi_tags = [ "chipsetsdk" ]
+    innerapi_tags = [
+      "chipsetsdk",
+      "platformsdk",
+    ]
     subsystem_name = "customization"
     part_name = "config_policy"
   }

@@ -55,7 +55,10 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
       "//third_party/bounds_checking_function:libsec_shared",
     ]
     external_deps = [ "init:libbegetutil" ]
-
+    install_images = [
+      "system",
+      "updater",
+    ]
     innerapi_tags = [ "chipsetsdk" ]
     subsystem_name = "customization"
     part_name = "config_policy"

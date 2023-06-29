@@ -23,8 +23,8 @@
     "deps": {
       "components": [
         "common",
-        "hisysevent_native",
-        "hiviewdfx_hilog_native",
+        "hisysevent",
+        "hilog",
         "napi",
         "init"
       ],

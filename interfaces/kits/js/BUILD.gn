@@ -28,8 +28,8 @@ ohos_shared_library("configpolicy") {
 
   deps = [ "../../../frameworks/config_policy:configpolicy_util" ]
   external_deps = [
-    "hisysevent_native:libhisysevent",
-    "hiviewdfx_hilog_native:libhilog",
+    "hisysevent:libhisysevent",
+    "hilog:libhilog",
     "napi:ace_napi",
   ]
   relative_install_dir = "module"

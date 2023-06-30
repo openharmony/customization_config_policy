@@ -22,9 +22,9 @@
     "ram": "50KB",
     "deps": {
       "components": [
-        "common",
-        "hisysevent_native",
-        "hiviewdfx_hilog_native",
+        "core_service",
+        "hisysevent",
+        "hilog",
         "napi",
         "init"
       ],

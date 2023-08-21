@@ -22,7 +22,6 @@
     "ram": "50KB",
     "deps": {
       "components": [
-        "core_service",
         "hisysevent",
         "hilog",
         "napi",

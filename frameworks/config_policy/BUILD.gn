@@ -62,6 +62,7 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
     innerapi_tags = [
       "chipsetsdk",
       "platformsdk",
+      "sasdk",
     ]
     subsystem_name = "customization"
     part_name = "config_policy"

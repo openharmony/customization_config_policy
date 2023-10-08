@@ -436,11 +436,11 @@ napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_
 {
     bool matchFlag = MatchValueType(env, args, napi_number);
     if (!matchFlag) {
-        return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The type of followXMode must be number.");
+        return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The type of followMode must be number.");
     }
     if (napi_get_value_int32(env, args, &param) != napi_ok) {
         HiLog::Error(LABEL, "can not get int32 value.");
-        return ThrowNapiError(env, PARAM_ERROR, "Parameter error. Get the value of followXMode failed.");
+        return ThrowNapiError(env, PARAM_ERROR, "Parameter error. Get the value of followMode failed.");
     }
 
     switch (param) {
@@ -453,7 +453,7 @@ napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_
             break;
         default:
             return ThrowNapiError(env, PARAM_ERROR,
-                "Parameter error. The value of followXMode should be in the enumeration value of FollowXMode.");
+                "Parameter error. The value of followMode should be in the enumeration value of FollowXMode.");
     }
 
     napi_value result = nullptr;

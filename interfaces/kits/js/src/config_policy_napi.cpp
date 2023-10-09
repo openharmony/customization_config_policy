@@ -445,10 +445,15 @@ napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_
 
     switch (param) {
         case FOLLOWX_MODE_DEFAULT:
+            [[fallthrough]];
         case FOLLOWX_MODE_NO_FOLLOW:
+            [[fallthrough]];
         case FOLLOWX_MODE_SIM_DEFAULT:
+            [[fallthrough]];
         case FOLLOWX_MODE_SIM_1:
+            [[fallthrough]];
         case FOLLOWX_MODE_SIM_2:
+            [[fallthrough]];
         case FOLLOWX_MODE_USER_DEFINE:
             break;
         default:

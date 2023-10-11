@@ -70,7 +70,7 @@ bool TestGetCfgFile(const char *testPathSuffix, int type, const char *extra)
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest001, TestSize.Level1)
 {
     const char *testPathSuffix = "etc/custxmltest/none.xml";
-    EXPECT_FALSE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_FOLLOW, NULL));
+    EXPECT_FALSE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_RULE_FOLLOWED, NULL));
 }
 
 /**
@@ -82,7 +82,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest001, TestSize.Level1)
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest002, TestSize.Level1)
 {
     const char *testPathSuffix = "etc/custxmltest/system.xml";
-    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_FOLLOW, NULL));
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_RULE_FOLLOWED, NULL));
 }
 
 /**
@@ -94,7 +94,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest002, TestSize.Level1)
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest003, TestSize.Level1)
 {
     const char *testPathSuffix = "etc/custxmltest/user.xml";
-    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_FOLLOW, NULL));
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_RULE_FOLLOWED, NULL));
 }
 
 /**
@@ -106,7 +106,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest003, TestSize.Level1)
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest004, TestSize.Level1)
 {
     const char *testPathSuffix = "etc/custxmltest/both.xml";
-    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_FOLLOW, NULL));
+    EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_NO_RULE_FOLLOWED, NULL));
 }
 
 /**
@@ -191,7 +191,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest010, TestSize.Level1)
     extraString.append("etc/carrier/${").append(CUST_OPKEY1).append(":-46060},etc/carrier/${")
         .append(CUST_OPKEY0).append("}/etc/${testkey:-custxmltest}");
     std::cout << "extra: " << extraString << std::endl;
-    EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/user.xml", FOLLOWX_MODE_USER_DEFINE, extraString.c_str()));
-    EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/both.xml", FOLLOWX_MODE_USER_DEFINE, extraString.c_str()));
+    EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/user.xml", FOLLOWX_MODE_USER_DEFINED, extraString.c_str()));
+    EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/both.xml", FOLLOWX_MODE_USER_DEFINED, extraString.c_str()));
 }
 } // namespace OHOS

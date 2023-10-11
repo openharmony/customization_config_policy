@@ -65,7 +65,8 @@ void ConfigPolicyNapi::CreateFollowXModeObject(napi_env env, napi_value value)
     NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_DEFAULT), &nDefaultMode));
     NAPI_CALL_RETURN_VOID(env, napi_set_named_property(env, value, "DEFAULT", nDefaultMode));
     napi_value nNoFollowMode;
-    NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_NO_RULE_FOLLOWED), &nNoFollowMode));
+    NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_NO_RULE_FOLLOWED),
+                          &nNoFollowMode));
     NAPI_CALL_RETURN_VOID(env, napi_set_named_property(env, value, "NO_RULE_FOLLOWED", nNoFollowMode));
     napi_value nSimDefaultMode;
     NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_SIM_DEFAULT),

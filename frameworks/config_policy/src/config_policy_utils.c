@@ -213,7 +213,7 @@ static char *GetFollowXRule(const char *relPath, int *mode)
             modeStr++;
             *mode = atoi(modeStr);
         }
-        if (*mode == FOLLOWX_MODE_USER_DEFINE && modeStr) {
+        if (*mode == FOLLOWX_MODE_USER_DEFINED && modeStr) {
             addPath = strchr(modeStr, SEP_FOR_X_PARAM);
             if (addPath) {
                 addPath++; // skip ',' get extra info
@@ -234,7 +234,7 @@ static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, con
     const char *extraPath = extra;
     if (followMode == FOLLOWX_MODE_DEFAULT) {
         modePathFromCfg = GetFollowXRule(relPath, &followMode);
-        if (followMode == FOLLOWX_MODE_USER_DEFINE && modePathFromCfg && *modePathFromCfg) {
+        if (followMode == FOLLOWX_MODE_USER_DEFINED && modePathFromCfg && *modePathFromCfg) {
             extraPath = modePathFromCfg;
         }
     }
@@ -249,7 +249,7 @@ static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, con
         case FOLLOWX_MODE_SIM_2:
             followXPath = GetOpkeyPath(FOLLOWX_MODE_SIM_2);
             break;
-        case FOLLOWX_MODE_USER_DEFINE:
+        case FOLLOWX_MODE_USER_DEFINED:
             followXPath = (extraPath && *extraPath) ? strdup(extraPath) : NULL;
             break;
         default:

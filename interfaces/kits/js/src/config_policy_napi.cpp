@@ -65,8 +65,8 @@ void ConfigPolicyNapi::CreateFollowXModeObject(napi_env env, napi_value value)
     NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_DEFAULT), &nDefaultMode));
     NAPI_CALL_RETURN_VOID(env, napi_set_named_property(env, value, "DEFAULT", nDefaultMode));
     napi_value nNoFollowMode;
-    NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_NO_FOLLOW), &nNoFollowMode));
-    NAPI_CALL_RETURN_VOID(env, napi_set_named_property(env, value, "NO_FOLLOW", nNoFollowMode));
+    NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_NO_RULE_FOLLOWED), &nNoFollowMode));
+    NAPI_CALL_RETURN_VOID(env, napi_set_named_property(env, value, "NO_RULE_FOLLOWED", nNoFollowMode));
     napi_value nSimDefaultMode;
     NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_SIM_DEFAULT),
         &nSimDefaultMode));
@@ -78,9 +78,9 @@ void ConfigPolicyNapi::CreateFollowXModeObject(napi_env env, napi_value value)
     NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_SIM_2), &nSim2Mode));
     NAPI_CALL_RETURN_VOID(env, napi_set_named_property(env, value, "SIM_2", nSim2Mode));
     napi_value nUserDefineMode;
-    NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_USER_DEFINE),
+    NAPI_CALL_RETURN_VOID(env, napi_create_int32(env, static_cast<int32_t>(FOLLOWX_MODE_USER_DEFINED),
         &nUserDefineMode));
-    NAPI_CALL_RETURN_VOID(env, napi_set_named_property(env, value, "USER_DEFINE", nUserDefineMode));
+    NAPI_CALL_RETURN_VOID(env, napi_set_named_property(env, value, "USER_DEFINED", nUserDefineMode));
 }
 
 napi_value ConfigPolicyNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
@@ -127,7 +127,7 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFilesEx(napi_env env, napi_cal
         return nullptr;
     }
     if (argc == ARGS_SIZE_TWO) {
-        if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINE) {
+        if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINED) {
             return ThrowNapiError(env, PARAM_ERROR,
                 "Parameter error. The followMode is USER_DEFINE, extra must be set.");
         }
@@ -135,7 +135,7 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFilesEx(napi_env env, napi_cal
     if (argc == ARGS_SIZE_THREE) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_TWO], napi_function);
         if (matchFlag) {
-            if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINE) {
+            if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINED) {
                 return ThrowNapiError(env, PARAM_ERROR,
                     "Parameter error. The followMode is USER_DEFINE, extra must be set.");
             }
@@ -446,7 +446,7 @@ napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_
     switch (param) {
         case FOLLOWX_MODE_DEFAULT:
             [[fallthrough]];
-        case FOLLOWX_MODE_NO_FOLLOW:
+        case FOLLOWX_MODE_NO_RULE_FOLLOWED:
             [[fallthrough]];
         case FOLLOWX_MODE_SIM_DEFAULT:
             [[fallthrough]];
@@ -454,7 +454,7 @@ napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_
             [[fallthrough]];
         case FOLLOWX_MODE_SIM_2:
             [[fallthrough]];
-        case FOLLOWX_MODE_USER_DEFINE:
+        case FOLLOWX_MODE_USER_DEFINED:
             break;
         default:
             return ThrowNapiError(env, PARAM_ERROR,

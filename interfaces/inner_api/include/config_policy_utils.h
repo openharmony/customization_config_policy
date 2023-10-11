@@ -42,8 +42,8 @@ extern "C" {
 //    follow_rule,etc/xml/config2.xml,100,etc/carrier/${keyname:-value}
 // Follow rule in followx_file_list.cfg, which stored in param variant
 #define FOLLOWX_MODE_DEFAULT      0
-// Not use any follow rule, even exsit followx_file_list.cfg
-#define FOLLOWX_MODE_NO_FOLLOW    1
+// Not use any follow rule, even exist followx_file_list.cfg
+#define FOLLOWX_MODE_NO_RULE_FOLLOWED    1
 // Follow rule by default slot
 #define FOLLOWX_MODE_SIM_DEFAULT  10
 // Follow rule by slot 1
@@ -52,7 +52,7 @@ extern "C" {
 #define FOLLOWX_MODE_SIM_2        12
 // User defined follow rule, get follow_rule_add_path from @param extra
 // Notice: Follow rule in followx_file_list.cfg will be ignored.
-#define FOLLOWX_MODE_USER_DEFINE  100
+#define FOLLOWX_MODE_USER_DEFINED  100
 
 // Config Files
 struct CfgFiles {

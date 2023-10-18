@@ -323,8 +323,7 @@ napi_value ConfigPolicyNapi::NativeGetOneCfgFileSync(napi_env env, std::shared_p
 napi_value ConfigPolicyNapi::NativeGetOneCfgFileExSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
     char outBuf[MAX_PATH_LEN] = {0};
-    GetOneCfgFileEx(context->relPath_.c_str(), outBuf, MAX_PATH_LEN,
-        context->followMode_, context->extra_.c_str());
+    GetOneCfgFileEx(context->relPath_.c_str(), outBuf, MAX_PATH_LEN, context->followMode_, context->extra_.c_str());
     context->pathValue_ = std::string(outBuf);
     ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFileExSync", "");
     napi_value result = nullptr;
@@ -354,9 +353,11 @@ void ConfigPolicyNapi::NativeGetCfgFiles(napi_env env, void *data)
 napi_value ConfigPolicyNapi::NativeGetCfgFilesSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
     CfgFiles *cfgFiles = GetCfgFiles(context->relPath_.c_str());
-    for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
-        if (cfgFiles != nullptr && cfgFiles->paths[i] != nullptr) {
-            context->paths_.push_back(cfgFiles->paths[i]);
+    if (cfgFiles != nullptr) {
+        for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
+            if (cfgFiles->paths[i] != nullptr) {
+                context->paths_.push_back(cfgFiles->paths[i]);
+            }
         }
     }
     FreeCfgFiles(cfgFiles);
@@ -366,23 +367,17 @@ napi_value ConfigPolicyNapi::NativeGetCfgFilesSync(napi_env env, std::shared_ptr
 
 napi_value ConfigPolicyNapi::NativeGetCfgFilesExSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
-    CfgFiles *cfgFiles = GetCfgFilesEx(context->relPath_.c_str(),
-        context->followMode_, context->extra_.c_str());
-    for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
-        if (cfgFiles != nullptr && cfgFiles->paths[i] != nullptr) {
-            context->paths_.push_back(cfgFiles->paths[i]);
+    CfgFiles *cfgFiles = GetCfgFilesEx(context->relPath_.c_str(), context->followMode_, context->extra_.c_str());
+    if (cfgFiles != nullptr) {
+        for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
+            if (cfgFiles->paths[i] != nullptr) {
+                context->paths_.push_back(cfgFiles->paths[i]);
+            }
         }
     }
     FreeCfgFiles(cfgFiles);
     ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFilesExSync", "");
-    napi_value result = nullptr;
-    NAPI_CALL(env, napi_create_array_with_length(env, context->paths_.size(), &result));
-    for (size_t i = 0; i < context->paths_.size(); i++) {
-        napi_value element = nullptr;
-        NAPI_CALL(env, napi_create_string_utf8(env, context->paths_[i].c_str(), NAPI_AUTO_LENGTH, &element));
-        NAPI_CALL(env, napi_set_element(env, result, i, element));
-    }
-    return result;
+    return CreateArraysValue(env, context);
 }
 
 void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
@@ -407,9 +402,11 @@ void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
 napi_value ConfigPolicyNapi::NativeGetCfgDirListSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
     CfgDir *cfgDir = GetCfgDirList();
-    for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
-        if (cfgDir != nullptr && cfgDir->paths[i] != nullptr) {
-            context->paths_.push_back(cfgDir->paths[i]);
+    if (cfgDir != nullptr) {
+        for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
+            if (cfgDir->paths[i] != nullptr) {
+                context->paths_.push_back(cfgDir->paths[i]);
+            }
         }
     }
     FreeCfgDirList(cfgDir);

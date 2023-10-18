@@ -23,7 +23,7 @@ config("config_policy_config") {
   include_dirs = [
     "../../interfaces/inner_api/include",
     "//third_party/bounds_checking_function/include",
-    "$STARTUP_INIT_ROOT_DIR/services/include/param",
+    "$STARTUP_INIT_ROOT_DIR/interfaces/innerkits/include/param",
     "$TEL_CORESERVICE_ROOT_DIR/utils/common/include",
   ]
 }

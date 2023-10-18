@@ -312,8 +312,12 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
 napi_value ConfigPolicyNapi::NativeGetOneCfgFileSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
     char outBuf[MAX_PATH_LEN] = {0};
-    GetOneCfgFile(context->relPath_.c_str(), outBuf, MAX_PATH_LEN);
-    context->pathValue_ = std::string(outBuf);
+    char *filePath = GetOneCfgFile(context->relPath_.c_str(), outBuf, MAX_PATH_LEN);
+    if (filePath == nullptr) {
+        HiLog::Info(LABEL, "GetOneCfgFile result is nullptr.");
+    } else {
+        context->pathValue_ = std::string(filePath);
+    }
     ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFileSync", "");
     napi_value result = nullptr;
     NAPI_CALL(env, napi_create_string_utf8(env, context->pathValue_.c_str(), NAPI_AUTO_LENGTH, &result));
@@ -323,8 +327,13 @@ napi_value ConfigPolicyNapi::NativeGetOneCfgFileSync(napi_env env, std::shared_p
 napi_value ConfigPolicyNapi::NativeGetOneCfgFileExSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
     char outBuf[MAX_PATH_LEN] = {0};
-    GetOneCfgFileEx(context->relPath_.c_str(), outBuf, MAX_PATH_LEN, context->followMode_, context->extra_.c_str());
-    context->pathValue_ = std::string(outBuf);
+    char *filePath = GetOneCfgFileEx(context->relPath_.c_str(), outBuf, MAX_PATH_LEN, context->followMode_,
+                                     context->extra_.c_str());
+    if (filePath == nullptr) {
+        HiLog::Info(LABEL, "GetOneCfgFileEx result is nullptr.");
+    } else {
+        context->pathValue_ = std::string(filePath);
+    }
     ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFileExSync", "");
     napi_value result = nullptr;
     NAPI_CALL(env, napi_create_string_utf8(env, context->pathValue_.c_str(), NAPI_AUTO_LENGTH, &result));
@@ -359,8 +368,8 @@ napi_value ConfigPolicyNapi::NativeGetCfgFilesSync(napi_env env, std::shared_ptr
                 context->paths_.push_back(cfgFiles->paths[i]);
             }
         }
+        FreeCfgFiles(cfgFiles);
     }
-    FreeCfgFiles(cfgFiles);
     ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFilesSync", "");
     return CreateArraysValue(env, context);
 }
@@ -374,8 +383,8 @@ napi_value ConfigPolicyNapi::NativeGetCfgFilesExSync(napi_env env, std::shared_p
                 context->paths_.push_back(cfgFiles->paths[i]);
             }
         }
+        FreeCfgFiles(cfgFiles);
     }
-    FreeCfgFiles(cfgFiles);
     ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFilesExSync", "");
     return CreateArraysValue(env, context);
 }
@@ -408,8 +417,8 @@ napi_value ConfigPolicyNapi::NativeGetCfgDirListSync(napi_env env, std::shared_p
                 context->paths_.push_back(cfgDir->paths[i]);
             }
         }
+        FreeCfgDirList(cfgDir);
     }
-    FreeCfgDirList(cfgDir);
     ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgDirListSync", "");
     return CreateArraysValue(env, context);
 }

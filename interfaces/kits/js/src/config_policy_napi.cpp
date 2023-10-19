@@ -47,10 +47,10 @@ napi_value ConfigPolicyNapi::Init(napi_env env, napi_value exports)
     napi_property_descriptor property[] = {
         DECLARE_NAPI_FUNCTION("getOneCfgFile", ConfigPolicyNapi::NAPIGetOneCfgFile),
         DECLARE_NAPI_FUNCTION("getOneCfgFileSync", ConfigPolicyNapi::NAPIGetOneCfgFileSync),
-        DECLARE_NAPI_FUNCTION("getOneCfgFileExSync", ConfigPolicyNapi::NAPIGetOneCfgFileExSync),
+        DECLARE_NAPI_FUNCTION("getOneCfgFileEx", ConfigPolicyNapi::NAPIGetOneCfgFileEx),
         DECLARE_NAPI_FUNCTION("getCfgFiles", ConfigPolicyNapi::NAPIGetCfgFiles),
         DECLARE_NAPI_FUNCTION("getCfgFilesSync", ConfigPolicyNapi::NAPIGetCfgFilesSync),
-        DECLARE_NAPI_FUNCTION("getCfgFilesExSync", ConfigPolicyNapi::NAPIGetCfgFilesExSync),
+        DECLARE_NAPI_FUNCTION("getCfgFilesEx", ConfigPolicyNapi::NAPIGetCfgFilesEx),
         DECLARE_NAPI_FUNCTION("getCfgDirList", ConfigPolicyNapi::NAPIGetCfgDirList),
         DECLARE_NAPI_FUNCTION("getCfgDirListSync", ConfigPolicyNapi::NAPIGetCfgDirListSync),
 
@@ -158,9 +158,9 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFilesEx(napi_env env, napi_cal
     return func(env, asyncContext);
 }
 
-napi_value ConfigPolicyNapi::NAPIGetOneCfgFileExSync(napi_env env, napi_callback_info info)
+napi_value ConfigPolicyNapi::NAPIGetOneCfgFileEx(napi_env env, napi_callback_info info)
 {
-    return GetOneCfgFileOrAllCfgFilesEx(env, info, NativeGetOneCfgFileExSync);
+    return GetOneCfgFileOrAllCfgFilesEx(env, info, NativeGetOneCfgFileEx);
 }
 
 napi_value ConfigPolicyNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
@@ -205,9 +205,9 @@ napi_value ConfigPolicyNapi::NAPIGetCfgFilesSync(napi_env env, napi_callback_inf
     return NativeGetCfgFilesSync(env, asyncContext);
 }
 
-napi_value ConfigPolicyNapi::NAPIGetCfgFilesExSync(napi_env env, napi_callback_info info)
+napi_value ConfigPolicyNapi::NAPIGetCfgFilesEx(napi_env env, napi_callback_info info)
 {
-    return GetOneCfgFileOrAllCfgFilesEx(env, info, NativeGetCfgFilesExSync);
+    return GetOneCfgFileOrAllCfgFilesEx(env, info, NativeGetCfgFilesEx);
 }
 
 napi_value ConfigPolicyNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info info)
@@ -324,7 +324,7 @@ napi_value ConfigPolicyNapi::NativeGetOneCfgFileSync(napi_env env, std::shared_p
     return result;
 }
 
-napi_value ConfigPolicyNapi::NativeGetOneCfgFileExSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
+napi_value ConfigPolicyNapi::NativeGetOneCfgFileEx(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
     char outBuf[MAX_PATH_LEN] = {0};
     char *filePath = GetOneCfgFileEx(context->relPath_.c_str(), outBuf, MAX_PATH_LEN, context->followMode_,
@@ -334,7 +334,7 @@ napi_value ConfigPolicyNapi::NativeGetOneCfgFileExSync(napi_env env, std::shared
     } else {
         context->pathValue_ = std::string(filePath);
     }
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFileExSync", "");
+    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFileEx", "");
     napi_value result = nullptr;
     NAPI_CALL(env, napi_create_string_utf8(env, context->pathValue_.c_str(), NAPI_AUTO_LENGTH, &result));
     return result;
@@ -374,7 +374,7 @@ napi_value ConfigPolicyNapi::NativeGetCfgFilesSync(napi_env env, std::shared_ptr
     return CreateArraysValue(env, context);
 }
 
-napi_value ConfigPolicyNapi::NativeGetCfgFilesExSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
+napi_value ConfigPolicyNapi::NativeGetCfgFilesEx(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
     CfgFiles *cfgFiles = GetCfgFilesEx(context->relPath_.c_str(), context->followMode_, context->extra_.c_str());
     if (cfgFiles != nullptr) {
@@ -385,7 +385,7 @@ napi_value ConfigPolicyNapi::NativeGetCfgFilesExSync(napi_env env, std::shared_p
         }
         FreeCfgFiles(cfgFiles);
     }
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFilesExSync", "");
+    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFilesEx", "");
     return CreateArraysValue(env, context);
 }
 

@@ -52,8 +52,8 @@ private:
     static napi_value NAPIGetCfgFiles(napi_env env, napi_callback_info info);
     static napi_value NAPIGetOneCfgFileSync(napi_env env, napi_callback_info info);
     static napi_value NAPIGetCfgFilesSync(napi_env env, napi_callback_info info);
-    static napi_value NAPIGetOneCfgFileExSync(napi_env env, napi_callback_info info);
-    static napi_value NAPIGetCfgFilesExSync(napi_env env, napi_callback_info info);
+    static napi_value NAPIGetOneCfgFileEx(napi_env env, napi_callback_info info);
+    static napi_value NAPIGetCfgFilesEx(napi_env env, napi_callback_info info);
     static napi_value NAPIGetCfgDirList(napi_env env, napi_callback_info info);
     static napi_value NAPIGetCfgDirListSync(napi_env env, napi_callback_info info);
     static napi_value CreateUndefined(napi_env env);
@@ -68,8 +68,8 @@ private:
     static napi_value NativeGetOneCfgFileSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
     static napi_value NativeGetCfgFilesSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
     static napi_value NativeGetCfgDirListSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
-    static napi_value NativeGetOneCfgFileExSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
-    static napi_value NativeGetCfgFilesExSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
+    static napi_value NativeGetOneCfgFileEx(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
+    static napi_value NativeGetCfgFilesEx(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
     static void NativeCallbackComplete(napi_env env, napi_status status, void *data);
     static napi_value ParseRelPath(napi_env env, std::string &param, napi_value args);
     static napi_value ParseFollowMode(napi_env env, int32_t &param, napi_value args);

@@ -155,7 +155,7 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callb
                 return nullptr;
             }
             if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINED) {
-                return ThrowNapiError(env, PARAM_ERROR, 
+                return ThrowNapiError(env, PARAM_ERROR,
                                       "Parameter error. The followMode is USER_DEFINED, extra must be set.");
             }
         }

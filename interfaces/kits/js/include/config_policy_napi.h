@@ -59,7 +59,7 @@ private:
     static napi_value HandleAsyncWork(napi_env env, ConfigAsyncContext *context, std::string workName,
         napi_async_execute_callback execute, napi_async_complete_callback complete);
     static napi_value GetOneCfgFileOrAllCfgFilesSync(napi_env env, napi_callback_info info, NapiFunction func);
-    static napi_value GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callback_info info, 
+    static napi_value GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callback_info info,
         const std::string &workName, napi_async_execute_callback execute);
     static bool MatchValueType(napi_env env, napi_value value, napi_valuetype targetType);
     static void NativeGetOneCfgFile(napi_env env, void *data);

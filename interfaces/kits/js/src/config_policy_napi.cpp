@@ -130,7 +130,7 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFilesSync(napi_env env, napi_c
     return func(env, asyncContext);
 }
 
-napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callback_info info, 
+napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callback_info info,
     const std::string &workName, napi_async_execute_callback execute)
 {
     size_t argc = ARGS_SIZE_FOUR;
@@ -148,8 +148,7 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callb
         return nullptr;
     }
     if (argc == ARGS_SIZE_TWO) {
-        bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ONE], napi_function);
-        if (matchFlag) {
+        if (MatchValueType(env, argv[ARR_INDEX_ONE], napi_function)) {
             napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
         } else {
             if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE]) == nullptr) {
@@ -166,8 +165,7 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callb
         if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE]) == nullptr) {
             return nullptr;
         }
-        bool matchFlag = MatchValueType(env, argv[ARR_INDEX_TWO], napi_function);
-        if (matchFlag) {
+        if (MatchValueType(env, argv[ARR_INDEX_TWO], napi_function)) {
             if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINED) {
                 return ThrowNapiError(env, PARAM_ERROR,
                                       "Parameter error. The followMode is USER_DEFINED, extra must be set.");
@@ -185,9 +183,8 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callb
             ParseExtra(env, asyncContext->extra_, argv[ARR_INDEX_TWO]) == nullptr) {
             return nullptr;
         }
-        bool matchFlag = MatchValueType(env, argv[ARR_INDEX_THREE], napi_function);
-        if (!matchFlag) {
-            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The second parameter must be Callback.");
+        if (!MatchValueType(env, argv[ARR_INDEX_THREE], napi_function)) {
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The fourth parameter must be Callback.");
         }
         napi_create_reference(env, argv[ARR_INDEX_THREE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }

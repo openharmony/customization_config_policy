@@ -70,7 +70,7 @@ private:
     static napi_value NativeGetCfgDirListSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
     static void NativeCallbackComplete(napi_env env, napi_status status, void *data);
     static napi_value ParseRelPath(napi_env env, std::string &param, napi_value args);
-    static napi_value ParseFollowMode(napi_env env, int32_t &param, napi_value args);
+    static napi_value ParseFollowMode(napi_env env, int32_t &param, napi_value args, bool hasExtra);
     static napi_value ParseExtra(napi_env env, std::string &param, napi_value args);
     static napi_value CreateArraysValue(napi_env env, std::shared_ptr<ConfigAsyncContext> context);
     static void CreateArraysValueFunc(ConfigAsyncContext &context);

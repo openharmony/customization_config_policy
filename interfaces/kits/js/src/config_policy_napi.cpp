@@ -108,21 +108,19 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFilesSync(napi_env env, napi_c
 
     auto asyncContext = std::make_shared<ConfigAsyncContext>();
     asyncContext->followMode_ = FOLLOWX_MODE_DEFAULT;
+    bool hasExtra = false;
     if (ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]) == nullptr) {
         return nullptr;
     }
 
     if (argc == ARGS_SIZE_TWO) {
-        if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE]) == nullptr) {
+        if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE], hasExtra) == nullptr) {
             return nullptr;
-        }
-        if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINED) {
-            return ThrowNapiError(env, PARAM_ERROR,
-                "Parameter error. The followMode is USER_DEFINED, extra must be set.");
         }
     }
     if (argc >= ARGS_SIZE_THREE) {
-        if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE]) == nullptr ||
+        hasExtra = true;
+        if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE], hasExtra) == nullptr ||
             ParseExtra(env, asyncContext->extra_, argv[ARR_INDEX_TWO]) == nullptr) {
             return nullptr;
         }
@@ -144,6 +142,7 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callb
 
     auto asyncContext = std::make_unique<ConfigAsyncContext>();
     asyncContext->followMode_ = FOLLOWX_MODE_DEFAULT;
+    bool hasExtra = false;
     if (ParseRelPath(env, asyncContext->relPath_, argv[ARR_INDEX_ZERO]) == nullptr) {
         return nullptr;
     }
@@ -151,35 +150,29 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callb
         if (MatchValueType(env, argv[ARR_INDEX_ONE], napi_function)) {
             napi_create_reference(env, argv[ARR_INDEX_ONE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
         } else {
-            if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE]) == nullptr) {
+            if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE], hasExtra) == nullptr) {
                 return nullptr;
-            }
-            if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINED) {
-                return ThrowNapiError(env, PARAM_ERROR,
-                                      "Parameter error. The followMode is USER_DEFINED, extra must be set.");
             }
         }
     }
 
     if (argc == ARGS_SIZE_THREE) {
-        if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE]) == nullptr) {
-            return nullptr;
-        }
         if (MatchValueType(env, argv[ARR_INDEX_TWO], napi_function)) {
-            if (asyncContext->followMode_ == FOLLOWX_MODE_USER_DEFINED) {
-                return ThrowNapiError(env, PARAM_ERROR,
-                                      "Parameter error. The followMode is USER_DEFINED, extra must be set.");
-            }
             napi_create_reference(env, argv[ARR_INDEX_TWO], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
         } else {
             if (ParseExtra(env, asyncContext->extra_, argv[ARR_INDEX_TWO]) == nullptr) {
                 return nullptr;
             }
+            hasExtra = true;
+        }
+        if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE], hasExtra) == nullptr) {
+            return nullptr;
         }
     }
 
     if (argc == ARGS_SIZE_FOUR) {
-        if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE]) == nullptr ||
+        hasExtra = true;
+        if (ParseFollowMode(env, asyncContext->followMode_, argv[ARR_INDEX_ONE], hasExtra) == nullptr ||
             ParseExtra(env, asyncContext->extra_, argv[ARR_INDEX_TWO]) == nullptr) {
             return nullptr;
         }
@@ -473,7 +466,7 @@ napi_value ConfigPolicyNapi::ParseExtra(napi_env env, std::string &param, napi_v
     return result;
 }
 
-napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_value args)
+napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_value args, bool hasExtra)
 {
     bool matchFlag = MatchValueType(env, args, napi_number);
     if (!matchFlag) {
@@ -494,8 +487,12 @@ napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_
         case FOLLOWX_MODE_SIM_1:
             [[fallthrough]];
         case FOLLOWX_MODE_SIM_2:
-            [[fallthrough]];
+            break;
         case FOLLOWX_MODE_USER_DEFINED:
+            if (!hasExtra) {
+                return ThrowNapiError(env, PARAM_ERROR,
+                    "Parameter error. The followMode is USER_DEFINED, extra must be set.");
+            }
             break;
         default:
             return ThrowNapiError(env, PARAM_ERROR,

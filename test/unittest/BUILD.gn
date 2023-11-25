@@ -44,6 +44,6 @@ if (defined(ohos_lite)) {
     include_dirs = config_policy_include_dirs
     deps = config_policy_deps
     external_deps = [ "init:libbegetutil" ]
-    resource_config_file = "../resource/ohos_test.xml"
+    resource_config_file = "./resource/ohos_test.xml"
   }
 }

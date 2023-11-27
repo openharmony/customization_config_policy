@@ -24,10 +24,10 @@
 constexpr size_t MIN_SIZE = 4;
 
 namespace OHOS {
-    bool fuzzGetOneCfgFileEx(const uint8_t* data, size_t size)
+    bool FuzzGetOneCfgFileEx(const uint8_t* data, size_t size)
     {
         std::string userPath((const char*) data, size / 2);
-        std::string extra((const char*) data + size / 2, size / 2);
+        std::string extra((const char*) data + size / 2, size - size / 2);
         int followMode = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
         char buf[MAX_PATH_LEN] = {0};
         char *filePath = GetOneCfgFileEx(userPath.c_str(), buf, MAX_PATH_LEN, followMode, extra.c_str());
@@ -42,6 +42,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
         return 0;
     }
     // Run your code on data.
-    OHOS::fuzzGetOneCfgFileEx(data, size);
+    OHOS::FuzzGetOneCfgFileEx(data, size);
     return 0;
 }

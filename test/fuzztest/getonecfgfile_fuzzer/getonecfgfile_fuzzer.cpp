@@ -23,7 +23,7 @@
 
 
 namespace OHOS {
-    bool fuzzGetOneCfgFile(const uint8_t* data, size_t size)
+    bool FuzzGetOneCfgFile(const uint8_t* data, size_t size)
     {
         std::string userPath((const char*) data, size);
         char buf[MAX_PATH_LEN] = {0};
@@ -39,6 +39,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
         return 0;
     }
     // Run your code on data.
-    OHOS::fuzzGetOneCfgFile(data, size);
+    OHOS::FuzzGetOneCfgFile(data, size);
     return 0;
 }

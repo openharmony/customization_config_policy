@@ -21,12 +21,13 @@
 
 #define FUZZ_PROJECT_NAME "getcfgfilesex_fuzzer"
 
+constexpr size_t MIN_SIZE = 4;
 
 namespace OHOS {
-    bool fuzzGetCfgFilesEx(const uint8_t* data, size_t size)
+    bool FuzzGetCfgFilesEx(const uint8_t* data, size_t size)
     {
         std::string cfgPath((const char*) data, size / 2);
-        std::string extra((const char*) data + size / 2, size / 2);
+        std::string extra((const char*) data + size / 2, size - size / 2);
         int followMode = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
         CfgFiles *cfgFiles = GetCfgFilesEx(cfgPath.c_str(), followMode, extra.c_str());
         bool result = cfgFiles != nullptr;
@@ -38,10 +39,10 @@ namespace OHOS {
 // Fuzzer entry point.
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
 {
-    if (data == nullptr) {
+    if (data == nullptr || size < MIN_SIZE) {
         return 0;
     }
     // Run your code on data.
-    OHOS::fuzzGetCfgFilesEx(data, size);
+    OHOS::FuzzGetCfgFilesEx(data, size);
     return 0;
 }

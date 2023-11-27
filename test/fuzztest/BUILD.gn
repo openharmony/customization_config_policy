@@ -14,9 +14,9 @@
 group("fuzztest") {
   testonly = true
   deps = [
-    "getonecfgfile_fuzzer:GetOneCfgFileFuzzTest",
-    "getonecfgfileex_fuzzer:GetOneCfgFileExFuzzTest",
     "getcfgfiles_fuzzer:GetCfgFilesFuzzTest",
     "getcfgfilesex_fuzzer:GetCfgFilesExFuzzTest",
+    "getonecfgfile_fuzzer:GetOneCfgFileFuzzTest",
+    "getonecfgfileex_fuzzer:GetOneCfgFileExFuzzTest",
   ]
 }

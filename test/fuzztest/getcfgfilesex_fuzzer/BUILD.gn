@@ -35,9 +35,7 @@ ohos_fuzztest("GetCfgFilesExFuzzTest") {
 
   deps = [ "../../../frameworks/config_policy:configpolicy_util" ]
 
-  external_deps = [
-    "c_utils:utils"
-  ]
+  external_deps = [ ]
 
   subsystem_name = "customization"
   part_name = "config_policy"

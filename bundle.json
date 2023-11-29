@@ -47,7 +47,8 @@
         }
       ],
       "test": [
-        "//base/customization/config_policy/test/unittest:ConfigPolicyUtilsTest"
+        "//base/customization/config_policy/test/unittest:ConfigPolicyUtilsTest",
+        "//base/customization/config_policy/test/fuzztest:fuzztest"
       ]
     }
   }

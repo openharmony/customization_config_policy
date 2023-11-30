@@ -25,7 +25,7 @@
 namespace OHOS {
     bool FuzzGetCfgFiles(const uint8_t* data, size_t size)
     {
-        std::string cfgPath((const char*) data, size);
+        std::string cfgPath(reinterpret_cast<const char*>(data), size);
         CfgFiles *cfgFiles = GetCfgFiles(cfgPath.c_str());
         bool result = cfgFiles != nullptr;
         FreeCfgFiles(cfgFiles);

@@ -26,8 +26,8 @@ constexpr size_t MIN_SIZE = 4;
 namespace OHOS {
     bool FuzzGetCfgFilesEx(const uint8_t* data, size_t size)
     {
-        std::string cfgPath((const char*) data, size / 2);
-        std::string extra((const char*) data + size / 2, size - size / 2);
+        std::string cfgPath(reinterpret_cast<const char*>(data), size / 2);
+        std::string extra(reinterpret_cast<const char*>(data) + size / 2, size - size / 2);
         int followMode = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
         CfgFiles *cfgFiles = GetCfgFilesEx(cfgPath.c_str(), followMode, extra.c_str());
         bool result = cfgFiles != nullptr;

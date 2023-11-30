@@ -25,7 +25,7 @@
 namespace OHOS {
     bool FuzzGetOneCfgFile(const uint8_t* data, size_t size)
     {
-        std::string userPath((const char*) data, size);
+        std::string userPath(reinterpret_cast<const char*>(data), size);
         char buf[MAX_PATH_LEN] = {0};
         char *filePath = GetOneCfgFile(userPath.c_str(), buf, MAX_PATH_LEN);
         return filePath != nullptr;

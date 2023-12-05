@@ -490,7 +490,7 @@ CfgFiles *GetCfgFilesEx(const char *pathSuffix, int followMode, const char *extr
             access(buf, F_OK) == 0) {
             files->paths[index++] = strdup(buf);
         }
-        for (int j = 0; result && j < result->segCount; j++) {
+        for (int j = 0; result && j < result->segCount && index < MAX_CFG_POLICY_DIRS_CNT; j++) {
             if (result->segs[j] &&
                 snprintf_s(buf, MAX_PATH_LEN, MAX_PATH_LEN - 1, "%s/%s/%s", dirs->paths[i], result->segs[j],
                 pathSuffix) > 0 &&

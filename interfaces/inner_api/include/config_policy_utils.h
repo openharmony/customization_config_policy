@@ -23,7 +23,7 @@ extern "C" {
 #endif // __cplusplus
 
 #define MAX_CFG_POLICY_DIRS_CNT   32   // max number of directories
-#define MAX_PATH_LEN              128  // max length of a filepath
+#define MAX_PATH_LEN              256  // max length of a filepath
 
 // follow X(carrier/network/PLMN/...) usage
 // 1. etc/cust/followx_file_list.cfg can be in any layer, except follow x dir

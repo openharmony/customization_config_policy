@@ -269,7 +269,7 @@ napi_value ConfigPolicyNapi::HandleAsyncWork(napi_env env, ConfigAsyncContext *c
     napi_create_string_utf8(env, workName.data(), NAPI_AUTO_LENGTH, &resourceName);
     napi_create_async_work(env, resource, resourceName, execute, complete, static_cast<void *>(context),
         &context->work_);
-    napi_queue_async_work_with_qos(env, context->work_, napi_qos_default);
+    napi_queue_async_work_with_qos(env, context->work_, napi_qos_user_initiated);
     HiLog::Debug(LABEL, "HandleAsyncWork end.");
     return result;
 }

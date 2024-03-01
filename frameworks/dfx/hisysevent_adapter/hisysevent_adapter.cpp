@@ -17,11 +17,16 @@
 #include "hisysevent.h"
 #include "hilog/log.h"
 
+#undef LOG_DOMAIN
+#define LOG_DOMAIN 0xD001E00
+
+#undef LOG_TAG
+#define LOG_TAG "ReportConfigPolicyEvent"
+
 namespace OHOS {
 namespace Customization {
 namespace ConfigPolicy {
 using namespace OHOS::HiviewDFX;
-static constexpr HiLogLabel LABEL = { LOG_CORE, 0xD001E00, "ReportConfigPolicyEvent" };
 
 void ReportConfigPolicyEvent(ReportType reportType, const std::string &apiName, const std::string &msgInfo)
 {
@@ -36,7 +41,7 @@ void ReportConfigPolicyEvent(ReportType reportType, const std::string &apiName, 
     }
 
     if (ret != 0) {
-        HiLog::Error(LABEL, "hisysevent write failed! ret %{public}d, apiName %{public}s, errMsg %{public}s", ret,
+        HILOG_ERROR(LOG_CORE, "hisysevent write failed! ret %{public}d, apiName %{public}s, errMsg %{public}s", ret,
             apiName.c_str(), msgInfo.c_str());
     }
 }

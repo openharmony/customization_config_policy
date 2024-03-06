@@ -46,9 +46,9 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
     include_dirs = [ "$TEL_CORESERVICE_ROOT_DIR/utils/common/include" ]
     deps = [ "etc:customization_etc" ]
     external_deps = [
-      "init:libbegetutil",
       "bounds_checking_function:libsec_shared",
-      ]
+      "init:libbegetutil",
+    ]
     install_images = [
       "system",
       "updater",
@@ -65,10 +65,10 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
     include_dirs = [ "$TEL_CORESERVICE_ROOT_DIR/utils/common/include" ]
-    external_deps = [ 
+    external_deps = [
       "bounds_checking_function:libsec_shared",
-      "init:export_headers_lib"
-      ]
+      "init:export_headers_lib",
+    ]
     subsystem_name = "customization"
     part_name = "config_policy"
   }

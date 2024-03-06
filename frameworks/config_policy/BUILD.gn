@@ -20,12 +20,7 @@ if (defined(ohos_lite)) {
 
 config_policy_sources = [ "src/config_policy_utils.c" ]
 config("config_policy_config") {
-  include_dirs = [
-    "../../interfaces/inner_api/include",
-    "//third_party/bounds_checking_function/include",
-    "$STARTUP_INIT_ROOT_DIR/interfaces/innerkits/include/param",
-    "$TEL_CORESERVICE_ROOT_DIR/utils/common/include",
-  ]
+  include_dirs = [ "../../interfaces/inner_api/include" ]
 }
 
 if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
@@ -35,26 +30,25 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
       print("cust config_policy_fs_prefix: ${config_policy_fs_prefix}")
       defines = [ "ROOT_PREFIX=\"${config_policy_fs_prefix}\"" ]
     }
-    include_dirs = [
-      "../../interfaces/inner_api/include",
-      "//third_party/bounds_checking_function/include",
-    ]
+    public_configs = [ ":config_policy_config" ]
+    external_deps = [ "bounds_checking_function:libsec_shared" ]
   }
 } else if (defined(ohos_lite)) {
   shared_library("configpolicy_util") {
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
-    deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
+    external_deps = [ "bounds_checking_function:libsec_shared" ]
   }
 } else {
   ohos_shared_library("configpolicy_util") {
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
-    deps = [
-      "etc:customization_etc",
-      "//third_party/bounds_checking_function:libsec_shared",
-    ]
-    external_deps = [ "init:libbegetutil" ]
+    include_dirs = [ "$TEL_CORESERVICE_ROOT_DIR/utils/common/include" ]
+    deps = [ "etc:customization_etc" ]
+    external_deps = [
+      "init:libbegetutil",
+      "bounds_checking_function:libsec_shared",
+      ]
     install_images = [
       "system",
       "updater",
@@ -70,6 +64,11 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
   ohos_static_library("configpolicy_util_for_init_static") {
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
+    include_dirs = [ "$TEL_CORESERVICE_ROOT_DIR/utils/common/include" ]
+    external_deps = [ 
+      "bounds_checking_function:libsec_shared",
+      "init:export_headers_lib"
+      ]
     subsystem_name = "customization"
     part_name = "config_policy"
   }

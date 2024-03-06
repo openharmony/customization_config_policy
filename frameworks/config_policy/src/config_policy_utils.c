@@ -27,8 +27,10 @@
 #endif
 
 static const size_t MIN_APPEND_LEN = 32;
+#ifndef __LITEOS__
 // set min opkey length
 static const unsigned int MIN_OPKEY_LEN = 3;
+#endif
 // ':' split different x rules, example:":relPath,mode[,extra][:]"
 // ',' split different param for x rules
 // ":-" split for key:-value

@@ -97,7 +97,7 @@ static char *CustGetSystemParam(const char *name)
     char *value = NULL;
     unsigned int len = 0;
 
-    if (SystemGetParameter(name, NULL, &len) != 0 || len == 0) {
+    if (SystemGetParameter(name, NULL, &len) != 0 || len <= 0 || len > PARAM_CONST_VALUE_LEN_MAX) {
         return NULL;
     }
     value = (char *)calloc(len, sizeof(char));
@@ -290,8 +290,11 @@ static char *TrimInplace(char *str, bool moveToStart)
 
 static bool EnsureHolderSpace(StringHolder *holder, size_t leastSize)
 {
+    if (holder == NULL || s == NULL) {
+        return false;
+    }
     if (holder->size < leastSize) {
-        size_t allocSize = Max(leastSize * 2, MIN_APPEND_LEN);
+        size_t allocSize = Min(Max(leastSize * 2, MIN_APPEND_LEN), PARAM_CONST_VALUE_LEN_MAX);
         char *newPtr = (char *)calloc(allocSize, sizeof(char));
         if (newPtr == NULL) {
             allocSize = leastSize;
@@ -313,6 +316,9 @@ static bool EnsureHolderSpace(StringHolder *holder, size_t leastSize)
 
 static bool AppendStr(StringHolder *holder, const char *s)
 {
+    if (holder == NULL || s == NULL) {
+        return false;
+    }
     size_t leastSize = holder->strLen + strlen(s) + 1;
     if (!EnsureHolderSpace(holder, leastSize)) {
         return false;

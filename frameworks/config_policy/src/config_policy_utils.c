@@ -290,7 +290,7 @@ static char *TrimInplace(char *str, bool moveToStart)
 
 static bool EnsureHolderSpace(StringHolder *holder, size_t leastSize)
 {
-    if (holder == NULL || s == NULL) {
+    if (holder == NULL) {
         return false;
     }
     if (holder->size < leastSize) {

@@ -19,8 +19,10 @@
 
 #include "config_policy_utils.h"
 #include "config_policy_impl.h"
+#ifndef __LITEOS__
 #include "init_param.h"
 #include "telephony_config_c.h"
+#endif
 
 using namespace testing::ext;
 
@@ -30,6 +32,7 @@ class ConfigPolicyUtilsTest : public testing::Test {
         static void SetUpTestCase(void);
 };
 
+#ifndef __LITEOS__
 void ConfigPolicyUtilsTest::SetUpTestCase(void)
 {
     SystemSetParameter(CUST_OPKEY0, "46060");
@@ -37,6 +40,7 @@ void ConfigPolicyUtilsTest::SetUpTestCase(void)
     SystemSetParameter(CUST_FOLLOW_X_RULES,
         ":etc/custxmltest/user.xml,10:etc/custxmltest/both.xml,100,etc/carrier/${test:-46061}");
 }
+#endif
 
 bool TestGetCfgFile(const char *testPathSuffix, int type, const char *extra)
 {
@@ -131,6 +135,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
     EXPECT_TRUE(flag);
 }
 
+#ifndef __LITEOS__
 /**
  * @tc.name: CfgPolicyUtilsFuncTest006
  * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, follow default sim rule.
@@ -194,4 +199,5 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest010, TestSize.Level1)
     EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/user.xml", FOLLOWX_MODE_USER_DEFINED, extraString.c_str()));
     EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/both.xml", FOLLOWX_MODE_USER_DEFINED, extraString.c_str()));
 }
+#endif // __LITEOS__
 } // namespace OHOS

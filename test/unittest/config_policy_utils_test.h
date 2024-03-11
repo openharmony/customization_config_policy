@@ -21,13 +21,10 @@ int CfgPolicyUtilsFuncTest002(void);
 int CfgPolicyUtilsFuncTest003(void);
 int CfgPolicyUtilsFuncTest004(void);
 int CfgPolicyUtilsFuncTest005(void);
-
-#ifndef __LITEOS__
 int CfgPolicyUtilsFuncTest006(void);
 int CfgPolicyUtilsFuncTest007(void);
 int CfgPolicyUtilsFuncTest008(void);
 int CfgPolicyUtilsFuncTest009(void);
 int CfgPolicyUtilsFuncTest010(void);
-#endif // __LITEOS__
 
 #endif

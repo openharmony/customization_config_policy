@@ -17,6 +17,7 @@ ohos_shared_library("configpolicy") {
   include_dirs = [
     "include",
     "../../../interfaces/inner_api/include",
+    "//third_party/bounds_checking_function/include",
     "../../../frameworks/dfx/hisysevent_adapter",
   ]
 

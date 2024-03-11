@@ -25,10 +25,11 @@
         "hisysevent",
         "hilog",
         "napi",
-        "init",
-        "bounds_checking_function"
+        "init"
       ],
-      "third_party": []
+      "third_party": [
+        "bounds_checking_function"
+      ]
     },
     "build": {
       "sub_component": [
@@ -43,16 +44,6 @@
             ]
           },
           "name": "//base/customization/config_policy/frameworks/config_policy:configpolicy_util"
-        },
-        {
-          "header": {
-            "header_base": "//base/customization/config_policy/interfaces/inner_api/include",
-            "header_files": [
-              "config_policy_utils.h"
-            ]
-          },
-          "name": "//base/customization/config_policy/frameworks/config_policy:configpolicy_util_for_init_static",
-          "visibility": ["init"]
         }
       ],
       "test": [

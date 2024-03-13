@@ -27,10 +27,10 @@
 #endif
 
 static const size_t MIN_APPEND_LEN = 32;
+
 #ifndef __LITEOS__
 // set min opkey length
 static const unsigned int MIN_OPKEY_LEN = 3;
-#endif
 // ':' split different x rules, example:":relPath,mode[,extra][:]"
 // ',' split different param for x rules
 // ":-" split for key:-value
@@ -44,6 +44,7 @@ typedef struct {
     size_t strLen; // strlen(p), less than size
     char *p;       // just init to NULL, by malloc
 } StringHolder;
+#endif
 
 typedef struct {
     int segCount; // count of char * in segs
@@ -142,7 +143,6 @@ static char *GetOpkeyPath(int type)
     FreeIf(result);
     return NULL;
 }
-#endif // __LITEOS__
 
 static SplitedStr *SplitStr(char *str, char delim)
 {
@@ -165,6 +165,7 @@ static SplitedStr *SplitStr(char *str, char delim)
     }
     return result;
 }
+#endif // __LITEOS__
 
 static void FreeSplitedStr(SplitedStr *p)
 {
@@ -263,12 +264,6 @@ static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, con
     SplitedStr *result = expandVal ? SplitStr(expandVal, ',') : NULL;
     return result;
 }
-#else
-static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, const char *extra)
-{
-    return NULL;
-}
-#endif
 
 static char *TrimInplace(char *str, bool moveToStart)
 {
@@ -376,6 +371,12 @@ static char *ExpandStr(char *src, const char *def, QueryFunc queryFunc)
     }
     return sh.p;
 }
+#else
+static SplitedStr *GetFollowXPathByMode(const char *relPath, int followMode, const char *extra)
+{
+    return NULL;
+}
+#endif
 
 static void GetCfgDirRealPolicyValue(CfgDir *res)
 {

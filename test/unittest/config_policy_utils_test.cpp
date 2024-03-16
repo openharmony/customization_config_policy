@@ -21,9 +21,7 @@
 #include "config_policy_impl.h"
 #ifndef __LITEOS__
 #include "init_param.h"
-
-constexpr const char *CUST_OPKEY0 = "telephony.sim.opkey0";
-constexpr const char *CUST_OPKEY1 = "telephony.sim.opkey1";
+#include "telephony_config_c.h"
 #endif
 
 using namespace testing::ext;

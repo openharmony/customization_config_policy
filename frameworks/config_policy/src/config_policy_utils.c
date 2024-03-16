@@ -23,6 +23,7 @@
 #include "config_policy_impl.h"
 #ifndef __LITEOS__
 #include "init_param.h"
+#include "telephony_config_c.h"
 #endif
 
 static const size_t MIN_APPEND_LEN = 32;
@@ -36,10 +37,7 @@ static const unsigned int MIN_OPKEY_LEN = 3;
 // exampe:"etc/xml/config.xml,10:etc/xml/config1.xml,100,etc/carrier/${key:-value}"
 static const char SEP_FOR_X_RULE = ':';
 static const char SEP_FOR_X_PARAM = ',';
-static const char * const SEP_FOR_X_VALUE = ":-";
-
-static const char * const CUST_OPKEY0 = "telephony.sim.opkey0";
-static const char * const CUST_OPKEY1 = "telephony.sim.opkey1";
+static const char *SEP_FOR_X_VALUE = ":-";
 
 typedef struct {
     size_t size;   // allocated buffer size of p
@@ -116,7 +114,7 @@ static char *CustGetSystemParam(const char *name)
 static char *GetOpkeyPath(int type)
 {
     char *result = NULL;
-    const char * const opKeyDir = "etc/carrier/";
+    const char *opKeyDir = "etc/carrier/";
     const char *opKeyName = CUST_OPKEY0;
     if (type == FOLLOWX_MODE_SIM_1) {
         opKeyName = CUST_OPKEY0;

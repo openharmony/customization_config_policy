@@ -11,8 +11,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TEL_CORESERVICE_ROOT_DIR = "//base/telephony/core_service"
-STARTUP_INIT_ROOT_DIR = "//base/startup/init"
 declare_args() {
   # if fs has prefix before OH path, set it here
   config_policy_fs_prefix = ""

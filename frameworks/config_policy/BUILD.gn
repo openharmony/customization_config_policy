@@ -43,7 +43,6 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
   ohos_shared_library("configpolicy_util") {
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
-    include_dirs = [ "$TEL_CORESERVICE_ROOT_DIR/utils/common/include" ]
     deps = [ "etc:customization_etc" ]
     external_deps = [
       "bounds_checking_function:libsec_shared",
@@ -64,7 +63,6 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
   ohos_static_library("configpolicy_util_for_init_static") {
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
-    include_dirs = [ "$TEL_CORESERVICE_ROOT_DIR/utils/common/include" ]
     external_deps = [
       "bounds_checking_function:libsec_shared",
       "init:export_headers_lib",

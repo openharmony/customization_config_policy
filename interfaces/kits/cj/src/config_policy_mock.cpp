@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+#define FFI_EXPORT __attribute__((visibility("default")))
+
 extern "C" {
 FFI_EXPORT int CJ_GetCfgDirList = 0;
 FFI_EXPORT int CJ_GetCfgFiles = 0;

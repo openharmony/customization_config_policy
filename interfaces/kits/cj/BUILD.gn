@@ -29,6 +29,8 @@ ohos_shared_library("cj_config_policy_ffi") {
       "bounds_checking_function:libsec_shared",
       "hilog:libhilog",
       "hisysevent:libhisysevent",
+      "napi:cj_bind_ffi",
+      "napi:cj_bind_native",
     ]
     sources = [
       "../../../frameworks/dfx/hisysevent_adapter/hisysevent_adapter.cpp",
@@ -46,7 +48,7 @@ ohos_shared_library("cj_config_policy_ffi") {
   if (current_os == "mingw") {
     defines += [ "WINDOWS_PLATFORM" ]
   }
-
+  innerapi_tags = [ "platformsdk" ]
   subsystem_name = "customization"
   part_name = "config_policy"
 }

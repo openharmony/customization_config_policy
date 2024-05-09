@@ -16,27 +16,10 @@
 #ifndef CONFIG_POLICY_FFI_H
 #define CONFIG_POLICY_FFI_H
 
-#include <cstdint>
-
-#define FFI_EXPORT __attribute__((visibility("default")))
+#include "ffi_remote_data.h"
+#include "cj_common_ffi.h"
 
 extern "C" {
-    const int32_t SUCCESS_CODE = 0;
-    struct CArrString {
-        char** head;
-        int64_t size;
-    };
-
-    struct RetDataCArrString {
-        int32_t code;
-        CArrString data;
-    };
-
-    struct RetDataCString {
-        int32_t code;
-        char* data;
-    };
-    
     FFI_EXPORT RetDataCArrString CJ_GetCfgDirList();
     FFI_EXPORT RetDataCArrString CJ_GetCfgFiles(const char* relPath);
     FFI_EXPORT RetDataCString CJ_GetOneCfgFile(const char* relPath);

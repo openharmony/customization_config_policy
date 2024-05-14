@@ -184,7 +184,7 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callb
             return nullptr;
         }
         if (!MatchValueType(env, argv[ARR_INDEX_THREE], napi_function)) {
-            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The fourth parameter must be Callback.");
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The type of callback must be AsyncCallback.");
         }
         napi_create_reference(env, argv[ARR_INDEX_THREE], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
@@ -215,7 +215,7 @@ napi_value ConfigPolicyNapi::NAPIGetCfgDirList(napi_env env, napi_callback_info 
     if (argc == ARGS_SIZE_ONE) {
         bool matchFlag = MatchValueType(env, argv[ARR_INDEX_ZERO], napi_function);
         if (!matchFlag) {
-            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The first parameter must be Callback.");
+            return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The type of callback must be AsyncCallback.");
         }
         napi_create_reference(env, argv[ARR_INDEX_ZERO], NAPI_RETURN_ONE, &asyncContext->callbackRef_);
     }
@@ -491,11 +491,7 @@ napi_value ConfigPolicyNapi::ParseFollowMode(napi_env env, int32_t &param, napi_
     if (!matchFlag) {
         return ThrowNapiError(env, PARAM_ERROR, "Parameter error. The type of followMode must be number.");
     }
-    if (napi_get_value_int32(env, args, &param) != napi_ok) {
-        HILOG_ERROR(LOG_CORE, "can not get int32 value.");
-        return ThrowNapiError(env, PARAM_ERROR, "Parameter error. Get the value of followMode failed.");
-    }
-
+    NAPI_CALL(env, napi_get_value_int32(env, args, &param));
     switch (param) {
         case FOLLOWX_MODE_DEFAULT:
             [[fallthrough]];

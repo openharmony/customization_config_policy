@@ -22,6 +22,7 @@
     "ram": "50KB",
     "deps": {
       "components": [
+        "ability_runtime",
         "hisysevent",
         "hilog",
         "napi",

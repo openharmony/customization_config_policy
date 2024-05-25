@@ -19,6 +19,7 @@ group("config_policy_components") {
       "./frameworks/config_policy:configpolicy_util",
       "./interfaces/kits/cj:cj_config_policy_ffi",
       "./interfaces/kits/js:configpolicy",
+      "./interfaces/kits/js:customconfig",
     ]
   } else {
     deps = [ "./frameworks/config_policy:configpolicy_util" ]

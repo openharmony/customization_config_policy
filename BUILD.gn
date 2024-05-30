@@ -17,7 +17,6 @@ group("config_policy_components") {
   if (os_level == "standard" && support_config_policy_napi && support_jsapi) {
     deps = [
       "./frameworks/config_policy:configpolicy_util",
-      "./interfaces/kits/cj:cj_config_policy_ffi",
       "./interfaces/kits/js:configpolicy",
     ]
   } else {

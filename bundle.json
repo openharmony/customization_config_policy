@@ -12,7 +12,10 @@
   "component": {
     "name": "config_policy",
     "subsystem": "customization",
-    "syscap": [ "SystemCapability.Customization.ConfigPolicy" ],
+    "syscap": [
+      "SystemCapability.Customization.ConfigPolicy",
+      "SystemCapability.Customization.CustomConfig"
+    ],
     "features": [],
     "adapted_system_type": [ "standard", "small" ],
     "hisysevent_config": [

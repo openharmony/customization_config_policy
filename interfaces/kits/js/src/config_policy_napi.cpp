@@ -92,13 +92,13 @@ void ConfigPolicyNapi::CreateFollowXModeObject(napi_env env, napi_value value)
 
 napi_value ConfigPolicyNapi::NAPIGetOneCfgFile(napi_env env, napi_callback_info info)
 {
-    HILOG_INFO(LOG_CORE, "NAPIGetOneCfgFile start.");
+    HILOG_DEBUG(LOG_CORE, "NAPIGetOneCfgFile start.");
     return GetOneCfgFileOrAllCfgFiles(env, info, "NAPIGetOneCfgFile", NativeGetOneCfgFile);
 }
 
 napi_value ConfigPolicyNapi::NAPIGetOneCfgFileSync(napi_env env, napi_callback_info info)
 {
-    HILOG_INFO(LOG_CORE, "NAPIGetOneCfgFileSync start.");
+    HILOG_DEBUG(LOG_CORE, "NAPIGetOneCfgFileSync start.");
     return GetOneCfgFileOrAllCfgFilesSync(env, info, NativeGetOneCfgFileSync);
 }
 
@@ -193,13 +193,13 @@ napi_value ConfigPolicyNapi::GetOneCfgFileOrAllCfgFiles(napi_env env, napi_callb
 
 napi_value ConfigPolicyNapi::NAPIGetCfgFiles(napi_env env, napi_callback_info info)
 {
-    HILOG_INFO(LOG_CORE, "NAPIGetCfgFiles start.");
+    HILOG_DEBUG(LOG_CORE, "NAPIGetCfgFiles start.");
     return GetOneCfgFileOrAllCfgFiles(env, info, "NAPIGetCfgFiles", NativeGetCfgFiles);
 }
 
 napi_value ConfigPolicyNapi::NAPIGetCfgFilesSync(napi_env env, napi_callback_info info)
 {
-    HILOG_INFO(LOG_CORE, "NAPIGetCfgFilesSync start.");
+    HILOG_DEBUG(LOG_CORE, "NAPIGetCfgFilesSync start.");
     return GetOneCfgFileOrAllCfgFilesSync(env, info, NativeGetCfgFilesSync);
 }
 
@@ -257,7 +257,7 @@ std::string ConfigPolicyNapi::GetStringFromNAPI(napi_env env, napi_value value)
 napi_value ConfigPolicyNapi::HandleAsyncWork(napi_env env, ConfigAsyncContext *context, std::string workName,
     napi_async_execute_callback execute, napi_async_complete_callback complete)
 {
-    HILOG_INFO(LOG_CORE, "HandleAsyncWork start.");
+    HILOG_DEBUG(LOG_CORE, "HandleAsyncWork start.");
     if (context == nullptr) {
         HILOG_ERROR(LOG_CORE, "context is nullptr");
         return nullptr;
@@ -275,7 +275,7 @@ napi_value ConfigPolicyNapi::HandleAsyncWork(napi_env env, ConfigAsyncContext *c
     napi_create_async_work(env, resource, resourceName, execute, complete, static_cast<void *>(context),
         &context->work_);
     napi_queue_async_work_with_qos(env, context->work_, napi_qos_user_initiated);
-    HILOG_INFO(LOG_CORE, "HandleAsyncWork end.");
+    HILOG_DEBUG(LOG_CORE, "HandleAsyncWork end.");
     return result;
 }
 
@@ -288,7 +288,7 @@ bool ConfigPolicyNapi::MatchValueType(napi_env env, napi_value value, napi_value
 
 void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
 {
-    HILOG_INFO(LOG_CORE, "NativeGetOneCfgFile start.");
+    HILOG_DEBUG(LOG_CORE, "NativeGetOneCfgFile start.");
     if (data == nullptr) {
         HILOG_ERROR(LOG_CORE, "data is nullptr");
         return;
@@ -298,7 +298,7 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
     char *filePath = GetOneCfgFileEx(asyncCallbackInfo->relPath_.c_str(), outBuf, MAX_PATH_LEN,
                                      asyncCallbackInfo->followMode_, asyncCallbackInfo->extra_.c_str());
     if (filePath == nullptr) {
-        HILOG_INFO(LOG_CORE, "GetOneCfgFileEx result is nullptr.");
+        HILOG_DEBUG(LOG_CORE, "GetOneCfgFileEx result is nullptr.");
     } else {
         asyncCallbackInfo->pathValue_ = std::string(filePath);
     }
@@ -312,12 +312,12 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
 
 napi_value ConfigPolicyNapi::NativeGetOneCfgFileSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
-    HILOG_INFO(LOG_CORE, "NativeGetOneCfgFileSync start.");
+    HILOG_DEBUG(LOG_CORE, "NativeGetOneCfgFileSync start.");
     char outBuf[MAX_PATH_LEN] = {0};
     char *filePath = GetOneCfgFileEx(context->relPath_.c_str(), outBuf, MAX_PATH_LEN,
                                      context->followMode_, context->extra_.c_str());
     if (filePath == nullptr) {
-        HILOG_INFO(LOG_CORE, "GetOneCfgFileEx result is nullptr.");
+        HILOG_DEBUG(LOG_CORE, "GetOneCfgFileEx result is nullptr.");
     } else {
         context->pathValue_ = std::string(filePath);
     }
@@ -329,7 +329,7 @@ napi_value ConfigPolicyNapi::NativeGetOneCfgFileSync(napi_env env, std::shared_p
 
 void ConfigPolicyNapi::NativeGetCfgFiles(napi_env env, void *data)
 {
-    HILOG_INFO(LOG_CORE, "NativeGetCfgFiles start.");
+    HILOG_DEBUG(LOG_CORE, "NativeGetCfgFiles start.");
     if (data == nullptr) {
         HILOG_ERROR(LOG_CORE, "data is nullptr");
         return;
@@ -352,7 +352,7 @@ void ConfigPolicyNapi::NativeGetCfgFiles(napi_env env, void *data)
 
 napi_value ConfigPolicyNapi::NativeGetCfgFilesSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
-    HILOG_INFO(LOG_CORE, "NativeGetCfgFiles start.");
+    HILOG_DEBUG(LOG_CORE, "NativeGetCfgFiles start.");
     CfgFiles *cfgFiles = GetCfgFilesEx(context->relPath_.c_str(), context->followMode_,
                                        context->extra_.c_str());
     if (cfgFiles != nullptr) {
@@ -369,7 +369,7 @@ napi_value ConfigPolicyNapi::NativeGetCfgFilesSync(napi_env env, std::shared_ptr
 
 void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
 {
-    HILOG_INFO(LOG_CORE, "NativeGetCfgDirList start.");
+    HILOG_DEBUG(LOG_CORE, "NativeGetCfgDirList start.");
     if (data == nullptr) {
         HILOG_ERROR(LOG_CORE, "data is nullptr.");
         return;
@@ -389,7 +389,7 @@ void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
 
 napi_value ConfigPolicyNapi::NativeGetCfgDirListSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
 {
-    HILOG_INFO(LOG_CORE, "NativeGetCfgDirListSync start.");
+    HILOG_DEBUG(LOG_CORE, "NativeGetCfgDirListSync start.");
     CfgDir *cfgDir = GetCfgDirList();
     if (cfgDir != nullptr) {
         for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
@@ -431,7 +431,7 @@ void ConfigPolicyNapi::CreateArraysValueFunc(ConfigAsyncContext &asyncCallbackIn
 
 void ConfigPolicyNapi::NativeCallbackComplete(napi_env env, napi_status status, void *data)
 {
-    HILOG_INFO(LOG_CORE, "NativeCallbackComplete start.");
+    HILOG_DEBUG(LOG_CORE, "NativeCallbackComplete start.");
     if (data == nullptr) {
         HILOG_ERROR(LOG_CORE, "data is nullptr");
         return;
@@ -458,7 +458,7 @@ void ConfigPolicyNapi::NativeCallbackComplete(napi_env env, napi_status status, 
     }
     napi_delete_async_work(env, asyncContext->work_);
     delete asyncContext;
-    HILOG_INFO(LOG_CORE, "NativeCallbackComplete end.");
+    HILOG_DEBUG(LOG_CORE, "NativeCallbackComplete end.");
 }
 
 napi_value ConfigPolicyNapi::ParseRelPath(napi_env env, std::string &param, napi_value args)

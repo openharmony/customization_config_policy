@@ -16,7 +16,10 @@
       "SystemCapability.Customization.ConfigPolicy",
       "SystemCapability.Customization.CustomConfig"
     ],
-    "features": [],
+    "features": [
+      "config_policy_api_support",
+      "config_policy_fs_prefix"
+    ],
     "adapted_system_type": [ "standard", "small" ],
     "hisysevent_config": [
       "//base/customization/config_policy/frameworks/dfx/hisysevent.yaml"

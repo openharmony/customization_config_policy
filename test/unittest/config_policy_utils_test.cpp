@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+ * Copyright (c) 2021-2024 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -39,8 +39,6 @@ void ConfigPolicyUtilsTest::SetUpTestCase(void)
 {
     SystemSetParameter(CUST_OPKEY0, "46060");
     SystemSetParameter(CUST_OPKEY1, "46061");
-    SystemSetParameter(CUST_FOLLOW_X_RULES,
-        ":etc/custxmltest/user.xml,10:etc/custxmltest/both.xml,100,etc/carrier/${test:-46061}");
 }
 #endif
 
@@ -182,8 +180,16 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest008, TestSize.Level1)
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest009, TestSize.Level1)
 {
-    EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/user.xml", FOLLOWX_MODE_DEFAULT, NULL));
-    EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/both.xml", FOLLOWX_MODE_DEFAULT, NULL));
+    int ret = SystemSetParameter(CUST_FOLLOW_X_RULES,
+        ":etc/custxmltest/user.xml,10:etc/custxmltest/both.xml,100,etc/carrier/${test:-46061}");
+    if (ret == 0) {
+        std::cout << "set " << CUST_FOLLOW_X_RULES << " success." << std::endl;
+        EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/user.xml", FOLLOWX_MODE_DEFAULT, NULL));
+        EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/both.xml", FOLLOWX_MODE_DEFAULT, NULL));
+    } else {
+        std::cout << "set " << CUST_FOLLOW_X_RULES << " failed, use OpkeyInfo.json for test." << std::endl;
+        EXPECT_TRUE(TestGetCfgFile("etc/telephony/OpkeyInfo.json", FOLLOWX_MODE_DEFAULT, NULL));
+    }
 }
 
 /**

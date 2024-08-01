@@ -29,6 +29,7 @@
     "deps": {
       "components": [
         "ability_runtime",
+        "c_utils",
         "hisysevent",
         "hilog",
         "napi",

@@ -51,6 +51,7 @@ ohos_shared_library("customconfig") {
   external_deps = [
     "ability_runtime:abilitykit_native",
     "ability_runtime:app_context",
+    "c_utils:utils",
     "hilog:libhilog",
     "hisysevent:libhisysevent",
     "init:libbegetutil",

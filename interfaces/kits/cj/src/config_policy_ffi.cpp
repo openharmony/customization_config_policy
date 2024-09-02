@@ -31,7 +31,7 @@ char** MallocCStringArr(const std::vector<const char*>& origin)
         return nullptr;
     }
     auto size = origin.size();
-    if (size > MAX_MALLOC_LEN) {
+    if (size == 0 || size > MAX_MALLOC_LEN) {
         return nullptr;
     }
     auto arr = static_cast<char**>(malloc(sizeof(char*) * size));

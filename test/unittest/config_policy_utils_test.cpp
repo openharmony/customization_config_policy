@@ -144,6 +144,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
  */
 HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest006, TestSize.Level1)
 {
+    SystemSetParameter(CUST_OPKEY0, "-1");
     const char *testPathSuffix = "etc/custxmltest/user.xml";
     EXPECT_TRUE(TestGetCfgFile(testPathSuffix, FOLLOWX_MODE_SIM_DEFAULT, NULL));
 }
@@ -206,6 +207,31 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest010, TestSize.Level1)
     std::cout << "extra: " << extraString << std::endl;
     EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/user.xml", FOLLOWX_MODE_USER_DEFINED, extraString.c_str()));
     EXPECT_TRUE(TestGetCfgFile("etc/custxmltest/both.xml", FOLLOWX_MODE_USER_DEFINED, extraString.c_str()));
+}
+
+/**
+ * @tc.name: CfgPolicyUtilsFuncTest011
+ * @tc.desc: Test GetOneCfgFile & GetCfgFiles function, with nullptr input
+ * @tc.type: FUNC
+ * @tc.require: issueI5NYDH
+ */
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest011, TestSize.Level1)
+{
+    char buf[MAX_PATH_LEN] = {0};
+    char *filePath = nullptr;
+    filePath = GetOneCfgFileEx(nullptr, buf, MAX_PATH_LEN, FOLLOWX_MODE_DEFAULT, nullptr);
+    EXPECT_TRUE(filePath == nullptr);
+    filePath = GetOneCfgFileEx("etc/custxmltest/user.xml", nullptr, MAX_PATH_LEN, FOLLOWX_MODE_DEFAULT, nullptr);
+    EXPECT_TRUE(filePath == nullptr);
+    filePath = GetOneCfgFileEx("etc/custxmltest/user.xml", buf, MAX_PATH_LEN - 1, FOLLOWX_MODE_DEFAULT, nullptr);
+    EXPECT_TRUE(filePath == nullptr);
+    CfgFiles *cfgFiles = GetCfgFilesEx(nullptr, FOLLOWX_MODE_DEFAULT, nullptr);
+    EXPECT_TRUE(cfgFiles == nullptr);
+    FreeCfgFiles(cfgFiles);
+    EXPECT_TRUE(cfgFiles == nullptr);
+    CfgDir *res = nullptr;
+    FreeCfgDirList(res);
+    EXPECT_TRUE(res == nullptr);
 }
 #endif // __LITEOS__
 } // namespace OHOS

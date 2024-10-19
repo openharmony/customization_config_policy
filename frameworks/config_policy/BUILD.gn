@@ -35,12 +35,14 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
   }
 } else if (defined(ohos_lite)) {
   shared_library("configpolicy_util") {
+    branch_protector_ret = "pac_ret"
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
     external_deps = [ "bounds_checking_function:libsec_shared" ]
   }
 } else {
   ohos_shared_library("configpolicy_util") {
+    branch_protector_ret = "pac_ret"
     sources = config_policy_sources
     public_configs = [ ":config_policy_config" ]
     deps = [ "etc:customization_etc" ]

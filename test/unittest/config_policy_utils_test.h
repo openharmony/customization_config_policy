@@ -28,6 +28,7 @@ int CfgPolicyUtilsFuncTest007(void);
 int CfgPolicyUtilsFuncTest008(void);
 int CfgPolicyUtilsFuncTest009(void);
 int CfgPolicyUtilsFuncTest010(void);
+int CfgPolicyUtilsFuncTest011(void);
 #endif // __LITEOS__
 
 #endif

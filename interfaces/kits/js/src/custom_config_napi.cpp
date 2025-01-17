@@ -85,10 +85,10 @@ char *CustomConfigNapi::CustGetSystemParam(const char *name)
 napi_value CustomConfigNapi::NativeGetChannelId(napi_env env, std::string channelKey)
 {
     char *channelId = CustGetSystemParam(channelKey.c_str());
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getChannelId", "");
     napi_value result = nullptr;
     if (channelId == nullptr) {
         HILOG_WARN(LOG_CORE, "get channelId failed.");
+        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "getChannelId", "ChannelId is nullptr.");
         return CreateNapiStringValue(env, "");
     }
     result = CreateNapiStringValue(env, channelId);

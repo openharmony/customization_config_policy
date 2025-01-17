@@ -67,13 +67,13 @@ extern "C" {
                     dirList.push_back(cfgDir->paths[i]);
                 }
             }
+            FreeCfgDirList(cfgDir);
+        } else {
+            ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "CJ_GetCfgDirList", "CfgDirList is nullptr.");
         }
 
         ret.data.head = MallocCStringArr(dirList);
         ret.data.size = static_cast<int64_t>(ret.data.head == nullptr ? 0 : dirList.size());
-
-        FreeCfgDirList(cfgDir);
-        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgDirList", "");
         LOGI("CJ_GetCfgDirList ok");
         return ret;
     }
@@ -93,13 +93,13 @@ extern "C" {
                     fileList.push_back(cfgFiles->paths[i]);
                 }
             }
+            FreeCfgFiles(cfgFiles);
+        } else {
+            ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "CJ_GetCfgFiles", "CfgFiles is nullptr.");
         }
 
         ret.data.head = MallocCStringArr(fileList);
         ret.data.size = static_cast<int64_t>(ret.data.head == nullptr ? 0 : fileList.size());
-
-        FreeCfgFiles(cfgFiles);
-        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFiles", "");
         return ret;
     }
 
@@ -113,11 +113,11 @@ extern "C" {
 
         if (filePath == nullptr) {
             LOGI("GetOneCfgFileEx result is nullptr.");
+            ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "CJ_GetOneCfgFile", "CfgFile path is nullptr.");
             return ret;
         } else {
             LOGI("GetOneCfgFile return [%{public}s]", filePath);
         }
-        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFile", "");
         size_t pathLen = strlen(filePath) + 1;
         ret.data = static_cast<char*>(malloc(sizeof(char) * pathLen));
         if (ret.data == nullptr) {

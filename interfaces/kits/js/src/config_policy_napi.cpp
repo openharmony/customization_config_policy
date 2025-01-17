@@ -299,10 +299,10 @@ void ConfigPolicyNapi::NativeGetOneCfgFile(napi_env env, void *data)
                                      asyncCallbackInfo->followMode_, asyncCallbackInfo->extra_.c_str());
     if (filePath == nullptr) {
         HILOG_DEBUG(LOG_CORE, "GetOneCfgFileEx result is nullptr.");
+        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "getOneCfgFile", "CfgFile path is nullptr.");
     } else {
         asyncCallbackInfo->pathValue_ = std::string(filePath);
     }
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFile", "");
     asyncCallbackInfo->createValueFunc_ = [](napi_env env, ConfigAsyncContext &context) -> napi_value {
         napi_value result;
         NAPI_CALL(env, napi_create_string_utf8(env, context.pathValue_.c_str(), NAPI_AUTO_LENGTH, &result));
@@ -318,10 +318,10 @@ napi_value ConfigPolicyNapi::NativeGetOneCfgFileSync(napi_env env, std::shared_p
                                      context->followMode_, context->extra_.c_str());
     if (filePath == nullptr) {
         HILOG_DEBUG(LOG_CORE, "GetOneCfgFileEx result is nullptr.");
+        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "getOneCfgFileSync", "CfgFile path is nullptr.");
     } else {
         context->pathValue_ = std::string(filePath);
     }
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getOneCfgFileSync", "");
     napi_value result = nullptr;
     NAPI_CALL(env, napi_create_string_utf8(env, context->pathValue_.c_str(), NAPI_AUTO_LENGTH, &result));
     return result;
@@ -345,9 +345,10 @@ void ConfigPolicyNapi::NativeGetCfgFiles(napi_env env, void *data)
             }
         }
         FreeCfgFiles(cfgFiles);
+    } else {
+        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "getCfgFiles", "CfgFiles is nullptr.");
     }
     CreateArraysValueFunc(*asyncCallbackInfo);
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFiles", "");
 }
 
 napi_value ConfigPolicyNapi::NativeGetCfgFilesSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
@@ -362,8 +363,9 @@ napi_value ConfigPolicyNapi::NativeGetCfgFilesSync(napi_env env, std::shared_ptr
             }
         }
         FreeCfgFiles(cfgFiles);
+    } else {
+        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "getCfgFilesSync", "CfgFiles is nullptr.");
     }
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgFilesSync", "");
     return CreateArraysValue(env, context);
 }
 
@@ -377,14 +379,17 @@ void ConfigPolicyNapi::NativeGetCfgDirList(napi_env env, void *data)
 
     ConfigAsyncContext *asyncCallbackInfo = static_cast<ConfigAsyncContext *>(data);
     CfgDir *cfgDir = GetCfgDirList();
-    for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
-        if (cfgDir != nullptr && cfgDir->paths[i] != nullptr) {
-            asyncCallbackInfo->paths_.push_back(cfgDir->paths[i]);
+    if (cfgDir != nullptr) {
+        for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {
+            if (cfgDir->paths[i] != nullptr) {
+                asyncCallbackInfo->paths_.push_back(cfgDir->paths[i]);
+            }
         }
+        FreeCfgDirList(cfgDir);
+    } else {
+        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "getCfgDirList", "CfgDirList is nullptr.");
     }
-    FreeCfgDirList(cfgDir);
     CreateArraysValueFunc(*asyncCallbackInfo);
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgDirList", "");
 }
 
 napi_value ConfigPolicyNapi::NativeGetCfgDirListSync(napi_env env, std::shared_ptr<ConfigAsyncContext> context)
@@ -398,8 +403,9 @@ napi_value ConfigPolicyNapi::NativeGetCfgDirListSync(napi_env env, std::shared_p
             }
         }
         FreeCfgDirList(cfgDir);
+    } else {
+        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "getCfgDirListSync", "CfgDirList is nullptr.");
     }
-    ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_EVENT, "getCfgDirListSync", "");
     return CreateArraysValue(env, context);
 }
 

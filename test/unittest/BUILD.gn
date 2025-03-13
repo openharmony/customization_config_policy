@@ -35,7 +35,7 @@ if (defined(ohos_lite)) {
   }
 } else {
   ohos_unittest("ConfigPolicyUtilsTest") {
-    module_out_path = "config_policy/ConfigPolicyUtilsTest"
+    module_out_path = "config_policy/config_policy"
     sources = config_policy_sources
     include_dirs = config_policy_include_dirs
     deps = config_policy_deps

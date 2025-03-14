@@ -33,6 +33,7 @@ public:
 
 private:
     static int GetBundleName(std::string &bundleName);
+    static bool IsInPreloadList(std::string bundleName);
     static napi_value NAPIGetChannelId(napi_env env, napi_callback_info info);
     static napi_value NativeGetChannelId(napi_env env, std::string channelKey);
     static napi_value CreateNapiStringValue(napi_env env, const char *str);

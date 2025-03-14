@@ -32,6 +32,7 @@ namespace ConfigPolicy {
 using namespace OHOS::HiviewDFX;
 
 static const std::string CHANNEL_ID_PREFIX = "const.channelid.";
+static const std::string CUSTOM_PRELOAD_LIST_PARA = "persist.custom.preload.list";
 
 napi_value CustomConfigNapi::Init(napi_env env, napi_value exports)
 {
@@ -54,10 +55,40 @@ int CustomConfigNapi::GetBundleName(std::string &bundleName)
     return 0;
 }
 
+ bool CustomConfigNapi::IsInPreloadList(std::string bundleName)
+ {
+    char *preloadList = CustGetSystemParam(CUSTOM_PRELOAD_LIST_PARA.c_str());
+    if (preloadList == nullptr) {
+        HILOG_WARN(LOG_CORE, "get preload list fail.");
+        return false;
+    }
+    if (preloadList[0] < '0' || preloadList[0] > '9' || preloadList[1] != ',') {
+        HILOG_ERROR(LOG_CORE, "preload list param format error.");
+        free(preloadList);
+        return false;
+    }
+    int listlen = preloadList[0] - '0';
+    std::string preloadListResult(preloadList + 1); // skip listlen
+    free(preloadList);
+
+    for (int i = 1; i < listlen; i++) {
+        std::string tempPreloadListPara = CUSTOM_PRELOAD_LIST_PARA + std::to_string(i);
+        char *tempList = CustGetSystemParam(tempPreloadListPara.c_str());
+        if (tempList == nullptr) {
+            HILOG_ERROR(LOG_CORE, "preload list len error.");
+            return false;
+        }
+        preloadListResult.append(tempList + 1); // skip listlen
+        free(tempList);
+    }
+    preloadListResult.append(",");
+    return preloadListResult.find("," + bundleName + ",") != std::string::npos;
+}
+
 napi_value CustomConfigNapi::NAPIGetChannelId(napi_env env, napi_callback_info info)
 {
     std::string bundleName;
-    if (GetBundleName(bundleName) != 0 || bundleName.empty()) {
+    if (GetBundleName(bundleName) != 0 || bundleName.empty() || IsInPreloadList(bundleName)) {
         return CreateNapiStringValue(env, "");
     }
     std::string channelKey = CHANNEL_ID_PREFIX + bundleName;

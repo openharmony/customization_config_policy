@@ -119,7 +119,7 @@ HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest004, TestSize.Level1)
  * @tc.type: FUNC
  * @tc.require: issueI5NYDH
  */
-HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level1)
+HWTEST_F(ConfigPolicyUtilsTest, CfgPolicyUtilsFuncTest005, TestSize.Level0)
 {
     CfgDir *cfgDir = GetCfgDirList();
     EXPECT_TRUE(cfgDir != NULL);

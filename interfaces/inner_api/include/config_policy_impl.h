@@ -16,6 +16,10 @@
 #ifndef CUSTOMIZATION_CONFIG_POLICY_IMPL_H
 #define CUSTOMIZATION_CONFIG_POLICY_IMPL_H
 
+#ifdef __LITEOS_M__
+#include "cmsis_compiler.h"
+#endif
+
 #ifdef __cplusplus
 #if __cplusplus
 extern "C" {

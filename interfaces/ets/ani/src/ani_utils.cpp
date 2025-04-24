@@ -26,7 +26,6 @@ namespace OHOS {
 namespace Customization {
 namespace ConfigPolicy {
 static const char* CLASS_NAME_BUSINESSERROR = "L@ohos/base/BusinessError;";
-static const char* CLASS_NAME_STRING = "Lstd/core/String;";
 
 bool AniUtils::AniStrToString(ani_env *env, ani_string ani_str, std::string& out)
 {
@@ -59,24 +58,19 @@ ani_string AniUtils::StringToAniStr(ani_env *env, const std::string &str)
 
 ani_ref AniUtils::CreateAniStringArray(ani_env *env, const std::vector<std::string> &paths)
 {
-    ani_class stringCls = nullptr;
-    if (ANI_OK != env->FindClass(CLASS_NAME_STRING, &stringCls)) {
-        HILOG_ERROR(LOG_CORE, "find class %{public}s failed", CLASS_NAME_STRING);
-    }
-
     ani_ref undefinedRef = nullptr;
     if (ANI_OK != env->GetUndefined(&undefinedRef)) {
         HILOG_ERROR(LOG_CORE, "GetUndefined Failed.");
     }
 
-    ani_array_ref array;
-    if (ANI_OK != env->Array_New_Ref(stringCls, paths.size(), undefinedRef, &array)) {
+    ani_array array;
+    if (ANI_OK != env->Array_New(paths.size(), undefinedRef, &array)) {
         HILOG_ERROR(LOG_CORE, "new array ref error.");
         return array;
     }
     for (size_t i = 0; i < paths.size(); ++i) {
         auto item = AniUtils::StringToAniStr(env, paths[i]);
-        if (ANI_OK != env->Array_Set_Ref(array, i, item)) {
+        if (ANI_OK != env->Array_Set(array, i, item)) {
             return array;
         }
     }

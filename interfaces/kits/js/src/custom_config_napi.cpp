@@ -17,7 +17,6 @@
 
 #include "application_context.h"
 #include "hilog/log.h"
-#include "hisysevent_adapter.h"
 #include "init_param.h"
 
 #undef LOG_DOMAIN
@@ -119,7 +118,6 @@ napi_value CustomConfigNapi::NativeGetChannelId(napi_env env, std::string channe
     napi_value result = nullptr;
     if (channelId == nullptr) {
         HILOG_WARN(LOG_CORE, "get channelId failed.");
-        ReportConfigPolicyEvent(ReportType::CONFIG_POLICY_FAILED, "getChannelId", "ChannelId is nullptr.");
         return CreateNapiStringValue(env, "");
     }
     result = CreateNapiStringValue(env, channelId);

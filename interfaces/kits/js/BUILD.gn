@@ -40,11 +40,9 @@ ohos_shared_library("customconfig") {
   include_dirs = [
     "include",
     "../../../interfaces/inner_api/include",
-    "../../../frameworks/dfx/hisysevent_adapter",
   ]
 
   sources = [
-    "../../../frameworks/dfx/hisysevent_adapter/hisysevent_adapter.cpp",
     "src/custom_config_napi.cpp",
   ]
 
@@ -53,7 +51,6 @@ ohos_shared_library("customconfig") {
     "ability_runtime:app_context",
     "c_utils:utils",
     "hilog:libhilog",
-    "hisysevent:libhisysevent",
     "init:libbegetutil",
     "napi:ace_napi",
   ]

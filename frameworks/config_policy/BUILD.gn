@@ -55,7 +55,7 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
       "updater",
     ]
     innerapi_tags = [
-      "chipsetsdk",
+      "chipsetsdk_sp",
       "platformsdk",
       "sasdk",
     ]

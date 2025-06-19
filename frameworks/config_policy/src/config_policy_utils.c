@@ -25,9 +25,8 @@
 #include "init_param.h"
 #endif
 
-static const size_t MIN_APPEND_LEN = 32;
-
 #ifndef __LITEOS__
+static const size_t MIN_APPEND_LEN = 32;
 // set min opkey length
 static const unsigned int MIN_OPKEY_LEN = 3;
 // ':' split different x rules, example:":relPath,mode[,extra][:]"
@@ -77,6 +76,8 @@ __WEAK void TrigSetMiniConfigPolicy()
  * @NOTICE caller should free the returned value
  */
 typedef char *(*QueryFunc)(const char *key);
+
+#ifndef __LITEOS__
 static char *ExpandStr(char *src, const char *def, QueryFunc queryFunc);
 
 static inline size_t Min(size_t a, size_t b)
@@ -88,6 +89,7 @@ static inline size_t Max(size_t a, size_t b)
 {
     return a > b ? a : b;
 }
+#endif // __LITEOS__
 
 static void FreeIf(void *p)
 {

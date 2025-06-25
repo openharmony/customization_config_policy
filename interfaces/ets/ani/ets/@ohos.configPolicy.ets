@@ -37,11 +37,9 @@ namespace configPolicy {
         taskpool.execute((): string => {
             return getOneCfgFileSync(relPath);
         }).then((content: NullishType) => {
-            let error = new BusinessError<void>
-            error.code = 0
-            callback(error, content as string);
+            callback(null, content as string);
         }).catch((err: NullishType) : void => {
-            callback(err as BusinessError, "");
+            callback(err as BusinessError, undefined);
         });
     }
 
@@ -49,11 +47,9 @@ namespace configPolicy {
         taskpool.execute((): string => {
             return getOneCfgFileSync(relPath, followMode);
         }).then((content: NullishType) => {
-            let error = new BusinessError<void>
-            error.code = 0
-            callback(error, content as string);
+            callback(null, content as string);
         }).catch((err: NullishType) : void => {
-            callback(err as BusinessError, "");
+            callback(err as BusinessError, undefined);
         });
     }
 
@@ -62,11 +58,9 @@ namespace configPolicy {
         taskpool.execute((): string => {
             return getOneCfgFileSync(relPath, followMode, extra);
         }).then((content: NullishType) => {
-            let error = new BusinessError<void>
-            error.code = 0
-            callback(error, content as string);
+            callback(null, content as string);
         }).catch((err: NullishType) : void => {
-            callback(err as BusinessError, "");
+            callback(err as BusinessError, undefined);
         });
     }
 
@@ -98,11 +92,9 @@ namespace configPolicy {
         taskpool.execute((): Array<string> => {
             return getCfgFilesSync(relPath);
         }).then((content: NullishType) => {
-            let error = new BusinessError<void>
-            error.code = 0
-            callback(error, content as Array<string>);
+            callback(null, content as Array<string>);
         }).catch((err: NullishType) : void => {
-            callback(err as BusinessError, new Array<string>);
+            callback(err as BusinessError, undefined);
         });
     }
 
@@ -110,11 +102,9 @@ namespace configPolicy {
         taskpool.execute((): Array<string> => {
             return getCfgFilesSync(relPath, followMode);
         }).then((content: NullishType) => {
-            let error = new BusinessError<void>
-            error.code = 0 
-            callback(error, content as Array<string>);
+            callback(null, content as Array<string>);
         }).catch((err: NullishType) : void => {
-            callback(err as BusinessError, new Array<string>);
+            callback(err as BusinessError, undefined);
         });
     }
 
@@ -123,11 +113,9 @@ namespace configPolicy {
         taskpool.execute((): Array<string> => {
             return getCfgFilesSync(relPath, followMode, extra);
         }).then((content: NullishType) => {
-            let error = new BusinessError<void>
-            error.code = 0
-            callback(error, content as Array<string>);
+            callback(null, content as Array<string>);
         }).catch((err: NullishType) : void => {
-            callback(err as BusinessError, new Array<string>);
+            callback(err as BusinessError, undefined);
         });
     }
 
@@ -159,11 +147,9 @@ namespace configPolicy {
         taskpool.execute((): Array<string> => {
             return getCfgDirListSync();
         }).then((content: NullishType) => {
-            let error = new BusinessError<void>
-            error.code = 0
-            callback(error, content as Array<string>);
+            callback(null, content as Array<string>);
         }).catch((err: NullishType) : void => {
-            callback(err as BusinessError, new Array<string>);
+            callback(err as BusinessError, undefined);
         });
     }
 

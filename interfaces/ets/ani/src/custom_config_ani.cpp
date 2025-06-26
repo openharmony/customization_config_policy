@@ -32,7 +32,7 @@ namespace Customization {
 namespace ConfigPolicy {
 using namespace OHOS::HiviewDFX;
 
-static const char* NAMESPACE_NAME = "L@ohos/customization/customConfig/customConfig;";
+static const char* NAMESPACE_NAME = "@ohos.customization.customConfig.customConfig";
 static const std::string CHANNEL_ID_PREFIX = "const.channelid.";
 static const std::string CUSTOM_PRELOAD_LIST_PARA = "persist.custom.preload.list";
 

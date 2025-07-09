@@ -1,0 +1,96 @@
+# Copyright (c) 2025 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/config/components/ets_frontend/ets2abc_config.gni")
+import("//build/ohos.gni")
+
+ohos_shared_library("configpolicy_ani") {
+  include_dirs = [
+    "include",
+    "../../../interfaces/inner_api/include",
+    "../../../frameworks/dfx/hisysevent_adapter",
+  ]
+  sources = [
+    "../../../frameworks/dfx/hisysevent_adapter/hisysevent_adapter.cpp",
+    "./src/config_policy_ani.cpp",
+    "./src/ani_utils.cpp",
+  ]
+
+  deps = [ "../../../frameworks/config_policy:configpolicy_util" ]
+
+  external_deps = [
+    "hilog:libhilog",
+    "hisysevent:libhisysevent",
+    "runtime_core:ani",
+  ]
+
+  part_name = "config_policy"
+  subsystem_name = "customization"
+}
+
+generate_static_abc("configPolicy") {
+  base_url = "./ets"
+  files = [ "./ets/@ohos.configPolicy.ets" ]
+  is_boot_abc = "True"
+  device_dst_file = "system/framework/configPolicy.abc"
+}
+
+ohos_prebuilt_etc("configPolicy_etc") {
+  source = "$target_out_dir/configPolicy.abc"
+  module_install_dir = "framework"
+  part_name = "config_policy"
+  subsystem_name = "customization"
+  deps = [ ":configPolicy" ]
+}
+
+ohos_shared_library("customconfig_ani") {
+  include_dirs = [
+    "include",
+    "../../../interfaces/inner_api/include",
+    "../../../frameworks/dfx/hisysevent_adapter",
+  ]
+
+  sources = [
+    "../../../frameworks/dfx/hisysevent_adapter/hisysevent_adapter.cpp",
+    "./src/custom_config_ani.cpp",
+    "./src/ani_utils.cpp",
+  ]
+
+  external_deps = [
+    "ability_runtime:abilitykit_native",
+    "ability_runtime:app_context",
+    "c_utils:utils",
+    "hilog:libhilog",
+    "hisysevent:libhisysevent",
+    "init:libbegetutil",
+    "runtime_core:ani",
+  ]
+
+  subsystem_name = "customization"
+  part_name = "config_policy"
+}
+
+generate_static_abc("custom_config") {
+  base_url = "./ets"
+  files = [ "./ets/@ohos.customization.customConfig.ets" ]
+  is_boot_abc = "True"
+  device_dst_file = "system/framework/custom_config.abc"
+}
+
+ohos_prebuilt_etc("custom_config_etc") {
+  source = "$target_out_dir/custom_config.abc"
+  module_install_dir = "framework"
+  part_name = "config_policy"
+  subsystem_name = "customization"
+  deps = [ ":custom_config" ]
+}

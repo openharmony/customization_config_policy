@@ -58,7 +58,7 @@ int CustomConfigNapi::GetBundleName(std::string &bundleName)
  {
     char *preloadList = CustGetSystemParam(CUSTOM_PRELOAD_LIST_PARA.c_str());
     if (preloadList == nullptr) {
-        HILOG_WARN(LOG_CORE, "get preload list fail.");
+        HILOG_DEBUG(LOG_CORE, "get preload list fail.");
         return false;
     }
     if (preloadList[0] < '0' || preloadList[0] > '9' || preloadList[1] != ',') {

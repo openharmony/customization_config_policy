@@ -52,6 +52,7 @@ ohos_shared_library("customconfig") {
     "c_utils:utils",
     "hilog:libhilog",
     "init:libbegetutil",
+    "ipc:ipc_single",
     "napi:ace_napi",
   ]
   relative_install_dir = "module/customization"

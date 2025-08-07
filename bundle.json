@@ -34,7 +34,8 @@
         "hilog",
         "napi",
         "init",
-        "bounds_checking_function"
+        "bounds_checking_function",
+        "ipc"
       ],
       "third_party": []
     },

@@ -25,7 +25,7 @@
 namespace OHOS {
 namespace Customization {
 namespace ConfigPolicy {
-static const char* CLASS_NAME_BUSINESSERROR = "L@ohos/base/BusinessError;";
+static const char* CLASS_NAME_BUSINESSERROR = "@ohos.base.BusinessError";
 
 bool AniUtils::AniStrToString(ani_env *env, ani_string ani_str, std::string& out)
 {
@@ -85,7 +85,7 @@ void AniUtils::ThrowAniError(ani_env *env, int32_t code, const std::string &mess
         return;
     }
     ani_method ctor {};
-    if (ANI_OK != env->Class_FindMethod(cls, "<ctor>", ":V", &ctor)) {
+    if (ANI_OK != env->Class_FindMethod(cls, "<ctor>", ":", &ctor)) {
         HILOG_ERROR(LOG_CORE, "find method BusinessError constructor failed");
         return;
     }

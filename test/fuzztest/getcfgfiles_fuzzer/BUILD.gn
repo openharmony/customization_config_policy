@@ -15,7 +15,7 @@
 import("//build/config/features.gni")
 import("//build/ohos.gni")
 import("//build/test.gni")
-module_output_path = "customization/config_policy"
+module_output_path = "config_policy/config_policy"
 
 ##############################fuzztest##########################################
 ohos_fuzztest("GetCfgFilesFuzzTest") {

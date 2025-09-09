@@ -21,8 +21,21 @@
 #include <unistd.h>
 
 #include "config_policy_impl.h"
+
+#ifdef HILOG_BASE
+#include "hilog_base/log_base.h"
+#endif
+
 #ifndef __LITEOS__
 #include "init_param.h"
+#endif
+
+#ifdef HILOG_BASE
+#undef LOG_DOMAIN
+#define LOG_DOMAIN 0xD001E00
+
+#undef LOG_TAG
+#define LOG_TAG "ConfigPolicyUtils"
 #endif
 
 #ifndef __LITEOS__
@@ -431,6 +444,43 @@ void FreeCfgDirList(CfgDir *res)
     free(res);
 }
 
+bool BuildPath(const char* baseDir, const char* subDir, const char* pathSuffix, char* buf, size_t bufLen)
+{
+    if (baseDir == NULL || pathSuffix == NULL || buf == NULL || bufLen == 0) {
+        return false;
+    }
+    int ret = 0;
+    if (subDir && strlen(subDir) > 0) {
+        ret = snprintf_s(buf, bufLen, bufLen - 1, "%s/%s/%s", baseDir, subDir, pathSuffix);
+    } else {
+        ret = snprintf_s(buf, bufLen, bufLen - 1, "%s/%s", baseDir, pathSuffix);
+    }
+    if (ret <= 0) {
+#ifdef HILOG_BASE
+        HILOG_BASE_ERROR(LOG_CORE, "snprintf_s failed.");
+#endif
+        return false;
+    }
+    return true;
+}
+
+bool CheckPath(const char* path)
+{
+    if (path == NULL) {
+        return false;
+    }
+    if (access(path, F_OK) != 0) {
+#ifdef HILOG_BASE
+        int err = errno;
+        if (err != ENOENT) {
+            HILOG_BASE_ERROR(LOG_CORE, "access failed. errno:%{public}d", err);
+        }
+#endif
+        return false;
+    }
+    return true;
+}
+
 char *GetOneCfgFileEx(const char *pathSuffix, char *buf, unsigned int bufLength, int followMode, const char *extra)
 {
     if (pathSuffix == NULL || buf == NULL || bufLength < MAX_PATH_LEN) {
@@ -439,6 +489,9 @@ char *GetOneCfgFileEx(const char *pathSuffix, char *buf, unsigned int bufLength,
     *buf = '\0';
     CfgDir *dirs = GetCfgDirList();
     if (dirs == NULL) {
+#ifdef HILOG_BASE
+        HILOG_BASE_ERROR(LOG_CORE, "Failed to get config dir list.");
+#endif
         return NULL;
     }
 
@@ -449,10 +502,8 @@ char *GetOneCfgFileEx(const char *pathSuffix, char *buf, unsigned int bufLength,
         }
         // check follow x
         for (int j = (result ? result->segCount : 0); j > 0; j--) {
-            if (result->segs[j - 1] &&
-                snprintf_s(buf, bufLength, bufLength - 1, "%s/%s/%s", dirs->paths[i - 1], result->segs[j - 1],
-                pathSuffix) > 0 &&
-                access(buf, F_OK) == 0) {
+            if (result->segs[j - 1] && BuildPath(dirs->paths[i - 1], result->segs[j - 1], pathSuffix, buf, bufLength) &&
+                CheckPath(buf)) {
                 break;
             }
             *buf = '\0';
@@ -460,8 +511,7 @@ char *GetOneCfgFileEx(const char *pathSuffix, char *buf, unsigned int bufLength,
         if (*buf != '\0') {
             break;
         }
-        if (snprintf_s(buf, bufLength, bufLength - 1, "%s/%s", dirs->paths[i - 1], pathSuffix) > 0 &&
-            access(buf, F_OK) == 0) {
+        if (BuildPath(dirs->paths[i - 1], NULL, pathSuffix, buf, bufLength) && CheckPath(buf)) {
             break;
         }
         *buf = '\0';
@@ -484,11 +534,17 @@ CfgFiles *GetCfgFilesEx(const char *pathSuffix, int followMode, const char *extr
     char buf[MAX_PATH_LEN] = {0};
     CfgDir *dirs = GetCfgDirList();
     if (dirs == NULL) {
+#ifdef HILOG_BASE
+        HILOG_BASE_ERROR(LOG_CORE, "Failed to get config dir list.");
+#endif
         return NULL;
     }
     CfgFiles *files = (CfgFiles *)(malloc(sizeof(CfgFiles)));
     if (files == NULL) {
         FreeCfgDirList(dirs);
+#ifdef HILOG_BASE
+        HILOG_BASE_ERROR(LOG_CORE, "malloc for CfgFiles failed.");
+#endif
         return NULL;
     }
 
@@ -499,15 +555,12 @@ CfgFiles *GetCfgFilesEx(const char *pathSuffix, int followMode, const char *extr
         if (dirs->paths[i] == NULL) {
             continue;
         }
-        if (snprintf_s(buf, MAX_PATH_LEN, MAX_PATH_LEN - 1, "%s/%s", dirs->paths[i], pathSuffix) > 0 &&
-            access(buf, F_OK) == 0) {
+        if (BuildPath(dirs->paths[i], NULL, pathSuffix, buf, MAX_PATH_LEN) && CheckPath(buf)) {
             files->paths[index++] = strdup(buf);
         }
         for (int j = 0; result && j < result->segCount && index < MAX_CFG_POLICY_DIRS_CNT; j++) {
-            if (result->segs[j] &&
-                snprintf_s(buf, MAX_PATH_LEN, MAX_PATH_LEN - 1, "%s/%s/%s", dirs->paths[i], result->segs[j],
-                pathSuffix) > 0 &&
-                access(buf, F_OK) == 0) {
+            if (result->segs[j] && BuildPath(dirs->paths[i], result->segs[j], pathSuffix, buf, MAX_PATH_LEN) &&
+                CheckPath(buf)) {
                 files->paths[index++] = strdup(buf);
             }
         }
@@ -526,13 +579,20 @@ CfgDir *GetCfgDirList()
 {
     CfgDir *res = (CfgDir *)(malloc(sizeof(CfgDir)));
     if (res == NULL) {
+#ifdef HILOG_BASE
+        HILOG_BASE_ERROR(LOG_CORE, "malloc for CfgDir failed.");
+#endif
         return NULL;
     }
     (void)memset_s(res, sizeof(CfgDir), 0, sizeof(CfgDir));
     GetCfgDirRealPolicyValue(res);
     char *next = res->realPolicyValue;
+
     if (next == NULL) {
         free(res);
+#ifdef HILOG_BASE
+        HILOG_BASE_ERROR(LOG_CORE, "GetCfgDirRealPolicyValue failed, realPolicyValue is NULL.");
+#endif
         return NULL;
     }
     for (size_t i = 0; i < MAX_CFG_POLICY_DIRS_CNT; i++) {

@@ -22,6 +22,13 @@ config_policy_sources = [ "src/config_policy_utils.c" ]
 config("config_policy_config") {
   include_dirs = [ "../../interfaces/inner_api/include" ]
 }
+config("strip_unused_sections") {
+  cflags = [
+    "-ffunction-sections",
+    "-fdata-sections",
+  ]
+  ldflags = [ "-Wl,--gc-sections" ]
+}
 
 if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
   static_library("configpolicy_util") {
@@ -43,11 +50,14 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_m") {
 } else {
   ohos_shared_library("configpolicy_util") {
     branch_protector_ret = "pac_ret"
+    defines = [ "HILOG_BASE" ]
     sources = config_policy_sources
+    configs = [ ":strip_unused_sections" ]
     public_configs = [ ":config_policy_config" ]
     deps = [ "etc:customization_etc" ]
     external_deps = [
       "bounds_checking_function:libsec_shared",
+      "hilog:libhilog_base",
       "init:libbegetutil",
     ]
     install_images = [

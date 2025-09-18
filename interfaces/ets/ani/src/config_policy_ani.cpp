@@ -33,7 +33,7 @@ namespace Customization {
 namespace ConfigPolicy {
 using namespace OHOS::HiviewDFX;
 
-static const char* NAMESPACE_NAME = "L@ohos/configPolicy/configPolicy;";
+static const char* NAMESPACE_NAME = "@ohos.configPolicy.configPolicy;";
 
 // Param Error Code
 static constexpr int32_t PARAM_ERROR = 401;

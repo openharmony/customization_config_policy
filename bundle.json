@@ -36,7 +36,7 @@
         "init",
         "bounds_checking_function",
         "ipc",
-	"runtime_core"
+	      "runtime_core"
       ],
       "third_party": []
     },

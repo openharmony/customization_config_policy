@@ -25,7 +25,7 @@
 namespace OHOS {
 namespace Customization {
 namespace ConfigPolicy {
-static const char* CLASS_NAME_BUSINESSERROR = "L@ohos/base/BusinessError;";
+static const char* CLASS_NAME_BUSINESSERROR = "@ohos.base.BusinessError";
 
 bool AniUtils::AniStrToString(ani_env *env, ani_string ani_str, std::string& out)
 {

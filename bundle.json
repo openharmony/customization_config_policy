@@ -35,13 +35,15 @@
         "napi",
         "init",
         "bounds_checking_function",
-        "ipc"
+        "ipc",
+        "runtime_core"
       ],
       "third_party": []
     },
     "build": {
       "sub_component": [
-        "//base/customization/config_policy:config_policy_components"
+        "//base/customization/config_policy:config_policy_components",
+        "//base/customization/config_policy:ani_config_policy_components"
       ],
       "inner_kits": [
         {

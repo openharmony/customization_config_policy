@@ -36,9 +36,9 @@ namespace configPolicy {
     function getOneCfgFile(relPath: string, callback: AsyncCallback<string>) : void {
         taskpool.execute((): string => {
             return getOneCfgFileSync(relPath);
-        }).then((content: NullishType) => {
+        }).then((content: Any) => {
             callback(null, content as string);
-        }).catch((err: NullishType) : void => {
+        }).catch((err: Any) : void => {
             callback(err as BusinessError, undefined);
         });
     }
@@ -46,9 +46,9 @@ namespace configPolicy {
     function getOneCfgFile(relPath: string, followMode: FollowXMode, callback: AsyncCallback<string>) : void {
         taskpool.execute((): string => {
             return getOneCfgFileSync(relPath, followMode);
-        }).then((content: NullishType) => {
+        }).then((content: Any) => {
             callback(null, content as string);
-        }).catch((err: NullishType) : void => {
+        }).catch((err: Any) : void => {
             callback(err as BusinessError, undefined);
         });
     }
@@ -57,9 +57,9 @@ namespace configPolicy {
         relPath: string, followMode: FollowXMode, extra: string, callback: AsyncCallback<string>) : void {
         taskpool.execute((): string => {
             return getOneCfgFileSync(relPath, followMode, extra);
-        }).then((content: NullishType) => {
+        }).then((content: Any) => {
             callback(null, content as string);
-        }).catch((err: NullishType) : void => {
+        }).catch((err: Any) : void => {
             callback(err as BusinessError, undefined);
         });
     }
@@ -68,9 +68,9 @@ namespace configPolicy {
         return new Promise<string>((resolve, reject) => {
             taskpool.execute((): string => {
                 return getOneCfgFileSync(relPath);
-            }).then((content: NullishType) => {
+            }).then((content: Any) => {
                 resolve(content as string);
-            }, (err: NullishType): void => {
+            }, (err: Any): void => {
                 reject(err as BusinessError);
             });
         });
@@ -80,9 +80,9 @@ namespace configPolicy {
         return new Promise<string>((resolve, reject) => {
             taskpool.execute((): string => {
                 return getOneCfgFileSync(relPath, followMode, extra);
-            }).then((content: NullishType) => {
+            }).then((content: Any) => {
                 resolve(content as string);
-            }, (err: NullishType): void => {
+            }, (err: Any): void => {
                 reject(err as BusinessError);
             });
         });
@@ -91,9 +91,9 @@ namespace configPolicy {
     function getCfgFiles(relPath: string, callback: AsyncCallback<Array<string>>) : void {
         taskpool.execute((): Array<string> => {
             return getCfgFilesSync(relPath);
-        }).then((content: NullishType) => {
+        }).then((content: Any) => {
             callback(null, content as Array<string>);
-        }).catch((err: NullishType) : void => {
+        }).catch((err: Any) : void => {
             callback(err as BusinessError, undefined);
         });
     }
@@ -101,9 +101,9 @@ namespace configPolicy {
     function getCfgFiles(relPath: string, followMode: FollowXMode, callback: AsyncCallback<Array<string>>) : void {
         taskpool.execute((): Array<string> => {
             return getCfgFilesSync(relPath, followMode);
-        }).then((content: NullishType) => {
+        }).then((content: Any) => {
             callback(null, content as Array<string>);
-        }).catch((err: NullishType) : void => {
+        }).catch((err: Any) : void => {
             callback(err as BusinessError, undefined);
         });
     }
@@ -112,9 +112,9 @@ namespace configPolicy {
         relPath: string, followMode: FollowXMode, extra: string, callback: AsyncCallback<Array<string>>) : void {
         taskpool.execute((): Array<string> => {
             return getCfgFilesSync(relPath, followMode, extra);
-        }).then((content: NullishType) => {
+        }).then((content: Any) => {
             callback(null, content as Array<string>);
-        }).catch((err: NullishType) : void => {
+        }).catch((err: Any) : void => {
             callback(err as BusinessError, undefined);
         });
     }
@@ -123,9 +123,9 @@ namespace configPolicy {
         return new Promise<Array<string>>((resolve, reject) => {
             taskpool.execute((): Array<string> => {
                 return getCfgFilesSync(relPath);
-            }).then((content: NullishType) => {
+            }).then((content: Any) => {
                 resolve(content as Array<string>);
-            }, (err: NullishType): void => {
+            }, (err: Any): void => {
                 reject(err as BusinessError);
             });
         });
@@ -135,9 +135,9 @@ namespace configPolicy {
         return new Promise<Array<string>>((resolve, reject) => {
             taskpool.execute((): Array<string> => {
                 return getCfgFilesSync(relPath, followMode, extra);
-            }).then((content: NullishType) => {
+            }).then((content: Any) => {
                 resolve(content as Array<string>);
-            }, (err: NullishType): void => {
+            }, (err: Any): void => {
                 reject(err as BusinessError);
             });
         });
@@ -146,9 +146,9 @@ namespace configPolicy {
     function getCfgDirList(callback: AsyncCallback<Array<string>>) : void {
         taskpool.execute((): Array<string> => {
             return getCfgDirListSync();
-        }).then((content: NullishType) => {
+        }).then((content: Any) => {
             callback(null, content as Array<string>);
-        }).catch((err: NullishType) : void => {
+        }).catch((err: Any) : void => {
             callback(err as BusinessError, undefined);
         });
     }
@@ -157,9 +157,9 @@ namespace configPolicy {
         return new Promise<Array<string>>((resolve, reject) => {
             taskpool.execute((): Array<string> => {
                 return getCfgDirListSync();
-            }).then((content: NullishType) => {
+            }).then((content: Any) => {
                 resolve(content as Array<string>);
-            }, (err: NullishType): void => {
+            }, (err: Any): void => {
                 reject(err as BusinessError);
             });
         });

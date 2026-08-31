@@ -14,6 +14,7 @@
  */
 
 #include "config_policy_utils.h"
+#include "parse_followx_mode.h"
 
 #include <ctype.h>
 #include <securec.h>
@@ -218,7 +219,10 @@ static char *GetFollowXRule(const char *relPath, int *mode)
         char *modeStr = strchr(item, SEP_FOR_X_PARAM);
         if (modeStr) {
             modeStr++;
-            *mode = atoi(modeStr);
+            int parsedMode = 0;
+            if (ParseFollowXMode(modeStr, &parsedMode)) {
+                *mode = parsedMode;
+            }
         }
         if (*mode == FOLLOWX_MODE_USER_DEFINED && modeStr) {
             addPath = strchr(modeStr, SEP_FOR_X_PARAM);
